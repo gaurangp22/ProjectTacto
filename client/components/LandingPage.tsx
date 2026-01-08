@@ -24,7 +24,9 @@ export default function LandingPage() {
               Learn Coding Through Touch
             </p>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-              Tacto is a tactile programming system that enables visually impaired children to learn coding using physical blocks and audio feedback — no screens required.
+              Tacto is a tactile programming system that enables visually
+              impaired children to learn coding using physical blocks and audio
+              feedback — no screens required.
             </p>
 
             <div className="pt-8 space-y-4 sm:flex sm:flex-col sm:items-center sm:gap-4">
@@ -47,10 +49,7 @@ export default function LandingPage() {
       </section>
 
       {/* Problem Section */}
-      <section
-        id="problem"
-        className="py-20 sm:py-32 bg-white"
-      >
+      <section id="problem" className="py-20 sm:py-32 bg-white">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
@@ -60,7 +59,9 @@ export default function LandingPage() {
               Millions of Children Are Locked Out of Coding Education
             </h3>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Most coding platforms are built around screens, visuals, and drag-and-drop interfaces. For visually impaired students, this creates major barriers.
+              Most coding platforms are built around screens, visuals, and
+              drag-and-drop interfaces. For visually impaired students, this
+              creates major barriers.
             </p>
           </div>
 
@@ -71,7 +72,10 @@ export default function LandingPage() {
               "Limited exposure to computational thinking",
               "Low confidence in STEM subjects",
             ].map((issue, i) => (
-              <div key={i} className="flex items-start gap-4 p-6 bg-slate-50 rounded-lg border border-border">
+              <div
+                key={i}
+                className="flex items-start gap-4 p-6 bg-slate-50 rounded-lg border border-border"
+              >
                 <div className="text-2xl">❌</div>
                 <p className="text-foreground font-medium">{issue}</p>
               </div>
@@ -80,7 +84,8 @@ export default function LandingPage() {
 
           <div className="mt-12 p-8 bg-primary/5 border-2 border-primary rounded-xl">
             <p className="text-lg text-foreground italic text-center">
-              Yet coding is not about seeing — it's about logic, structure, and problem-solving.
+              Yet coding is not about seeing — it's about logic, structure, and
+              problem-solving.
             </p>
           </div>
         </div>
@@ -107,7 +112,8 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-2 gap-8 mt-12">
             <div className="space-y-6">
               <p className="text-lg text-foreground">
-                Children arrange tactile hardware blocks that represent programming concepts like:
+                Children arrange tactile hardware blocks that represent
+                programming concepts like:
               </p>
               <div className="space-y-3">
                 {[
@@ -124,7 +130,9 @@ export default function LandingPage() {
               </div>
 
               <p className="text-lg text-foreground pt-4">
-                These blocks connect to a phone or tablet via USB. The device processes the logic and gives real-time audio feedback, explaining what the program does and whether it works correctly.
+                These blocks connect to a phone or tablet via USB. The device
+                processes the logic and gives real-time audio feedback,
+                explaining what the program does and whether it works correctly.
               </p>
 
               <div className="space-y-2 pt-4">
@@ -155,10 +163,7 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works Section */}
-      <section
-        id="how-it-works"
-        className="py-20 sm:py-32 bg-white"
-      >
+      <section id="how-it-works" className="py-20 sm:py-32 bg-white">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
@@ -174,25 +179,32 @@ export default function LandingPage() {
               {
                 step: 1,
                 title: "Build Logic Using Physical Blocks",
-                description: "Each block represents a coding instruction. Children arrange blocks in sequence, just like forming sentences. Blocks are designed to be: Easy to recognize by touch, Structured to guide correct order, Safe and child-friendly.",
+                description:
+                  "Each block represents a coding instruction. Children arrange blocks in sequence, just like forming sentences. Blocks are designed to be: Easy to recognize by touch, Structured to guide correct order, Safe and child-friendly.",
               },
               {
                 step: 2,
                 title: "Connect to Phone/Tablet via USB",
-                description: "Once the blocks are arranged, the board sends the structure of the program to the phone or tablet using USB communication. No internet required. No complicated setup.",
+                description:
+                  "Once the blocks are arranged, the board sends the structure of the program to the phone or tablet using USB communication. No internet required. No complicated setup.",
               },
               {
                 step: 3,
                 title: "Audio Explains the Program",
-                description: "The mobile app reads out the program: 'If the left button is pressed, increase the value by one.' If there is a logical mistake: 'This condition has no action connected. Please add a response block.' This allows children to understand what they built, debug independently, and learn core programming thinking.",
+                description:
+                  "The mobile app reads out the program: 'If the left button is pressed, increase the value by one.' If there is a logical mistake: 'This condition has no action connected. Please add a response block.' This allows children to understand what they built, debug independently, and learn core programming thinking.",
               },
               {
                 step: 4,
                 title: "See the Result or Control Real Objects (Future)",
-                description: "Tacto can be connected to on-screen simulations, small robots, games and puzzles. Children can hear and feel the effect of their programs, making learning engaging and fun.",
+                description:
+                  "Tacto can be connected to on-screen simulations, small robots, games and puzzles. Children can hear and feel the effect of their programs, making learning engaging and fun.",
               },
             ].map((item) => (
-              <div key={item.step} className="grid md:grid-cols-4 gap-6 items-start">
+              <div
+                key={item.step}
+                className="grid md:grid-cols-4 gap-6 items-start"
+              >
                 <div className="flex flex-col items-center gap-4">
                   <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold">
                     {item.step}
@@ -226,7 +238,9 @@ export default function LandingPage() {
               Core Programming Concepts
             </h3>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Tacto teaches the same core concepts as modern coding platforms, but in a way that is accessible, physical, and confidence-building.
+              Tacto teaches the same core concepts as modern coding platforms,
+              but in a way that is accessible, physical, and
+              confidence-building.
             </p>
           </div>
 
@@ -239,7 +253,10 @@ export default function LandingPage() {
               "Cause and effect thinking",
               "Problem-solving skills",
             ].map((concept, i) => (
-              <div key={i} className="p-6 bg-white rounded-lg border border-border flex items-start gap-4">
+              <div
+                key={i}
+                className="p-6 bg-white rounded-lg border border-border flex items-start gap-4"
+              >
                 <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                 <p className="text-foreground font-medium">{concept}</p>
               </div>
@@ -269,16 +286,25 @@ export default function LandingPage() {
               { icon: "🧪", title: "Innovation labs and STEM programs" },
               { icon: "👨‍🏫", title: "Educators and instructors" },
             ].map((audience, i) => (
-              <div key={i} className="p-8 bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl border border-border">
+              <div
+                key={i}
+                className="p-8 bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl border border-border"
+              >
                 <p className="text-4xl mb-3">{audience.icon}</p>
-                <p className="text-lg font-medium text-foreground">{audience.title}</p>
+                <p className="text-lg font-medium text-foreground">
+                  {audience.title}
+                </p>
               </div>
             ))}
           </div>
 
           <div className="mt-12 p-8 bg-primary/5 border-2 border-primary rounded-xl text-center">
             <p className="text-lg text-foreground">
-              <span className="font-semibold">Tacto works alongside teachers</span> — it does not replace them. It empowers students to explore independently.
+              <span className="font-semibold">
+                Tacto works alongside teachers
+              </span>{" "}
+              — it does not replace them. It empowers students to explore
+              independently.
             </p>
           </div>
         </div>
@@ -298,7 +324,8 @@ export default function LandingPage() {
 
           <div className="max-w-3xl mx-auto">
             <p className="text-xl text-foreground mb-8 leading-relaxed">
-              Coding education should not depend on eyesight. With Tacto, we aim to:
+              Coding education should not depend on eyesight. With Tacto, we aim
+              to:
             </p>
 
             <div className="space-y-4 mb-8">
@@ -308,7 +335,10 @@ export default function LandingPage() {
                 "Open future opportunities in STEM",
                 "Make classrooms truly inclusive",
               ].map((goal, i) => (
-                <div key={i} className="flex items-center gap-4 p-4 bg-white rounded-lg border border-border">
+                <div
+                  key={i}
+                  className="flex items-center gap-4 p-4 bg-white rounded-lg border border-border"
+                >
                   <Lightbulb className="w-6 h-6 text-primary flex-shrink-0" />
                   <p className="text-lg text-foreground">{goal}</p>
                 </div>
@@ -316,7 +346,8 @@ export default function LandingPage() {
             </div>
 
             <p className="text-lg text-muted-foreground italic">
-              This directly supports UN Sustainable Development Goal 4: Quality Education for All.
+              This directly supports UN Sustainable Development Goal 4: Quality
+              Education for All.
             </p>
           </div>
         </div>
@@ -400,16 +431,22 @@ export default function LandingPage() {
               { emoji: "🌐", text: "Multilingual audio support" },
               { emoji: "🎓", text: "Advanced curriculum modules" },
             ].map((item, i) => (
-              <div key={i} className="p-8 bg-white rounded-lg border border-border flex items-start gap-4">
+              <div
+                key={i}
+                className="p-8 bg-white rounded-lg border border-border flex items-start gap-4"
+              >
                 <span className="text-4xl">{item.emoji}</span>
-                <p className="text-lg font-medium text-foreground">{item.text}</p>
+                <p className="text-lg font-medium text-foreground">
+                  {item.text}
+                </p>
               </div>
             ))}
           </div>
 
           <div className="mt-12 p-8 bg-primary/5 border-2 border-primary rounded-xl text-center">
             <p className="text-xl text-foreground font-semibold">
-              Our vision is to make Tacto a complete accessible coding ecosystem.
+              Our vision is to make Tacto a complete accessible coding
+              ecosystem.
             </p>
           </div>
         </div>
@@ -422,10 +459,12 @@ export default function LandingPage() {
             Building the Future, One Touch at a Time
           </h2>
           <p className="text-xl sm:text-2xl mb-8 opacity-90 leading-relaxed">
-            Tacto is not just a product. It is a step toward equal opportunity in technology education.
+            Tacto is not just a product. It is a step toward equal opportunity
+            in technology education.
           </p>
           <p className="text-lg sm:text-xl opacity-85 leading-relaxed">
-            Because every child deserves the chance to learn, build, and dream — no matter how they see the world.
+            Because every child deserves the chance to learn, build, and dream —
+            no matter how they see the world.
           </p>
 
           <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">

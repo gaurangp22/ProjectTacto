@@ -24,7 +24,8 @@ const NotFound = () => {
             Page Not Found
           </p>
           <p className="text-lg text-muted-foreground">
-            Sorry, the page you're looking for doesn't exist yet. Let's get you back on track.
+            Sorry, the page you're looking for doesn't exist yet. Let's get you
+            back on track.
           </p>
         </div>
 
