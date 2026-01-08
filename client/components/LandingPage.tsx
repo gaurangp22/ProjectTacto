@@ -4,9 +4,9 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0"
           style={{
             backgroundImage:
               "url('https://cdn.builder.io/api/v1/image/assets%2F462fdc1538bd468b99eec373dc088499%2F819b6a3564b745d49eb26f960092f150?format=webp&width=1200')",
@@ -14,17 +14,16 @@ export default function LandingPage() {
             backgroundPosition: "center",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/30 to-transparent" />
 
         <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center py-20">
           <div className="space-y-6">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground">
               Tacto
             </h1>
-            <p className="text-xl sm:text-2xl font-semibold text-white">
+            <p className="text-xl sm:text-2xl font-semibold text-foreground">
               Learn Coding Through Touch
             </p>
-            <p className="text-lg sm:text-xl text-slate-100 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
               Tacto is a tactile programming system that enables visually impaired children to learn coding using physical blocks and audio feedback — no screens required.
             </p>
 
@@ -34,12 +33,12 @@ export default function LandingPage() {
                   See the Product
                   <ArrowRight size={20} />
                 </button>
-                <button className="px-8 py-3 bg-white text-primary rounded-lg font-semibold hover:bg-slate-100 transition-all flex items-center gap-2 text-lg">
+                <button className="px-8 py-3 border-2 border-foreground text-foreground rounded-lg font-semibold hover:bg-foreground/10 transition-all flex items-center gap-2 text-lg">
                   How It Works
                   <ArrowRight size={20} />
                 </button>
               </div>
-              <p className="text-white/80 text-sm pt-4">
+              <p className="text-foreground/70 text-sm pt-4">
                 Build logic with your hands. Hear your code come alive.
               </p>
             </div>
