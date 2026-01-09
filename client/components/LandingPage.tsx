@@ -1,4 +1,5 @@
 import { ArrowRight, CheckCircle, Lightbulb, Zap, Code, Shield, Layers, Users, Heart, Nfc, AudioLines } from "lucide-react";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import FallingText from "./FallingText";
 import WaitlistForm from "./WaitlistForm";
@@ -46,12 +47,12 @@ export default function LandingPage() {
             <div className="pt-10 max-w-md mx-auto relative z-20">
               <WaitlistForm />
               <div className="mt-6 flex justify-center">
-                <button
-                  onClick={() => document.getElementById('story')?.scrollIntoView({ behavior: 'smooth' })}
+                <Link
+                  to="/whitepaper"
                   className="group flex items-center gap-2 text-sm font-semibold text-foreground/80 hover:text-primary transition-all px-6 py-3 rounded-full bg-background/50 border border-foreground/10 hover:bg-background hover:shadow-md"
                 >
-                  See our story <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </button>
+                  Read the White Paper <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
             </div>
           </div>
@@ -92,7 +93,7 @@ export default function LandingPage() {
               baseRotation={3}
               blurStrength={12}
             >
-                For visually impaired students, this creates a silent message: you can consume technology, but you cannot create it.
+              For visually impaired students, this creates a silent message: you can consume technology, but you cannot create it.
             </ScrollReveal>
 
             <ScrollReveal
@@ -114,58 +115,70 @@ export default function LandingPage() {
             >
               Enter Tacto. A revolutionary tangible coding interface that speaks back.
             </ScrollReveal>
+
+            <ScrollReveal
+              baseOpacity={0.1}
+              enableBlur={true}
+              baseRotation={0}
+              blurStrength={10}
+              textClassName="text-xl md:text-2xl text-muted-foreground mt-12 leading-relaxed max-w-3xl mx-auto font-light"
+            >
+              TACTO turns code into something you can physically arrange, feel, and debug. <br className="hidden md:block" />
+              Each action is confirmed through structured audio feedback, allowing blind learners to reason about programs independently.
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
       {/* Problem Section with Falling Text */}
-      <section id="problem" className="py-24 relative overflow-hidden bg-secondary/10">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section id="problem" className="relative overflow-hidden bg-secondary/10">
 
-          <div className="relative h-[80vh] min-h-[600px] w-full bg-background rounded-[2rem] border border-border/50 overflow-hidden shadow-2xl group flex flex-col items-center justify-center">
+        <div className="relative h-screen min-h-[600px] w-full bg-background border-y border-border/50 overflow-hidden shadow-2xl group flex flex-col items-center justify-center">
 
-            {/* Text Content Overlay (Static) */}
-            <div className="relative z-20 text-center pointer-events-none px-4 -mt-20">
-              <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-4 animate-fade-in">The Reality</h2>
-              <h3 className="text-5xl md:text-7xl font-bold text-foreground mb-6">
-                Traditional methods <br />
-                <span className="text-destructive inline-block transform hover:rotate-2 transition-transform duration-300">are falling apart.</span>
-              </h3>
-              <div className="text-xl md:text-2xl font-medium text-muted-foreground/80 max-w-2xl mx-auto backdrop-blur-sm bg-background/30 rounded-full py-2 px-6 border border-white/5">
-                For <span className="text-foreground font-bold">visually impaired students</span>, standard tools are broken.
-              </div>
+          {/* Text Content Overlay (Static) */}
+          <div className="relative z-20 text-center pointer-events-none px-4 -mt-20">
+            <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-4 animate-fade-in">The Reality</h2>
+            <h3 className="text-5xl md:text-7xl font-bold text-foreground mb-6">
+              Traditional methods <br />
+              <span className="text-destructive inline-block transform hover:rotate-2 transition-transform duration-300">are falling apart.</span>
+            </h3>
+            <div className="text-xl md:text-2xl font-medium text-muted-foreground/80 max-w-2xl mx-auto backdrop-blur-sm bg-background/30 rounded-full py-2 px-6 border border-white/5">
+              For <span className="text-foreground font-bold">visually impaired students</span>, standard tools are broken.
             </div>
-
-            {/* Physics Container (Background Layer) */}
-            <div className="absolute inset-0 z-10">
-              <FallingText
-                text="Visuals Syntax Screens Drag-and-Drop Mice Textbooks Blackboards Color-Coding"
-                highlightWords={["Visuals", "Screens", "Syntax"]}
-                highlightClass="text-destructive font-bold text-5xl md:text-6xl"
-                trigger="scroll"
-                gravity={0.4} // Slower fall for better effect
-                fontSize="2rem"
-                mouseConstraintStiffness={0.9}
-                className="font-bold text-muted-foreground/20 w-full h-full"
-              />
-            </div>
-
-            {/* Gradient Overlay for Bottom */}
-            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background via-background/60 to-transparent pointer-events-none z-20" />
+            <p className="mt-6 text-lg text-muted-foreground font-medium max-w-3xl mx-auto animate-fade-in delay-500">
+              These tools were designed for sighted users first — accessibility was added later.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mt-16">
-            {[
-              { title: "Inaccessible", desc: "Block-based coding apps rely entirely on sight." },
-              { title: "Complex", desc: "Text-based syntax is daunting and error-prone." },
-              { title: "Exclusive", desc: "Students are reduced to passive listeners, not creators." }
-            ].map((item, i) => (
-              <div key={i} className="p-8 rounded-2xl bg-white/5 border border-border/50 text-center hover:bg-white/10 transition-colors backdrop-blur-sm">
-                <h4 className="text-xl font-bold mb-3 text-foreground">{item.title}</h4>
-                <p className="text-lg text-muted-foreground leading-relaxed">"{item.desc}"</p>
-              </div>
-            ))}
+          {/* Physics Container (Background Layer) */}
+          <div className="absolute inset-0 z-10">
+            <FallingText
+              text="Visual-Only Syntax Screen-Reader Overload No Physical Structure Drag-and-Drop Mice Textbooks Blackboards Color-Coding"
+              highlightWords={["Visual-Only Syntax", "Screen-Reader Overload", "No Physical Structure"]}
+              highlightClass="text-destructive font-bold text-5xl md:text-6xl"
+              trigger="scroll"
+              gravity={0.4} // Slower fall for better effect
+              fontSize="2rem"
+              mouseConstraintStiffness={0.9}
+              className="font-bold text-muted-foreground/20 w-full h-full"
+            />
           </div>
+
+          {/* Gradient Overlay for Bottom */}
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background via-background/60 to-transparent pointer-events-none z-20" />
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 mt-16">
+          {[
+            { title: "Inaccessible", desc: "Block-based coding apps rely entirely on sight." },
+            { title: "Complex", desc: "Text-based syntax is daunting and error-prone." },
+            { title: "Exclusive", desc: "Students are reduced to passive listeners, not creators." }
+          ].map((item, i) => (
+            <div key={i} className="p-8 rounded-2xl bg-white/5 border border-border/50 text-center hover:bg-white/10 transition-colors backdrop-blur-sm">
+              <h4 className="text-xl font-bold mb-3 text-foreground">{item.title}</h4>
+              <p className="text-lg text-muted-foreground leading-relaxed">"{item.desc}"</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -216,34 +229,40 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
+        </div>
 
+        {/* Hyperspeed / Fast Lane Section - Full Width */}
+        <div className="relative shadow-2xl border-y border-white/10 h-screen group w-full mt-20">
+          {/* Background Effect */}
+          <div className="absolute inset-0 z-0">
+            <Hyperspeed effectOptions={hyperspeedPresets.one} />
+          </div>
 
-          {/* Hyperspeed / Fast Lane Section */}
-          <div className="mt-20 rounded-[2rem] overflow-hidden relative shadow-2xl border border-white/10 h-screen group">
-            {/* Background Effect */}
-            <div className="absolute inset-0 z-0">
-              <Hyperspeed effectOptions={hyperspeedPresets.one} />
-            </div>
-
-            {/* Content Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-center justify-center p-12 text-center pointer-events-none z-10">
-              <div className="max-w-4xl space-y-8">
-                <h3 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 animate-pulse-glow">
-                  ACCELERATE <br /> YOUR FUTURE
-                </h3>
-                <p className="text-2xl md:text-3xl font-medium text-white/90 leading-relaxed shadow-lg">
-                  "Tacto is not just a tool. It's the <span className="text-purple-400 font-bold italic">fast lane</span> to digital literacy."
-                </p>
-                <div className="flex justify-center gap-4 pt-4">
-                  <span className="bg-white/10 backdrop-blur-md border border-white/20 px-6 py-2 rounded-full text-sm font-bold text-white uppercase tracking-widest">
-                    Zero Latency Learning
-                  </span>
-                </div>
+          {/* Content Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-center justify-center p-12 text-center pointer-events-none z-10">
+            <div className="max-w-4xl space-y-8">
+              <h3 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 animate-pulse-glow">
+                Designed for <br /> Real Learning
+              </h3>
+              <p className="text-xl md:text-2xl font-medium text-white/90 leading-relaxed max-w-3xl mx-auto">
+                Learning to code isn’t about rushing ahead — it’s about building strong foundations.<br />
+                <span className="text-white font-bold text-3xl">TACTO</span> helps learners slow down, test ideas physically, and understand how logic fits together.
+              </p>
+              <div className="text-lg text-white/80 italic">
+                Each interaction reinforces confidence, independence, and long-term retention.
+              </div>
+              <div className="flex justify-center gap-4 pt-8">
+                <button
+                  onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-lg font-bold text-white uppercase tracking-widest hover:bg-white/20 transition-all hover:scale-105 pointer-events-auto"
+                >
+                  See how it works <ArrowRight className="w-5 h-5" />
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* How It Works */}
       {/* How It Works - Tactile Pipeline */}
@@ -325,12 +344,11 @@ export default function LandingPage() {
 
         {/* Content Overlay */}
         <div className="relative z-10 max-w-4xl px-6 text-center pointer-events-none mix-blend-multiply dark:mix-blend-normal">
-          <h2 className="text-6xl md:text-8xl font-black mb-8 tracking-tighter text-foreground">
-            CONNECT <br /> THE DOTS
+          <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tighter text-foreground leading-tight">
+            Coding is not memorizing commands.<br /> It’s understanding how ideas connect.
           </h2>
           <p className="text-2xl md:text-3xl font-medium text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            From a single tactile point to a world of infinite logic. <br />
-            <span className="text-primary font-bold">We bridge the gap</span> between imagination and reality.
+            <span className="text-primary font-bold">TACTO makes those connections tangible</span> — one block at a time.
           </p>
         </div>
       </section>
@@ -345,8 +363,8 @@ export default function LandingPage() {
           <h2 className="text-3xl md:text-5xl font-bold mb-16">Empowering the Next Generation</h2>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { val: "285M", label: "Visually Impaired People" },
-              { val: "<1%", label: "Can Read Braille Code" },
+              { val: "Millions", label: "Visually Impaired Learners" },
+              { val: "Gap", label: "Only a small fraction of visually impaired learners are fluent Braille readers globally." },
               { val: "100%", label: "Tactile Engagement" },
               { val: "∞", label: "Possibilities" }
             ].map((stat, i) => (
@@ -387,6 +405,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-    </div>
+    </div >
   );
 }

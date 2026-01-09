@@ -7,8 +7,10 @@
 @layer base {
   :root {
     /* Premium Light Theme */
-    --background: 210 40% 98%; /* Soft white/blue tint */
-    --foreground: 222 47% 11%; /* Deep navy */
+    --background: 210 40% 98%;
+    /* Soft white/blue tint */
+    --foreground: 222 47% 11%;
+    /* Deep navy */
 
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
@@ -16,7 +18,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 243 75% 59%; /* Vibrant Indigo/Purple */
+    --primary: 243 75% 59%;
+    /* Vibrant Indigo/Purple */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -49,7 +52,8 @@
 
   .dark {
     /* Premium Dark Theme */
-    --background: 222 47% 11%; /* Deep Navy Background */
+    --background: 222 47% 11%;
+    /* Deep Navy Background */
     --foreground: 210 40% 98%;
 
     --card: 217 33% 17%;
@@ -91,7 +95,7 @@
   * {
     @apply border-border;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
@@ -102,11 +106,16 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Outfit', sans-serif;
     @apply tracking-tight;
   }
-  
+
   h1 {
     @apply text-4xl md:text-6xl lg:text-7xl font-bold;
   }
@@ -114,7 +123,7 @@
   h2 {
     @apply text-3xl md:text-5xl font-bold;
   }
-  
+
   h3 {
     @apply text-2xl md:text-3xl font-semibold;
   }
@@ -124,7 +133,7 @@
   .glass {
     @apply bg-background/60 backdrop-blur-md border border-white/10 shadow-sm;
   }
-  
+
   .glass-card {
     @apply bg-card/50 backdrop-blur-sm border border-white/5 shadow-xl;
   }
@@ -137,12 +146,100 @@
   ::-webkit-scrollbar {
     width: 10px;
   }
-  
+
   ::-webkit-scrollbar-track {
     @apply bg-transparent;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/40 transition-colors;
+  }
+
+  @media print {
+    @page {
+      margin: 1.5cm;
+      size: auto;
+    }
+
+    body {
+      background: white !important;
+      color: black !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    /* Hide unnecessary elements */
+    .no-print,
+    header,
+    footer,
+    nav,
+    aside {
+      display: none !important;
+    }
+
+    /* Page Break Management */
+    p,
+    blockquote,
+    ul,
+    ol,
+    li,
+    tr,
+    td {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      break-after: avoid;
+      page-break-after: avoid;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    /* Layout Resets */
+    article,
+    .container,
+    .prose {
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: block !important;
+    }
+
+    /* Ensure text is visible and legible */
+    p,
+    span,
+    div,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    li,
+    td {
+      color: black !important;
+    }
+
+    /* Grid resets */
+    .grid {
+      display: block !important;
+    }
+
+    /* Prevent clipping */
+    *,
+    body,
+    html,
+    .container,
+    article,
+    .prose {
+      overflow: visible !important;
+    }
   }
 }
