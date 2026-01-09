@@ -44,10 +44,10 @@ export default function WaitlistForm({ variant = "default", className }: Waitlis
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email address"
+                    placeholder="Enter your email"
                     required
                     className={cn(
-                        "w-full bg-background border border-input rounded-full py-4 pl-6 pr-48 text-base outline-none transition-all placeholder:text-muted-foreground/60",
+                        "w-full bg-background border border-input rounded-full py-3 pl-5 pr-40 text-sm outline-none transition-all placeholder:text-muted-foreground/60 md:text-base md:py-4 md:pl-6 md:pr-48",
                         "focus:border-primary/50 focus:ring-4 focus:ring-primary/10",
                         variant === "minimal" && "bg-secondary/50 border-transparent focus:bg-background"
                     )}
@@ -55,7 +55,7 @@ export default function WaitlistForm({ variant = "default", className }: Waitlis
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="absolute right-2 top-2 bottom-2 rounded-full px-6 bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
+                    className="absolute right-1.5 top-1.5 bottom-1.5 rounded-full px-4 md:right-2 md:top-2 md:bottom-2 md:px-6 bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2 text-sm md:text-base"
                 >
                     {isLoading ? (
                         <Loader2 className="w-5 h-5 animate-spin" />

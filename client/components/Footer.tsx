@@ -48,7 +48,7 @@ export default function Footer() {
                     <div>
                         <h4 className="font-bold text-foreground mb-6">Stay Updated</h4>
                         <p className="text-muted-foreground mb-4">Join our waitlist for the latest updates.</p>
-                        <div className="max-w-xs">
+                        <div className="max-w-md">
                             <WaitlistForm variant="minimal" />
                         </div>
                     </div>
