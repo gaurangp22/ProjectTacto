@@ -1,19 +1,9 @@
 import { Link } from "react-router-dom";
-import { Menu, X, ArrowRight } from "lucide-react";
-import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -24,51 +14,57 @@ export default function Header() {
   };
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent",
-        isScrolled ? "bg-background/70 backdrop-blur-lg border-white/10 shadow-sm" : "bg-transparent"
-      )}
-    >
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-20">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         <Link
           to="/"
-          className="flex items-center gap-2 font-bold text-2xl tracking-tighter hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 font-bold text-xl text-primary"
         >
-          <div className="w-10 h-10 bg-gradient-to-br from-primary to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
-            <span className="text-white text-lg font-bold font-heading">T</span>
-          </div>
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80">Tacto</span>
+          <img src="/mock.png" alt="Tacto Logo" className="h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-300" />
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-10">
-          {["The Problem", "The Solution", "How It Works", "About"].map((item) => (
-            <button
-              key={item}
-              onClick={() => scrollToSection(item.toLowerCase().replace(/ /g, "-"))}
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors hover:scale-105 transform duration-200"
-            >
-              {item}
-            </button>
-          ))}
+        <div className="hidden md:flex items-center gap-8">
+          <button
+            onClick={() => scrollToSection("problem")}
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+          >
+            The Problem
+          </button>
+          <button
+            onClick={() => scrollToSection("solution")}
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+          >
+            The Solution
+          </button>
+          <button
+            onClick={() => scrollToSection("how-it-works")}
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+          >
+            How It Works
+          </button>
+          <button
+            onClick={() => scrollToSection("faq")}
+            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+          >
+            About
+          </button>
         </div>
 
         {/* CTA Button - Desktop */}
         <div className="hidden md:flex items-center gap-4">
           <button
             onClick={() => scrollToSection("contact")}
-            className="group px-6 py-2.5 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 hover:shadow-primary/40 flex items-center gap-2"
+            className="px-6 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
           >
             Get Started
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
 
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden p-2 text-foreground hover:bg-secondary/50 rounded-lg transition-colors"
+          className="md:hidden p-2 text-foreground"
           aria-label="Toggle menu"
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -77,23 +73,37 @@ export default function Header() {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden absolute top-20 left-0 right-0 border-b border-border/50 bg-background/95 backdrop-blur-xl animate-accordion-down shadow-xl">
-          <div className="px-4 py-6 space-y-4">
-            {["The Problem", "The Solution", "How It Works", "About"].map((item) => (
-              <button
-                key={item}
-                onClick={() => scrollToSection(item.toLowerCase().replace(/ /g, "-"))}
-                className="block w-full text-left px-4 py-3 text-base font-medium text-foreground hover:bg-secondary/50 rounded-xl transition-colors"
-              >
-                {item}
-              </button>
-            ))}
+        <div className="md:hidden border-t border-border bg-background">
+          <div className="px-4 py-4 space-y-3">
+            <button
+              onClick={() => scrollToSection("problem")}
+              className="block w-full text-left px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors"
+            >
+              The Problem
+            </button>
+            <button
+              onClick={() => scrollToSection("solution")}
+              className="block w-full text-left px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors"
+            >
+              The Solution
+            </button>
+            <button
+              onClick={() => scrollToSection("how-it-works")}
+              className="block w-full text-left px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors"
+            >
+              How It Works
+            </button>
+            <button
+              onClick={() => scrollToSection("faq")}
+              className="block w-full text-left px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors"
+            >
+              About
+            </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className="w-full mt-4 px-4 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-all flex items-center justify-center gap-2"
+              className="block w-full px-4 py-2 mt-4 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
             >
               Get Started
-              <ArrowRight size={18} />
             </button>
           </div>
         </div>

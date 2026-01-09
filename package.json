@@ -21,8 +21,12 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@types/matter-js": "^0.20.2",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "gsap": "^3.14.2",
+    "matter-js": "^0.20.0",
+    "postprocessing": "^6.38.2",
     "zod": "^3.25.76"
   },
   "devDependencies": {
