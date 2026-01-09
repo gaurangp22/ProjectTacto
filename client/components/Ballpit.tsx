@@ -93,6 +93,7 @@ const Ballpit = ({
         // Fix scroll issue - remove default listeners
         mouse.element.removeEventListener("mousewheel", (mouse as any).mousewheel);
         mouse.element.removeEventListener("DOMMouseScroll", (mouse as any).mousewheel);
+        mouse.element.removeEventListener("wheel", (mouse as any).mousewheel);
 
         if (followCursor) {
             const mouseConstraint = MouseConstraint.create(engine, {

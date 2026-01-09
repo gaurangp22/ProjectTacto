@@ -44,10 +44,10 @@ export default function Header() {
             How It Works
           </button>
           <button
-            onClick={() => scrollToSection("faq")}
+            onClick={() => scrollToSection("story")}
             className="text-sm font-medium text-foreground hover:text-primary transition-colors"
           >
-            About
+            Our Story
           </button>
         </div>
 
@@ -94,10 +94,10 @@ export default function Header() {
               How It Works
             </button>
             <button
-              onClick={() => scrollToSection("faq")}
+              onClick={() => scrollToSection("story")}
               className="block w-full text-left px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors"
             >
-              About
+              Our Story
             </button>
             <button
               onClick={() => scrollToSection("contact")}

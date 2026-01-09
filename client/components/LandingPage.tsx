@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle, Lightbulb, Zap, Code, Shield, Layers, Users, Heart } from "lucide-react";
+import { ArrowRight, CheckCircle, Lightbulb, Zap, Code, Shield, Layers, Users, Heart, Nfc, AudioLines } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FallingText from "./FallingText";
 import WaitlistForm from "./WaitlistForm";
@@ -35,8 +35,8 @@ export default function LandingPage() {
             </div>
 
             <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-foreground leading-[1.1]">
-              Code with <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-pink-500">Touch.</span> <br />
-              Build with <span className="italic font-serif text-foreground/80">Feeling.</span>
+              Every child can <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-pink-500">Code</span> <br />
+              If we design it <span className="italic font-serif text-foreground/80">Right.</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-light">
@@ -83,7 +83,7 @@ export default function LandingPage() {
               blurStrength={10}
               textClassName="text-muted-foreground"
             >
-              But for 285 million visually impaired people, this digital world is a walled garden. Traditional tools demand sight: syntax highlighting, drag-and-drop blocks, visual debuggers.
+              Yet the very tools designed to make coding easier rely almost entirely on vision — colors, shapes, screens, drag-and-drop interfaces — leaving 285 million learners locked out from the start.
             </ScrollReveal>
 
             <ScrollReveal
@@ -92,7 +92,7 @@ export default function LandingPage() {
               baseRotation={3}
               blurStrength={12}
             >
-              They are told: "This is not for you." "Just use a screen reader." "You can be a user, but not a creator."
+                For visually impaired students, this creates a silent message: you can consume technology, but you cannot create it.
             </ScrollReveal>
 
             <ScrollReveal
@@ -102,7 +102,7 @@ export default function LandingPage() {
               blurStrength={10}
               textClassName="text-muted-foreground"
             >
-              We refused to accept that. We asked: What if code wasn't just text on a screen? What if it was something you could hold? Something you could feel?
+              We refused to accept that. What if code wasn't just text on a screen? What if it was something you could hold? Something you could feel?
             </ScrollReveal>
 
             <ScrollReveal
@@ -188,21 +188,21 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                icon: <Layers className="w-8 h-8 text-white" />,
+                icon: <Nfc className="w-8 h-8 text-white" />,
                 title: "Tactile Blocks",
-                desc: "Distinct shapes for loops, conditions, and actions that are instantly recognizable by touch.",
+                desc: "Low-cost NFC blocks with distinct shapes and textures representing real programming structures.",
                 color: "bg-blue-500"
               },
               {
-                icon: <Zap className="w-8 h-8 text-white" />,
-                title: "Instant Feedback",
-                desc: "Connects via USB to provide immediate audio explanations of the code structure.",
+                icon: <AudioLines className="w-8 h-8 text-white" />,
+                title: "Reader Grid & Audio Engine",
+                desc: "A central hub interprets block sequences and explains code through speech and sound.",
                 color: "bg-purple-500"
               },
               {
                 icon: <Code className="w-8 h-8 text-white" />,
-                title: "Real Logic",
-                desc: "Teaches standard programming concepts like loops and variables, not just games.",
+                title: "Real Computational Thinking",
+                desc: "Students learn algorithms, loops, conditionals, and abstraction — not just play patterns.",
                 color: "bg-pink-500"
               }
             ].map((card, i) => (
