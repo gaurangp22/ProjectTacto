@@ -53,12 +53,12 @@ export default function Header() {
 
         {/* CTA Button - Desktop */}
         <div className="hidden md:flex items-center gap-4">
-          <button
-            onClick={() => scrollToSection("contact")}
+          <Link
+            to="/whitepaper"
             className="px-6 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
           >
-            Get Started
-          </button>
+            See how it works
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -99,12 +99,13 @@ export default function Header() {
             >
               Our Story
             </button>
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="block w-full px-4 py-2 mt-4 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
+            <Link
+              to="/whitepaper"
+              onClick={() => setIsMenuOpen(false)}
+              className="block w-full text-center px-4 py-2 mt-4 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
             >
-              Get Started
-            </button>
+              See how it works
+            </Link>
           </div>
         </div>
       )}

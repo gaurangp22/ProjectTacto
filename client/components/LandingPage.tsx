@@ -74,7 +74,11 @@ export default function LandingPage() {
               blurStrength={15}
               containerClassName="mb-12"
             >
-              Every app you use, every website you visit, is built on a foundation of code. It is the literacy of the 21st century.
+              <div className="flex flex-col gap-4">
+                <span className="text-4xl md:text-6xl font-bold">Code runs the world.</span>
+                <span className="text-2xl md:text-3xl text-muted-foreground">But learning to code still assumes one thing:</span>
+                <span className="text-4xl md:text-5xl font-bold text-primary mt-2">That you can see a screen.</span>
+              </div>
             </ScrollReveal>
 
             <ScrollReveal
@@ -84,7 +88,11 @@ export default function LandingPage() {
               blurStrength={10}
               textClassName="text-muted-foreground"
             >
-              Yet the very tools designed to make coding easier rely almost entirely on vision — colors, shapes, screens, drag-and-drop interfaces — leaving 285 million learners locked out from the start.
+              <div className="flex flex-col gap-2 text-xl md:text-3xl">
+                <span>Colors. Shapes. Drag-and-drop blocks.</span>
+                <span>Screen readers trying to describe visual logic.</span>
+                <span className="text-foreground font-bold mt-8 text-2xl md:text-4xl">For 285 million visually impaired learners, this isn’t a challenge — it’s a wall.</span>
+              </div>
             </ScrollReveal>
 
             <ScrollReveal
@@ -93,17 +101,13 @@ export default function LandingPage() {
               baseRotation={3}
               blurStrength={12}
             >
-              For visually impaired students, this creates a silent message: you can consume technology, but you cannot create it.
-            </ScrollReveal>
-
-            <ScrollReveal
-              baseOpacity={0.1}
-              enableBlur={true}
-              baseRotation={-2}
-              blurStrength={10}
-              textClassName="text-muted-foreground"
-            >
-              We refused to accept that. What if code wasn't just text on a screen? What if it was something you could hold? Something you could feel?
+              <div className="flex flex-col gap-4 text-3xl md:text-5xl font-bold">
+                <span>We refused to accept that exclusion was inevitable.</span>
+                <span className="text-muted-foreground mt-4 text-2xl md:text-4xl">What if code wasn’t something you looked at?</span>
+                <span className="text-primary/80">What if it was something you could hold?</span>
+                <span className="text-primary">Feel?</span>
+                <span className="text-primary font-black">Hear?</span>
+              </div>
             </ScrollReveal>
 
             <ScrollReveal
@@ -111,9 +115,9 @@ export default function LandingPage() {
               enableBlur={true}
               baseRotation={0}
               blurStrength={20}
-              textClassName="text-primary font-bold text-5xl md:text-7xl leading-tight"
+              textClassName="text-primary font-bold text-6xl md:text-8xl leading-tight"
             >
-              Enter Tacto. A revolutionary tangible coding interface that speaks back.
+              Meet TACTO.
             </ScrollReveal>
 
             <ScrollReveal
@@ -123,8 +127,12 @@ export default function LandingPage() {
               blurStrength={10}
               textClassName="text-xl md:text-2xl text-muted-foreground mt-12 leading-relaxed max-w-3xl mx-auto font-light"
             >
-              TACTO turns code into something you can physically arrange, feel, and debug. <br className="hidden md:block" />
-              Each action is confirmed through structured audio feedback, allowing blind learners to reason about programs independently.
+              <p>
+                A tangible coding system that lets learners <span className="text-foreground font-medium">build logic with their hands</span> and understand code through sound and structure.
+              </p>
+              <p className="mt-8 text-2xl md:text-3xl font-bold text-foreground">
+                No screens. No visual dependency. Just logic you can feel.
+              </p>
             </ScrollReveal>
           </div>
         </div>
