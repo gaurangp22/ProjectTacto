@@ -34,7 +34,10 @@ const ScrollReveal = ({
     const containerRef = useRef<HTMLHeadingElement>(null);
 
     const splitText = useMemo(() => {
-        const text = typeof children === 'string' ? children : '';
+        if (typeof children !== 'string') {
+            return children;
+        }
+        const text = children;
         return text.split(/(\s+)/).map((word, index) => {
             if (word.match(/^\s+$/)) return <span key={index} className="whitespace">{word}</span>;
             return (
