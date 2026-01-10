@@ -106,20 +106,6 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Custom Cursor Logic */
-  @media (min-width: 768px) {
-
-    body,
-    a,
-    button,
-    input,
-    select,
-    textarea,
-    [role="button"] {
-      cursor: none !important;
-    }
-  }
-
   h1,
   h2,
   h3,

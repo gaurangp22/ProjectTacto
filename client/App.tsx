@@ -9,7 +9,6 @@ import WhitepaperPage from "./pages/WhitepaperPage";
 import Header from "./components/Header";
 
 import Footer from "./components/Footer";
-import CustomCursor from "./components/CustomCursor";
 
 interface AppProps {
   queryClient: QueryClient;
@@ -18,7 +17,6 @@ interface AppProps {
 const App = ({ queryClient }: AppProps) => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <CustomCursor />
       <Toaster />
       <Sonner />
       <BrowserRouter>

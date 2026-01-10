@@ -261,12 +261,12 @@ export default function LandingPage() {
                 Each interaction reinforces confidence, independence, and long-term retention.
               </div>
               <div className="flex justify-center gap-4 pt-8">
-                <button
-                  onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+                <Link
+                  to="/whitepaper"
                   className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-lg font-bold text-white uppercase tracking-widest hover:bg-white/20 transition-all hover:scale-105 pointer-events-auto"
                 >
                   See how it works <ArrowRight className="w-5 h-5" />
-                </button>
+                </Link>
               </div>
             </div>
           </div>
