@@ -74,7 +74,7 @@ export default function LandingPage() {
               blurStrength={15}
               containerClassName="mb-12"
             >
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 items-center text-center">
                 <span className="text-4xl md:text-6xl font-bold word">Code runs the world.</span>
                 <span className="text-2xl md:text-3xl text-muted-foreground word">But learning to code still assumes one thing:</span>
                 <span className="text-4xl md:text-5xl font-bold text-primary mt-2 word">That you can see a screen.</span>
@@ -88,7 +88,7 @@ export default function LandingPage() {
               blurStrength={10}
               textClassName="text-muted-foreground"
             >
-              <div className="flex flex-col gap-2 text-xl md:text-3xl">
+              <div className="flex flex-col gap-2 text-xl md:text-3xl items-center text-center">
                 <span className="word">Colors. Shapes. Drag-and-drop blocks.</span>
                 <span className="word">Screen readers trying to describe visual logic.</span>
                 <span className="text-foreground font-bold mt-8 text-2xl md:text-4xl word">For 285 million visually impaired learners, this isn’t a challenge — it’s a wall.</span>
@@ -101,7 +101,7 @@ export default function LandingPage() {
               baseRotation={3}
               blurStrength={12}
             >
-              <div className="flex flex-col gap-4 text-3xl md:text-5xl font-bold">
+              <div className="flex flex-col gap-4 text-3xl md:text-5xl font-bold items-center text-center">
                 <span className="word">We refused to accept that exclusion was inevitable.</span>
                 <span className="text-muted-foreground mt-4 text-2xl md:text-4xl word">What if code wasn’t something you looked at?</span>
                 <span className="text-primary/80 word">What if it was something you could hold?</span>
@@ -125,13 +125,14 @@ export default function LandingPage() {
               enableBlur={true}
               baseRotation={0}
               blurStrength={10}
-              textClassName="text-xl md:text-2xl text-muted-foreground mt-12 leading-relaxed max-w-3xl mx-auto font-light"
+              textClassName="text-xl md:text-2xl text-muted-foreground mt-12 leading-relaxed max-w-4xl mx-auto font-light flex flex-col gap-2 items-center justify-center"
             >
-              <p className="word">
-                A tangible coding system that lets learners <span className="text-foreground font-medium">build logic with their hands</span> and understand code through sound and structure.
-              </p>
-              <p className="mt-8 text-2xl md:text-3xl font-bold text-foreground word">
-                No screens. No visual dependency. Just logic you can feel.
+              <p className="word w-full text-center">A tangible coding system that lets learners</p>
+              <p className="word text-foreground font-medium w-full text-center">build logic with their hands</p>
+              <p className="word w-full text-center pr-12">and understand code through sound and structure.</p>
+
+              <p className="mt-8 text-2xl md:text-3xl font-bold text-foreground word w-full text-center">
+                No visual dependency. Just logic you can feel.
               </p>
             </ScrollReveal>
           </div>
