@@ -220,7 +220,7 @@ const FallingText = ({
             className={`falling-text-container ${className}`}
             onClick={trigger === 'click' ? handleTrigger : undefined}
             onMouseEnter={trigger === 'hover' ? handleTrigger : undefined}
-            style={{ overflow: 'hidden', touchAction: 'pan-y' }} // pan-y allows vertical scroll
+            style={{ overflow: 'hidden', touchAction: 'pan-y', pointerEvents: isMobile ? 'none' : 'auto' }} // pan-y allows vertical scroll
         >
             <div
                 ref={textRef}

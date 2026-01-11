@@ -49,6 +49,30 @@ const WhitepaperPage = () => {
         { id: "conclusion", label: "9. Conclusion" },
     ];
 
+    const handleShare = async () => {
+        const shareData = {
+            title: 'TACTO: An Open-Source Tactile STEM Ecosystem',
+            text: 'Check out the TACTO whitepaper: A framework for inclusive computational thinking.',
+            url: window.location.href,
+        };
+
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+            } catch (err) {
+                console.error('Error sharing:', err);
+            }
+        } else {
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                // Optionally add a toast here if "sonner" is available, but basic fallback works.
+                alert("Link copied to clipboard!");
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+        }
+    };
+
     return (
         <div className="min-h-screen bg-background pt-24 pb-20 print:pt-0 print:pb-0">
             {/* Hero Header */}
@@ -74,7 +98,7 @@ const WhitepaperPage = () => {
                             <Button variant="outline" className="gap-2" onClick={() => window.print()}>
                                 <Download className="w-4 h-4" /> PDF
                             </Button>
-                            <Button variant="outline" size="icon">
+                            <Button variant="outline" size="icon" onClick={handleShare}>
                                 <Share2 className="w-4 h-4" />
                             </Button>
                         </div>

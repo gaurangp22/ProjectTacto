@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import Matter from 'matter-js';
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface BallpitProps {
     className?: string;
@@ -22,6 +23,7 @@ const Ballpit = ({
 }: BallpitProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         if (!containerRef.current || !canvasRef.current) return;
@@ -95,7 +97,7 @@ const Ballpit = ({
         mouse.element.removeEventListener("DOMMouseScroll", (mouse as any).mousewheel);
         mouse.element.removeEventListener("wheel", (mouse as any).mousewheel);
 
-        if (followCursor) {
+        if (followCursor && !isMobile) {
             const mouseConstraint = MouseConstraint.create(engine, {
                 mouse: mouse,
                 constraint: {
@@ -162,10 +164,10 @@ const Ballpit = ({
             World.clear(engine.world, false);
             Engine.clear(engine);
         };
-    }, [count, gravity, friction, wallBounce, followCursor, colors]);
+    }, [count, gravity, friction, wallBounce, followCursor, colors, isMobile]);
 
     return (
-        <div ref={containerRef} className={`w-full h-full absolute inset-0 pointer-events-auto touch-pan-y ${className}`}>
+        <div ref={containerRef} className={`w-full h-full absolute inset-0 touch-pan-y ${isMobile ? 'pointer-events-none' : 'pointer-events-auto'} ${className}`}>
             <canvas ref={canvasRef} className="block w-full h-full" />
         </div>
     );

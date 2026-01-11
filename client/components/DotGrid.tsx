@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DotGridProps {
     dotSize?: number;
@@ -28,6 +29,8 @@ const DotGrid = ({
     returnDuration = 1.5
 }: DotGridProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -99,8 +102,10 @@ const DotGrid = ({
         };
 
         window.addEventListener('resize', handleResize);
-        canvas.addEventListener('mousemove', handleMouseMove);
-        canvas.addEventListener('mouseleave', handleMouseLeave);
+        if (!isMobile) {
+            canvas.addEventListener('mousemove', handleMouseMove);
+            canvas.addEventListener('mouseleave', handleMouseLeave);
+        }
 
         let animationId: number;
         let lastTime = performance.now();
@@ -175,12 +180,12 @@ const DotGrid = ({
             canvas.removeEventListener('mouseleave', handleMouseLeave);
             cancelAnimationFrame(animationId);
         };
-    }, [dotSize, gap, baseColor, activeColor, proximity, speedTrigger, shockRadius, shockStrength, returnDuration]);
+    }, [dotSize, gap, baseColor, activeColor, proximity, speedTrigger, shockRadius, shockStrength, returnDuration, isMobile]);
 
     return (
         <canvas
             ref={canvasRef}
-            style={{ width: '100%', height: '100%', display: 'block' }}
+            style={{ width: '100%', height: '100%', display: 'block', pointerEvents: isMobile ? 'none' : 'auto' }}
         />
     );
 };
