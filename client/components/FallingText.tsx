@@ -180,7 +180,15 @@ const FallingText = ({
 
         const animationId = requestAnimationFrame(updateLoop);
 
+        const handleResize = () => {
+            setEffectStarted(false);
+            setTimeout(() => setEffectStarted(true), 100);
+        };
+
+        window.addEventListener('resize', handleResize);
+
         return () => {
+            window.removeEventListener('resize', handleResize);
             cancelAnimationFrame(animationId);
             Render.stop(render);
             Runner.stop(runner);

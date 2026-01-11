@@ -35,7 +35,7 @@ export default function LandingPage() {
               <span className="text-sm font-semibold text-primary tracking-wide uppercase">Coming Soon • Join the Waitlist</span>
             </div>
 
-            <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-foreground leading-[1.1]">
+            <h1 className="text-4xl md:text-8xl font-bold tracking-tight text-foreground leading-[1.1]">
               Every child can <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-pink-500">Code</span> <br />
               If we design it <span className="italic font-serif text-foreground/80">Right.</span>
             </h1>
@@ -75,9 +75,9 @@ export default function LandingPage() {
               containerClassName="mb-12"
             >
               <div className="flex flex-col gap-4 items-center text-center">
-                <span className="text-4xl md:text-6xl font-bold word">Code runs the world.</span>
-                <span className="text-2xl md:text-3xl text-muted-foreground word">But learning to code still assumes one thing:</span>
-                <span className="text-4xl md:text-5xl font-bold text-primary mt-2 word">That you can see a screen.</span>
+                <span className="text-3xl md:text-6xl font-bold word">Code runs the world.</span>
+                <span className="text-xl md:text-3xl text-muted-foreground word px-4">But learning to code still assumes one thing:</span>
+                <span className="text-3xl md:text-5xl font-bold text-primary mt-2 word">That you can see a screen.</span>
               </div>
             </ScrollReveal>
 
@@ -91,7 +91,7 @@ export default function LandingPage() {
               <div className="flex flex-col gap-2 text-xl md:text-3xl items-center text-center">
                 <span className="word">Colors. Shapes. Drag-and-drop blocks.</span>
                 <span className="word">Screen readers trying to describe visual logic.</span>
-                <span className="text-foreground font-bold mt-8 text-2xl md:text-4xl word">For 285 million visually impaired learners, this isn’t a challenge — it’s a wall.</span>
+                <span className="text-foreground font-bold mt-8 text-xl md:text-4xl word px-2">For 285 million visually impaired learners, this isn’t a challenge — it’s a wall.</span>
               </div>
             </ScrollReveal>
 
@@ -102,8 +102,8 @@ export default function LandingPage() {
               blurStrength={12}
             >
               <div className="flex flex-col gap-4 text-3xl md:text-5xl font-bold items-center text-center">
-                <span className="word">We refused to accept that exclusion was inevitable.</span>
-                <span className="text-muted-foreground mt-4 text-2xl md:text-4xl word">What if code wasn’t something you looked at?</span>
+                <span className="word text-2xl md:text-5xl">We refused to accept that exclusion was inevitable.</span>
+                <span className="text-muted-foreground mt-4 text-xl md:text-4xl word">What if code wasn’t something you looked at?</span>
                 <span className="text-primary/80 word">What if it was something you could hold?</span>
                 <span className="text-primary word">Feel?</span>
                 <span className="text-primary font-black word">Hear?</span>
@@ -115,7 +115,7 @@ export default function LandingPage() {
               enableBlur={true}
               baseRotation={0}
               blurStrength={20}
-              textClassName="text-primary font-bold text-6xl md:text-8xl leading-tight"
+              textClassName="text-primary font-bold text-5xl md:text-8xl leading-tight"
             >
               Meet TACTO.
             </ScrollReveal>
@@ -147,7 +147,7 @@ export default function LandingPage() {
           {/* Text Content Overlay (Static) */}
           <div className="relative z-20 text-center pointer-events-none px-4 -mt-20">
             <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-4 animate-fade-in">The Reality</h2>
-            <h3 className="text-5xl md:text-7xl font-bold text-foreground mb-6">
+            <h3 className="text-3xl md:text-7xl font-bold text-foreground mb-6">
               Traditional methods <br />
               <span className="text-destructive inline-block transform hover:rotate-2 transition-transform duration-300">are falling apart.</span>
             </h3>
@@ -164,10 +164,10 @@ export default function LandingPage() {
             <FallingText
               text="Visual-Only Syntax Screen-Reader Overload No Physical Structure Drag-and-Drop Mice Textbooks Blackboards Color-Coding"
               highlightWords={["Visual-Only Syntax", "Screen-Reader Overload", "No Physical Structure"]}
-              highlightClass="text-destructive font-bold text-5xl md:text-6xl"
+              highlightClass="text-destructive font-bold text-3xl md:text-6xl"
               trigger="scroll"
               gravity={0.4} // Slower fall for better effect
-              fontSize="2rem"
+              fontSize="clamp(1rem, 3vw, 2.5rem)"
               mouseConstraintStiffness={0.9}
               className="font-bold text-muted-foreground/20 w-full h-full"
             />
@@ -250,7 +250,7 @@ export default function LandingPage() {
           {/* Content Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-center justify-center p-12 text-center pointer-events-none z-10">
             <div className="max-w-4xl space-y-8">
-              <h3 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 animate-pulse-glow">
+              <h3 className="text-3xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 animate-pulse-glow">
                 Designed for <br /> Real Learning
               </h3>
               <p className="text-xl md:text-2xl font-medium text-white/90 leading-relaxed max-w-3xl mx-auto">
@@ -282,7 +282,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-20">
             <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-4">How It Works</h2>
-            <h3 className="text-4xl md:text-6xl font-black mb-6">From Touch to Logic</h3>
+            <h3 className="text-3xl md:text-6xl font-black mb-6">From Touch to Logic</h3>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               A seamless journey from physical play to digital creation. No screens needed to start.
             </p>

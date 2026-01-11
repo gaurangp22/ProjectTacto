@@ -16,4 +16,7 @@
 .word {
     display: inline-block;
     will-change: opacity, filter, transform;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    white-space: normal;
 }

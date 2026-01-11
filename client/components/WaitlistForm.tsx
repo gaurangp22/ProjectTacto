@@ -47,7 +47,7 @@ export default function WaitlistForm({ variant = "default", className }: Waitlis
                     placeholder="Enter your email"
                     required
                     className={cn(
-                        "w-full bg-background border border-input rounded-full py-3 pl-5 pr-40 text-sm outline-none transition-all placeholder:text-muted-foreground/60 md:text-base md:py-4 md:pl-6 md:pr-48",
+                        "w-full bg-background border border-input rounded-full py-3 pl-5 pr-28 text-sm outline-none transition-all placeholder:text-muted-foreground/60 md:text-base md:py-4 md:pl-6 md:pr-48",
                         "focus:border-primary/50 focus:ring-4 focus:ring-primary/10",
                         variant === "minimal" && "bg-secondary/50 border-transparent focus:bg-background"
                     )}
@@ -61,7 +61,8 @@ export default function WaitlistForm({ variant = "default", className }: Waitlis
                         <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
                         <>
-                            Join Waitlist
+                            <span className="hidden md:inline">Join Waitlist</span>
+                            <span className="inline md:hidden">Join</span>
                             <ArrowRight className="w-4 h-4" />
                         </>
                     )}
