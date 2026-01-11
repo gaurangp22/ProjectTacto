@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import Matter from 'matter-js';
 import './FallingText.css';
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface FallingTextProps {
     className?: string;
@@ -30,6 +31,7 @@ const FallingText = ({
     const containerRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLDivElement>(null);
     const canvasContainerRef = useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile();
 
     const [effectStarted, setEffectStarted] = useState(false);
 
@@ -151,16 +153,20 @@ const FallingText = ({
             mouse.element.removeEventListener("wheel", preventScroll);
         }
 
-        const mouseConstraint = MouseConstraint.create(engine, {
-            mouse,
-            constraint: {
-                stiffness: mouseConstraintStiffness,
-                render: { visible: false }
-            }
-        });
+        if (!isMobile) {
+            const mouseConstraint = MouseConstraint.create(engine, {
+                mouse,
+                constraint: {
+                    stiffness: mouseConstraintStiffness,
+                    render: { visible: false }
+                }
+            });
+            World.add(engine.world, mouseConstraint);
+        }
+
         render.mouse = mouse;
 
-        World.add(engine.world, [floor, leftWall, rightWall, ceiling, mouseConstraint, ...wordBodies.map(wb => wb.body)]);
+        World.add(engine.world, [floor, leftWall, rightWall, ceiling, ...wordBodies.map(wb => wb.body)]);
 
         const runner = Runner.create();
         Runner.run(runner, engine);
@@ -200,7 +206,7 @@ const FallingText = ({
             World.clear(engine.world, false);
             Engine.clear(engine);
         };
-    }, [effectStarted, gravity, wireframes, backgroundColor, mouseConstraintStiffness]);
+    }, [effectStarted, gravity, wireframes, backgroundColor, mouseConstraintStiffness, isMobile]);
 
     const handleTrigger = () => {
         if (!effectStarted && (trigger === 'click' || trigger === 'hover')) {
