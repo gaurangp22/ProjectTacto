@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle, Lightbulb, Zap, Code, Shield, Layers, Users, Heart, Nfc, AudioLines } from "lucide-react";
+import { ArrowRight, CheckCircle, Lightbulb, Zap, Code, Shield, Layers, Users, Heart, Nfc, AudioLines, EyeOff, FileWarning, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import FallingText from "./FallingText";
@@ -142,50 +142,72 @@ export default function LandingPage() {
       {/* Problem Section with Falling Text */}
       <section id="problem" className="relative overflow-hidden bg-secondary/10">
 
-        <div className="relative h-screen min-h-[600px] w-full bg-background border-y border-border/50 overflow-hidden shadow-2xl group flex flex-col items-center justify-center">
+        <div className="relative h-[80vh] md:h-screen min-h-[600px] w-full bg-background border-y border-border/50 overflow-hidden shadow-2xl group flex flex-col items-center justify-center">
 
           {/* Text Content Overlay (Static) */}
-          <div className="relative z-20 text-center pointer-events-none px-4 -mt-20">
-            <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-4 animate-fade-in">The Reality</h2>
-            <h3 className="text-3xl md:text-7xl font-bold text-foreground mb-6">
+          <div className="relative z-20 text-center px-4 pt-10 md:-mt-20 pointer-events-none">
+            <h2 className="text-sm md:text-base font-bold tracking-widest text-primary uppercase mb-4 animate-fade-in">The Reality</h2>
+            <h3 className="text-4xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
               Traditional methods <br />
-              <span className="text-destructive inline-block transform hover:rotate-2 transition-transform duration-300">are falling apart.</span>
+              <span className="text-destructive inline-block transform md:hover:rotate-2 transition-transform duration-300">are falling apart.</span>
             </h3>
-            <div className="text-xl md:text-2xl font-medium text-muted-foreground/80 max-w-2xl mx-auto backdrop-blur-sm bg-background/30 rounded-full py-2 px-6 border border-white/5">
+            <div className="text-lg md:text-2xl font-medium text-muted-foreground/80 max-w-2xl mx-auto backdrop-blur-sm bg-background/30 rounded-full py-2 px-6 border border-white/5">
               For <span className="text-foreground font-bold">visually impaired students</span>, standard tools are broken.
             </div>
-            <p className="mt-6 text-lg text-muted-foreground font-medium max-w-3xl mx-auto animate-fade-in delay-500">
+            <p className="mt-6 text-base md:text-lg text-muted-foreground font-medium max-w-3xl mx-auto animate-fade-in delay-500 px-4">
               These tools were designed for sighted users first — accessibility was added later.
             </p>
           </div>
 
           {/* Physics Container (Background Layer) */}
-          <div className="absolute inset-0 z-10">
+          <div className="absolute inset-0 z-10 opacity-60 md:opacity-100">
             <FallingText
               text="Visual-Only Syntax Screen-Reader Overload No Physical Structure Drag-and-Drop Mice Textbooks Blackboards Color-Coding"
               highlightWords={["Visual-Only Syntax", "Screen-Reader Overload", "No Physical Structure"]}
-              highlightClass="text-destructive font-bold text-3xl md:text-6xl"
+              highlightClass="text-destructive font-bold text-2xl md:text-6xl"
               trigger="scroll"
               gravity={0.4} // Slower fall for better effect
-              fontSize="clamp(1rem, 3vw, 2.5rem)"
+              fontSize="clamp(1rem, 4vw, 3rem)"
               mouseConstraintStiffness={0.9}
               className="font-bold text-muted-foreground/20 w-full h-full"
             />
           </div>
 
           {/* Gradient Overlay for Bottom */}
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background via-background/60 to-transparent pointer-events-none z-20" />
+          <div className="absolute inset-x-0 bottom-0 h-24 md:h-40 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none z-20" />
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-16 px-4">
           {[
-            { title: "Inaccessible", desc: "Block-based coding apps rely entirely on sight." },
-            { title: "Complex", desc: "Text-based syntax is daunting and error-prone." },
-            { title: "Exclusive", desc: "Students are reduced to passive listeners, not creators." }
+            { 
+              title: "Inaccessible", 
+              desc: "Block-based coding apps rely entirely on sight, leaving blind students behind.", 
+              icon: <EyeOff className="w-6 h-6" /> 
+            },
+            { 
+              title: "Complex", 
+              desc: "Text-based syntax is daunting, error-prone, and frustrating for beginners.", 
+              icon: <FileWarning className="w-6 h-6" /> 
+            },
+            { 
+              title: "Exclusive", 
+              desc: "Students are reduced to passive listeners instead of active creators.", 
+              icon: <Lock className="w-6 h-6" /> 
+            }
           ].map((item, i) => (
-            <div key={i} className="p-8 rounded-2xl bg-white/5 border border-border/50 text-center hover:bg-white/10 transition-colors backdrop-blur-sm">
-              <h4 className="text-xl font-bold mb-3 text-foreground">{item.title}</h4>
-              <p className="text-lg text-muted-foreground leading-relaxed">"{item.desc}"</p>
+            <div key={i} className="group relative p-8 rounded-3xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-destructive/30 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+               {/* Hover Gradient Bloom */}
+               <div className="absolute inset-0 bg-gradient-to-br from-destructive/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+               
+               <div className="relative z-10 flex flex-col items-center">
+                  <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-destructive/20 group-hover:text-destructive transition-colors duration-300 border border-white/5 group-hover:border-destructive/20">
+                    {item.icon}
+                  </div>
+                  <h4 className="text-xl font-bold mb-3 text-foreground group-hover:text-black transition-colors">{item.title}</h4>
+                  <p className="text-base text-muted-foreground leading-relaxed group-hover:text-black transition-colors">
+                    {item.desc}
+                  </p>
+               </div>
             </div>
           ))}
         </div>
@@ -372,9 +394,9 @@ export default function LandingPage() {
           <h2 className="text-3xl md:text-5xl font-bold mb-16">Empowering the Next Generation</h2>
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { val: "Millions", label: "Visually Impaired Learners" },
-              { val: "Gap", label: "Only a small fraction of visually impaired learners are fluent Braille readers globally." },
-              { val: "100%", label: "Tactile Engagement" },
+              { val: "281 Million", label: "Visually Impaired Learners" },
+              { val: "10%", label: "of visually impaired learners are fluent Braille readers globally." },
+              { val: "100%", label: "Tactile Engagement using TACTO" },
               { val: "∞", label: "Possibilities" }
             ].map((stat, i) => (
               <div key={i} className="p-8 bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 hover:bg-white/15 transition-colors">
