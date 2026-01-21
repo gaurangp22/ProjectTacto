@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowRight, CheckCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabaseClient";
 
 interface WaitlistFormProps {
     variant?: "default" | "minimal";
@@ -19,13 +20,30 @@ export default function WaitlistForm({ variant = "default", className }: Waitlis
 
         setIsLoading(true);
 
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        try {
+            const { error } = await supabase
+                .from('waitlist')
+                .insert([{ email }]);
 
-        setIsLoading(false);
-        setIsSuccess(true);
-        toast.success("You've been added to the waitlist!");
-        setEmail("");
+            if (error) {
+                if (error.code === '23505') {
+                    toast.error("This email is already on the waitlist!");
+                } else {
+                    console.error('Supabase error:', error);
+                    toast.error("Failed to join waitlist. Please try again.");
+                }
+                return;
+            }
+
+            setIsSuccess(true);
+            toast.success("You've been added to the waitlist!");
+            setEmail("");
+        } catch (error) {
+            console.error('Submission error:', error);
+            toast.error("An unexpected error occurred.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     if (isSuccess) {
