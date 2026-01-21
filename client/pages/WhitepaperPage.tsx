@@ -75,8 +75,43 @@ const WhitepaperPage = () => {
 
     return (
         <div className="min-h-screen bg-background pt-24 pb-20 print:pt-0 print:pb-0">
-            {/* Hero Header */}
-            <div className="bg-secondary/5 border-b border-border/40 py-16 mb-12 print:border-none print:py-0 print:mb-8 print:bg-transparent">
+
+            {/* ========================================
+                PDF COVER PAGE - Only visible in print
+                ======================================== */}
+            <div className="hidden print:block pdf-cover">
+                <div className="pdf-cover-inner">
+                    {/* Logo */}
+                    <img
+                        src="/favicon.png"
+                        alt="TACTO"
+                        className="pdf-cover-logo"
+                    />
+
+                    {/* Badge */}
+                    <div className="pdf-cover-badge">White Paper</div>
+
+                    {/* Title */}
+                    <h1 className="pdf-cover-title">
+                        TACTO: An Open-Source Tactile STEM Ecosystem Framework
+                    </h1>
+
+                    {/* Subtitle */}
+                    <p className="pdf-cover-subtitle">
+                        For Inclusive Computational Thinking
+                    </p>
+
+                    {/* Footer */}
+                    <div className="pdf-cover-footer">
+                        Open-Source Tactile STEM Ecosystem
+                    </div>
+                </div>
+            </div>
+
+
+
+            {/* Hero Header - Hidden in print (replaced by cover page) */}
+            <div className="bg-secondary/5 border-b border-border/40 py-16 mb-12 print:hidden">
                 <div className="container max-w-5xl mx-auto px-6 print:px-0">
                     <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary mb-8 transition-colors group print:hidden">
                         <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
@@ -626,7 +661,7 @@ const WhitepaperPage = () => {
 
                     {/* References Footer */}
 
-                    <div className="bg-secondary/5 p-8 rounded-2xl border border-border/40 text-sm text-muted-foreground mt-16">
+                    <div className="bg-secondary/5 p-8 rounded-2xl border border-border/40 text-sm text-muted-foreground mt-16 print:bg-transparent print:border-none print:p-0 print:mt-8 pdf-references pdf-page-break">
                         <h4 className="font-bold text-foreground mb-6 uppercase tracking-wider">References & Research Foundations</h4>
                         <p className="mb-6 italic">
                             This white paper draws upon a multidisciplinary body of work spanning accessibility research, tangible programming languages, embodied cognition, open-source hardware, and low-cost embedded systems.
@@ -709,7 +744,7 @@ const WhitepaperPage = () => {
                             </div>
                         </div>
 
-                        <div className="mt-8 pt-8 border-t border-border/30 text-xs text-muted-foreground/60">
+                        <div className="mt-8 pt-8 border-t border-border/30 text-xs text-muted-foreground/60 pdf-disclaimer">
                             <strong>Disclaimer:</strong> Code Jumper is a trademark of Microsoft. Project TACTO is an independent research initiative and is not affiliated with, endorsed by, or associated with Microsoft or any commercial assistive technology provider.
                         </div>
                     </div>
