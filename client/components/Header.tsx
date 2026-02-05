@@ -54,7 +54,7 @@ export default function Header() {
             to="/playground"
             className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
           >
-            🎮 Try Simulator
+            Try Simulator
           </Link>
         </div>
 
@@ -62,13 +62,13 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-3">
           <Link
             to="/playground"
-            className="px-5 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-semibold hover:from-amber-600 hover:to-orange-600 transition-all shadow-md hover:shadow-lg"
+            className="px-5 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all shadow-sm hover:shadow-md"
           >
-            🎮 Try Simulator
+            Try Simulator
           </Link>
           <Link
             to="/whitepaper"
-            className="px-5 py-2 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-colors"
+            className="px-5 py-2 text-foreground/80 hover:text-primary font-medium transition-colors"
           >
             Whitepaper
           </Link>
@@ -115,14 +115,14 @@ export default function Header() {
             <Link
               to="/playground"
               onClick={() => setIsMenuOpen(false)}
-              className="block w-full text-center px-4 py-3 mt-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-semibold hover:from-amber-600 hover:to-orange-600 transition-all shadow-md"
+              className="block w-full text-center px-4 py-3 mt-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all"
             >
-              🎮 Try Simulator
+              Try Simulator
             </Link>
             <Link
               to="/whitepaper"
               onClick={() => setIsMenuOpen(false)}
-              className="block w-full text-center px-4 py-2 mt-2 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-colors"
+              className="block w-full text-center px-4 py-2 mt-2 text-foreground/70 hover:text-primary font-medium transition-colors"
             >
               Whitepaper
             </Link>

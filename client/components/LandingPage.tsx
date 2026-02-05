@@ -49,13 +49,13 @@ export default function LandingPage() {
               <div className="mt-6 flex flex-col sm:flex-row justify-center gap-3">
                 <Link
                   to="/playground"
-                  className="group flex items-center justify-center gap-2 text-sm font-bold text-white px-6 py-3 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                  className="group flex items-center justify-center gap-2 text-sm font-semibold text-primary-foreground px-6 py-3 rounded-full bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all hover:scale-105"
                 >
-                  🎮 Try Simulator <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  Try Simulator <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   to="/whitepaper"
-                  className="group flex items-center justify-center gap-2 text-sm font-semibold text-foreground/80 hover:text-primary transition-all px-6 py-3 rounded-full bg-background/50 border border-foreground/10 hover:bg-background hover:shadow-md"
+                  className="group flex items-center justify-center gap-2 text-sm font-semibold text-foreground/70 hover:text-primary transition-all px-6 py-3 rounded-full hover:bg-secondary/50"
                 >
                   Read the White Paper <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -291,13 +291,13 @@ export default function LandingPage() {
               <div className="flex flex-col sm:flex-row justify-center gap-4 pt-8">
                 <Link
                   to="/playground"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-lg font-bold text-white uppercase tracking-wide hover:from-amber-600 hover:to-orange-600 transition-all hover:scale-105 pointer-events-auto shadow-lg"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-primary rounded-full text-lg font-bold uppercase tracking-wide hover:bg-white/90 transition-all hover:scale-105 pointer-events-auto shadow-lg"
                 >
-                  🎮 Try Simulator <ArrowRight className="w-5 h-5" />
+                  Try Simulator <ArrowRight className="w-5 h-5" />
                 </Link>
                 <Link
                   to="/whitepaper"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-lg font-bold text-white uppercase tracking-widest hover:bg-white/20 transition-all hover:scale-105 pointer-events-auto"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-lg font-medium text-white/90 hover:bg-white/20 transition-all hover:scale-105 pointer-events-auto"
                 >
                   Whitepaper <ArrowRight className="w-5 h-5" />
                 </Link>
