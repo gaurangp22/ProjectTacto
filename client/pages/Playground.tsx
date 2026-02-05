@@ -266,6 +266,9 @@ function Playground() {
         }
     };
 
+    // Mobile panel state
+    const [mobilePanel, setMobilePanel] = useState<'palette' | 'workspace' | 'grid'>('workspace');
+
     return (
         <DndContext
             sensors={sensors}
@@ -274,39 +277,63 @@ function Playground() {
             onDragOver={handleDragOver}
             onDragEnd={handleDragEnd}
         >
-            <div className="h-screen w-full bg-slate-50 flex overflow-hidden font-sans">
+            <div className="h-screen w-full bg-slate-50 flex flex-col overflow-hidden font-sans">
                 <style>{`
                 ::selection { background-color: #cbd5e1; color: #1e293b; }
             `}</style>
 
+                {/* Top Control Bar - Responsive */}
+                <header className="h-16 md:h-20 bg-white border-b border-slate-200 px-4 md:px-8 flex items-center justify-between z-20 shrink-0">
+                    {/* Game Panel */}
+                    <div className="flex-1 h-full py-2 md:py-3">
+                        <GamePanel
+                            gameMode={gameMode}
+                            isRunning={isRunning}
+                            statusMessage={statusMessage}
+                            onRun={handleRun}
+                            onStop={handleStop}
+                            onReset={handleReset}
+                            chapters={SAMPLE_PROGRAMS}
+                            onLoadChapter={handleLoadChapter}
+                        />
+                    </div>
+
+                    {/* Settings - Hidden on mobile */}
+                    <div className="hidden md:flex items-center gap-3">
+                        <div className="h-8 w-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:border-indigo-200 transition-colors cursor-pointer">
+                            ⚙️
+                        </div>
+                    </div>
+                </header>
+
+                {/* Mobile Tab Bar */}
+                <div className="md:hidden flex bg-white border-b border-slate-200 shrink-0">
+                    <button
+                        onClick={() => setMobilePanel('palette')}
+                        className={`flex-1 py-3 text-sm font-semibold transition-colors ${mobilePanel === 'palette' ? 'text-primary bg-primary/5 border-b-2 border-primary' : 'text-slate-500'}`}
+                    >
+                        🧩 Blocks
+                    </button>
+                    <button
+                        onClick={() => setMobilePanel('workspace')}
+                        className={`flex-1 py-3 text-sm font-semibold transition-colors ${mobilePanel === 'workspace' ? 'text-primary bg-primary/5 border-b-2 border-primary' : 'text-slate-500'}`}
+                    >
+                        📝 Code
+                    </button>
+                    <button
+                        onClick={() => setMobilePanel('grid')}
+                        className={`flex-1 py-3 text-sm font-semibold transition-colors ${mobilePanel === 'grid' ? 'text-primary bg-primary/5 border-b-2 border-primary' : 'text-slate-500'}`}
+                    >
+                        📟 Grid
+                    </button>
+                </div>
+
                 {/* Main Content Area */}
-                <div className="flex-1 flex flex-col relative overflow-hidden">
-                    {/* Top Control Bar */}
-                    <header className="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between z-10">
-                        {/* Game Panel */}
-                        <div className="flex-1 h-full py-3">
-                            <GamePanel
-                                gameMode={gameMode}
-                                isRunning={isRunning}
-                                statusMessage={statusMessage}
-                                onRun={handleRun}
-                                onStop={handleStop}
-                                onReset={handleReset}
-                                chapters={SAMPLE_PROGRAMS}
-                                onLoadChapter={handleLoadChapter}
-                            />
-                        </div>
+                <div className="flex-1 flex overflow-hidden relative">
 
-                        <div className="flex items-center gap-3">
-                            <div className="h-8 w-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:border-indigo-200 transition-colors cursor-pointer">
-                                ⚙️
-                            </div>
-                        </div>
-                    </header>
-
-                    {/* Workspace Area - Flex Row */}
-                    <div className="flex-1 flex overflow-hidden">
-                        {/* Palette Sidebar */}
+                    {/* Desktop Layout */}
+                    <div className="hidden md:flex flex-1 overflow-hidden">
+                        {/* Palette Sidebar - Desktop */}
                         <aside className="w-[380px] bg-white border-r border-slate-200 overflow-hidden relative z-10 flex flex-col transition-[width] duration-300 shadow-sm">
                             <BlockPalette
                                 onLoadSample={handleLoadChapter}
@@ -315,7 +342,7 @@ function Playground() {
                             />
                         </aside>
 
-                        {/* Main Workspace */}
+                        {/* Main Workspace - Desktop */}
                         <section className="flex-1 bg-slate-50/50 overflow-hidden relative flex flex-col">
                             {/* Dot Pattern Background */}
                             <div className="absolute inset-0 opacity-[0.4] pointer-events-none"
@@ -333,7 +360,7 @@ function Playground() {
                             />
                         </section>
 
-                        {/* Hardware Grid Status */}
+                        {/* Hardware Grid Status - Desktop */}
                         <div className="w-[320px] bg-white border-l border-slate-200 overflow-hidden z-10 flex flex-col">
                             <TactoGrid
                                 program={program}
@@ -341,6 +368,79 @@ function Playground() {
                                 isScanning={isRunning}
                             />
                         </div>
+                    </div>
+
+                    {/* Mobile Layout - Tab-based panels */}
+                    <div className="md:hidden flex-1 overflow-hidden">
+                        {/* Mobile Palette Panel */}
+                        {mobilePanel === 'palette' && (
+                            <div className="h-full bg-white overflow-hidden">
+                                <BlockPalette
+                                    onLoadSample={handleLoadChapter}
+                                    currentMode={gameMode}
+                                    onModeChange={handleModeChange}
+                                />
+                            </div>
+                        )}
+
+                        {/* Mobile Workspace Panel */}
+                        {mobilePanel === 'workspace' && (
+                            <section className="h-full bg-slate-50/50 overflow-hidden relative flex flex-col">
+                                {/* Dot Pattern Background */}
+                                <div className="absolute inset-0 opacity-[0.4] pointer-events-none"
+                                    style={{
+                                        backgroundImage: 'radial-gradient(#cbd5e1 1.5px, transparent 1.5px)',
+                                        backgroundSize: '24px 24px'
+                                    }}
+                                />
+
+                                <Workspace
+                                    program={program}
+                                    onValueChange={handleValueChange}
+                                    onRemoveBlock={handleRemoveBlock}
+                                    activeBlockId={activeBlockId}
+                                />
+
+                                {/* Mobile Quick Add Bar */}
+                                <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl shadow-lg border border-slate-200 p-3 flex gap-2 overflow-x-auto z-20">
+                                    <span className="text-xs text-slate-400 shrink-0 self-center px-2">Quick:</span>
+                                    {['DRUM', 'SAY', 'REPEAT', 'IF'].map(type => {
+                                        const blockDef = BLOCKS[type as BlockType];
+                                        return (
+                                            <button
+                                                key={type}
+                                                onClick={() => {
+                                                    if (program.length < 8) {
+                                                        setProgram(prev => [...prev, {
+                                                            id: Math.random().toString(36).substring(2, 9),
+                                                            type: type as BlockType,
+                                                            value: blockDef.defaultValue
+                                                        }]);
+                                                        soundManager.playSnap();
+                                                    }
+                                                }}
+                                                disabled={program.length >= 8}
+                                                className="shrink-0 px-3 py-2 rounded-xl text-sm font-semibold text-white shadow-md active:scale-95 transition-transform disabled:opacity-50"
+                                                style={{ backgroundColor: blockDef.color }}
+                                            >
+                                                {blockDef.icon} {blockDef.shortLabel}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </section>
+                        )}
+
+                        {/* Mobile Grid Panel */}
+                        {mobilePanel === 'grid' && (
+                            <div className="h-full bg-white overflow-hidden">
+                                <TactoGrid
+                                    program={program}
+                                    activeBlockId={activeBlockId}
+                                    isScanning={isRunning}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -361,3 +461,4 @@ function Playground() {
 }
 
 export default Playground;
+
