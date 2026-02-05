@@ -46,10 +46,16 @@ export default function LandingPage() {
 
             <div className="pt-10 max-w-md mx-auto relative z-20">
               <WaitlistForm />
-              <div className="mt-6 flex justify-center">
+              <div className="mt-6 flex flex-col sm:flex-row justify-center gap-3">
+                <Link
+                  to="/playground"
+                  className="group flex items-center justify-center gap-2 text-sm font-bold text-white px-6 py-3 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                >
+                  🎮 Try Simulator <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
                 <Link
                   to="/whitepaper"
-                  className="group flex items-center gap-2 text-sm font-semibold text-foreground/80 hover:text-primary transition-all px-6 py-3 rounded-full bg-background/50 border border-foreground/10 hover:bg-background hover:shadow-md"
+                  className="group flex items-center justify-center gap-2 text-sm font-semibold text-foreground/80 hover:text-primary transition-all px-6 py-3 rounded-full bg-background/50 border border-foreground/10 hover:bg-background hover:shadow-md"
                 >
                   Read the White Paper <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -179,35 +185,35 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-16 px-4">
           {[
-            { 
-              title: "Inaccessible", 
-              desc: "Block-based coding apps rely entirely on sight, leaving blind students behind.", 
-              icon: <EyeOff className="w-6 h-6" /> 
+            {
+              title: "Inaccessible",
+              desc: "Block-based coding apps rely entirely on sight, leaving blind students behind.",
+              icon: <EyeOff className="w-6 h-6" />
             },
-            { 
-              title: "Complex", 
-              desc: "Text-based syntax is daunting, error-prone, and frustrating for beginners.", 
-              icon: <FileWarning className="w-6 h-6" /> 
+            {
+              title: "Complex",
+              desc: "Text-based syntax is daunting, error-prone, and frustrating for beginners.",
+              icon: <FileWarning className="w-6 h-6" />
             },
-            { 
-              title: "Exclusive", 
-              desc: "Students are reduced to passive listeners instead of active creators.", 
-              icon: <Lock className="w-6 h-6" /> 
+            {
+              title: "Exclusive",
+              desc: "Students are reduced to passive listeners instead of active creators.",
+              icon: <Lock className="w-6 h-6" />
             }
           ].map((item, i) => (
             <div key={i} className="group relative p-8 rounded-3xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-destructive/30 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
-               {/* Hover Gradient Bloom */}
-               <div className="absolute inset-0 bg-gradient-to-br from-destructive/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-               
-               <div className="relative z-10 flex flex-col items-center">
-                  <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-destructive/20 group-hover:text-destructive transition-colors duration-300 border border-white/5 group-hover:border-destructive/20">
-                    {item.icon}
-                  </div>
-                  <h4 className="text-xl font-bold mb-3 text-foreground group-hover:text-black transition-colors">{item.title}</h4>
-                  <p className="text-base text-muted-foreground leading-relaxed group-hover:text-black transition-colors">
-                    {item.desc}
-                  </p>
-               </div>
+              {/* Hover Gradient Bloom */}
+              <div className="absolute inset-0 bg-gradient-to-br from-destructive/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-destructive/20 group-hover:text-destructive transition-colors duration-300 border border-white/5 group-hover:border-destructive/20">
+                  {item.icon}
+                </div>
+                <h4 className="text-xl font-bold mb-3 text-foreground group-hover:text-black transition-colors">{item.title}</h4>
+                <p className="text-base text-muted-foreground leading-relaxed group-hover:text-black transition-colors">
+                  {item.desc}
+                </p>
+              </div>
             </div>
           ))}
         </div>
@@ -282,12 +288,18 @@ export default function LandingPage() {
               <div className="text-lg text-white/80 italic">
                 Each interaction reinforces confidence, independence, and long-term retention.
               </div>
-              <div className="flex justify-center gap-4 pt-8">
+              <div className="flex flex-col sm:flex-row justify-center gap-4 pt-8">
+                <Link
+                  to="/playground"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-lg font-bold text-white uppercase tracking-wide hover:from-amber-600 hover:to-orange-600 transition-all hover:scale-105 pointer-events-auto shadow-lg"
+                >
+                  🎮 Try Simulator <ArrowRight className="w-5 h-5" />
+                </Link>
                 <Link
                   to="/whitepaper"
                   className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-lg font-bold text-white uppercase tracking-widest hover:bg-white/20 transition-all hover:scale-105 pointer-events-auto"
                 >
-                  See how it works <ArrowRight className="w-5 h-5" />
+                  Whitepaper <ArrowRight className="w-5 h-5" />
                 </Link>
               </div>
             </div>

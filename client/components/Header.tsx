@@ -50,15 +50,27 @@ export default function Header() {
           >
             Our Story
           </button>
+          <Link
+            to="/playground"
+            className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+          >
+            🎮 Try Simulator
+          </Link>
         </div>
 
-        {/* CTA Button - Desktop */}
-        <div className="hidden md:flex items-center gap-4">
+        {/* CTA Buttons - Desktop */}
+        <div className="hidden md:flex items-center gap-3">
+          <Link
+            to="/playground"
+            className="px-5 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-semibold hover:from-amber-600 hover:to-orange-600 transition-all shadow-md hover:shadow-lg"
+          >
+            🎮 Try Simulator
+          </Link>
           <Link
             to="/whitepaper"
-            className="px-6 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
+            className="px-5 py-2 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-colors"
           >
-            See how it works
+            Whitepaper
           </Link>
         </div>
 
@@ -101,11 +113,18 @@ export default function Header() {
               Our Story
             </button>
             <Link
+              to="/playground"
+              onClick={() => setIsMenuOpen(false)}
+              className="block w-full text-center px-4 py-3 mt-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-lg font-semibold hover:from-amber-600 hover:to-orange-600 transition-all shadow-md"
+            >
+              🎮 Try Simulator
+            </Link>
+            <Link
               to="/whitepaper"
               onClick={() => setIsMenuOpen(false)}
-              className="block w-full text-center px-4 py-2 mt-4 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
+              className="block w-full text-center px-4 py-2 mt-2 border border-border text-foreground rounded-lg font-medium hover:bg-secondary transition-colors"
             >
-              See how it works
+              Whitepaper
             </Link>
           </div>
         </div>
