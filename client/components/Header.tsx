@@ -1,134 +1,131 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+    if (location.pathname !== "/") {
+      window.location.href = `/#${id}`;
+      return;
+    }
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
       setIsMenuOpen(false);
     }
   };
 
+  const navLinks = [
+    { label: "Story", id: "story" },
+    { label: "How It Works", id: "how-it-works" },
+    { label: "Traction", id: "traction" },
+  ];
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        <Link
-          to="/"
-          onClick={() => scrollToSection("hero")}
-          className="flex items-center gap-2 font-bold text-xl text-primary"
-        >
-          <img src="/mock.png" alt="Tacto Logo" className="h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-300" />
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
+        scrolled
+          ? "bg-[#fafaf8]/90 backdrop-blur-xl border-b border-[#e4e2dd] shadow-[0_1px_6px_rgba(0,0,0,0.04)]"
+          : "bg-transparent"
+      }`}
+    >
+      <nav className="mx-auto max-w-7xl px-6 flex items-center justify-between h-16">
+        <Link to="/" className="flex items-center gap-2 group">
+          <img
+            src="/tacto-website-logo.png"
+            alt="Project TACTO"
+            className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+          />
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
-          <button
-            onClick={() => scrollToSection("problem")}
-            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-          >
-            The Problem
-          </button>
-          <button
-            onClick={() => scrollToSection("solution")}
-            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-          >
-            The Solution
-          </button>
-          <button
-            onClick={() => scrollToSection("how-it-works")}
-            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-          >
-            How It Works
-          </button>
-          <button
-            onClick={() => scrollToSection("story")}
-            className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-          >
-            Our Story
-          </button>
-          <Link
-            to="/playground"
-            className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-          >
-            Try Simulator
-          </Link>
-        </div>
-
-        {/* CTA Buttons - Desktop */}
-        <div className="hidden md:flex items-center gap-3">
-          <Link
-            to="/playground"
-            className="px-5 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all shadow-sm hover:shadow-md"
-          >
-            Try Simulator
-          </Link>
+          {navLinks.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => scrollToSection(link.id)}
+              className="text-[0.8125rem] font-medium text-[#6b6b63] hover:text-[#1a1a17] transition-colors duration-200"
+            >
+              {link.label}
+            </button>
+          ))}
           <Link
             to="/whitepaper"
-            className="px-5 py-2 text-foreground/80 hover:text-primary font-medium transition-colors"
+            className="text-[0.8125rem] font-medium text-[#6b6b63] hover:text-[#1a1a17] transition-colors duration-200"
           >
-            Whitepaper
+            Research
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
+        <div className="hidden md:flex items-center">
+          <Link
+            to="/playground"
+            className="text-[0.8125rem] font-semibold text-white bg-[#1a1a17] px-5 py-2 rounded-full hover:bg-[#333330] transition-all duration-200"
+          >
+            Try Playground
+          </Link>
+        </div>
+
+        {/* Mobile */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden p-2 text-foreground"
+          className="md:hidden p-2 text-[#1a1a17]"
           aria-label="Toggle menu"
         >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </nav>
 
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <div className="md:hidden border-t border-border bg-background">
-          <div className="px-4 py-4 space-y-3">
-            <button
-              onClick={() => scrollToSection("problem")}
-              className="block w-full text-left px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors"
-            >
-              The Problem
-            </button>
-            <button
-              onClick={() => scrollToSection("solution")}
-              className="block w-full text-left px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors"
-            >
-              The Solution
-            </button>
-            <button
-              onClick={() => scrollToSection("how-it-works")}
-              className="block w-full text-left px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors"
-            >
-              How It Works
-            </button>
-            <button
-              onClick={() => scrollToSection("story")}
-              className="block w-full text-left px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors"
-            >
-              Our Story
-            </button>
-            <Link
-              to="/playground"
-              onClick={() => setIsMenuOpen(false)}
-              className="block w-full text-center px-4 py-3 mt-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all"
-            >
-              Try Simulator
-            </Link>
-            <Link
-              to="/whitepaper"
-              onClick={() => setIsMenuOpen(false)}
-              className="block w-full text-center px-4 py-2 mt-2 text-foreground/70 hover:text-primary font-medium transition-colors"
-            >
-              Whitepaper
-            </Link>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: [0.25, 0.4, 0.25, 1] }}
+            className="md:hidden border-t border-[#e4e2dd] bg-[#fafaf8]/95 backdrop-blur-xl overflow-hidden"
+          >
+            <div className="px-6 py-6 space-y-1">
+              {navLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => scrollToSection(link.id)}
+                  className="block w-full text-left px-4 py-3 text-sm font-medium text-[#6b6b63] hover:text-[#1a1a17] hover:bg-[#f2f0ec] rounded-xl transition-colors"
+                >
+                  {link.label}
+                </button>
+              ))}
+              <Link
+                to="/whitepaper"
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full text-left px-4 py-3 text-sm font-medium text-[#6b6b63] hover:text-[#1a1a17] hover:bg-[#f2f0ec] rounded-xl transition-colors"
+              >
+                Research
+              </Link>
+              <div className="pt-3">
+                <Link
+                  to="/playground"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block text-center px-4 py-3 text-sm font-semibold bg-[#1a1a17] text-white rounded-xl"
+                >
+                  Try Playground
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

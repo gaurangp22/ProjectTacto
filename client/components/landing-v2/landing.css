@@ -1,0 +1,467 @@
+/* ═══════════════════════════════════════════════════════════════
+   TACTO V2 — "Warm Editorial Tactility"
+   
+   Design direction: Kinfolk magazine meets premium Montessori.
+   Warm, tangible, human. The page should feel like something
+   you could reach out and touch — mirroring the product itself.
+   
+   Typography: Instrument Serif × Satoshi
+   Palette: Warm cream, terracotta, deep teal, charcoal
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+/* ── Tokens ──────────────────────────────────────────────────── */
+:root {
+    --t-font-display: 'Instrument Serif', Georgia, serif;
+    --t-font-body: 'Satoshi', -apple-system, sans-serif;
+    --t-font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+    /* Warm palette */
+    --t-cream: #F5F0EA;
+    --t-cream-dark: #EDE6DC;
+    --t-sand: #D9CDBF;
+    --t-charcoal: #1C1917;
+    --t-charcoal-light: #292524;
+    --t-warm-gray: #78716C;
+    --t-warm-gray-light: #A8A29E;
+
+    /* Accents */
+    --t-coral: #D4552A;
+    --t-coral-light: #E8764F;
+    --t-teal: #115E59;
+    --t-teal-light: #0D9488;
+    --t-ochre: #CA8A04;
+    --t-plum: #7E22CE;
+
+    /* Functional */
+    --t-bg: var(--t-cream);
+    --t-text: var(--t-charcoal);
+    --t-text-muted: var(--t-warm-gray);
+    --t-border: rgba(28, 25, 23, 0.08);
+
+    /* Spacing scale */
+    --t-space-xs: 0.5rem;
+    --t-space-sm: 1rem;
+    --t-space-md: 2rem;
+    --t-space-lg: 4rem;
+    --t-space-xl: 6rem;
+    --t-space-2xl: 10rem;
+
+    /* Motion */
+    --t-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --t-ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --t-duration: 0.6s;
+}
+
+/* ── Reset & base ────────────────────────────────────────────── */
+.tacto-v2 {
+    font-family: var(--t-font-body);
+    font-weight: 400;
+    color: var(--t-text);
+    background: var(--t-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+}
+
+.tacto-v2 *,
+.tacto-v2 *::before,
+.tacto-v2 *::after {
+    box-sizing: border-box;
+}
+
+.tacto-v2 ::selection {
+    background: var(--t-coral);
+    color: white;
+}
+
+/* ── Typography scale ────────────────────────────────────────── */
+.t-display {
+    font-family: var(--t-font-display);
+    font-weight: 400;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--t-charcoal);
+}
+
+.t-h1 {
+    font-family: var(--t-font-display);
+    font-weight: 400;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+}
+
+.t-h2 {
+    font-family: var(--t-font-display);
+    font-weight: 400;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.t-h3 {
+    font-family: var(--t-font-body);
+    font-weight: 700;
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.t-body-lg {
+    font-size: 1.2rem;
+    line-height: 1.75;
+    color: var(--t-warm-gray);
+}
+
+.t-body {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--t-warm-gray);
+}
+
+.t-label {
+    font-family: var(--t-font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--t-warm-gray-light);
+}
+
+.t-serif-italic {
+    font-family: var(--t-font-display);
+    font-style: italic;
+}
+
+/* ── Layout ───────────────────────────────────────────────────── */
+.t-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 4vw, 3rem);
+}
+
+.t-section {
+    position: relative;
+    padding: var(--t-space-2xl) 0;
+}
+
+/* ── Grain texture overlay ────────────────────────────────────── */
+.t-grain::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+}
+
+/* ── Decorative border (editorial feel) ──────────────────────── */
+.t-rule {
+    width: 100%;
+    height: 1px;
+    background: var(--t-border);
+    border: none;
+}
+
+.t-rule-accent {
+    width: 48px;
+    height: 2px;
+    background: var(--t-coral);
+    border: none;
+}
+
+/* ── Badge / chip ─────────────────────────────────────────────── */
+.t-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 100px;
+    border: 1px solid var(--t-border);
+    background: white;
+    font-family: var(--t-font-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--t-warm-gray);
+}
+
+.t-chip-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--t-coral);
+}
+
+/* ── Buttons ──────────────────────────────────────────────────── */
+.t-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem 2rem;
+    border-radius: 100px;
+    font-family: var(--t-font-body);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.4s var(--t-ease);
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.t-btn-dark {
+    background: var(--t-charcoal);
+    color: var(--t-cream);
+}
+
+.t-btn-dark:hover {
+    background: var(--t-charcoal-light);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(28, 25, 23, 0.2);
+}
+
+.t-btn-outline {
+    background: transparent;
+    color: var(--t-charcoal);
+    border: 1.5px solid var(--t-charcoal);
+}
+
+.t-btn-outline:hover {
+    background: var(--t-charcoal);
+    color: var(--t-cream);
+    transform: translateY(-2px);
+}
+
+.t-btn-coral {
+    background: var(--t-coral);
+    color: white;
+}
+
+.t-btn-coral:hover {
+    background: var(--t-coral-light);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(212, 85, 42, 0.25);
+}
+
+/* Arrow animation on hover */
+.t-btn svg {
+    transition: transform 0.3s var(--t-ease);
+}
+
+.t-btn:hover svg {
+    transform: translateX(4px);
+}
+
+/* ── Cards ────────────────────────────────────────────────────── */
+.t-card {
+    position: relative;
+    padding: 2.5rem;
+    border-radius: 1.25rem;
+    background: white;
+    border: 1px solid var(--t-border);
+    transition: all 0.5s var(--t-ease);
+    overflow: hidden;
+}
+
+.t-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 20px 60px rgba(28, 25, 23, 0.06),
+        0 1px 3px rgba(28, 25, 23, 0.04);
+    border-color: transparent;
+}
+
+.t-card-dark {
+    background: var(--t-charcoal);
+    color: var(--t-cream);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+.t-card-dark:hover {
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.t-card-dark .t-body,
+.t-card-dark .t-body-lg {
+    color: rgba(245, 240, 234, 0.5);
+}
+
+/* ── Icon container ───────────────────────────────────────────── */
+.t-icon-box {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    transition: all 0.4s var(--t-ease);
+}
+
+/* ── Number / stat ────────────────────────────────────────────── */
+.t-stat-value {
+    font-family: var(--t-font-display);
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+/* ── Marquee ──────────────────────────────────────────────────── */
+@keyframes t-marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.t-marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: t-marquee var(--t-marquee-speed, 35s) linear infinite;
+    width: max-content;
+    will-change: transform;
+}
+
+.t-marquee-track:hover {
+    animation-play-state: paused;
+}
+
+/* ── Step number ──────────────────────────────────────────────── */
+.t-step-num {
+    font-family: var(--t-font-display);
+    font-size: 6rem;
+    line-height: 1;
+    color: rgba(28, 25, 23, 0.04);
+    position: absolute;
+    top: -0.5rem;
+    right: 1.5rem;
+    pointer-events: none;
+    transition: color 0.4s var(--t-ease);
+}
+
+.t-card:hover .t-step-num {
+    color: rgba(212, 85, 42, 0.1);
+}
+
+/* ── Organic blob shapes ──────────────────────────────────────── */
+.t-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.t-blob-coral {
+    background: var(--t-coral);
+    opacity: 0.06;
+}
+
+.t-blob-teal {
+    background: var(--t-teal-light);
+    opacity: 0.05;
+}
+
+.t-blob-ochre {
+    background: var(--t-ochre);
+    opacity: 0.05;
+}
+
+/* ── Asymmetric editorial grid helper ─────────────────────────── */
+.t-grid-editorial {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+.t-grid-editorial.reverse {
+    direction: rtl;
+}
+
+.t-grid-editorial.reverse>* {
+    direction: ltr;
+}
+
+@media (max-width: 768px) {
+    .t-grid-editorial {
+        grid-template-columns: 1fr;
+    }
+
+    .t-grid-editorial.reverse {
+        direction: ltr;
+    }
+}
+
+/* ── Scroll-triggered fade ─────────────────────────────────────── */
+.t-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s var(--t-ease);
+}
+
+.t-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Custom scrollbar ─────────────────────────────────────────── */
+.tacto-v2::-webkit-scrollbar {
+    width: 5px;
+}
+
+.tacto-v2::-webkit-scrollbar-track {
+    background: var(--t-cream);
+}
+
+.tacto-v2::-webkit-scrollbar-thumb {
+    background: var(--t-sand);
+    border-radius: 10px;
+}
+
+.tacto-v2::-webkit-scrollbar-thumb:hover {
+    background: var(--t-warm-gray-light);
+}
+
+/* ── Dark section variant ─────────────────────────────────────── */
+.t-section-dark {
+    background: var(--t-charcoal);
+    color: var(--t-cream);
+}
+
+.t-section-dark .t-body,
+.t-section-dark .t-body-lg {
+    color: rgba(245, 240, 234, 0.5);
+}
+
+.t-section-dark .t-label {
+    color: rgba(245, 240, 234, 0.3);
+}
+
+/* ── Responsive polish ────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .t-section {
+        padding: var(--t-space-xl) 0;
+    }
+
+    .t-card {
+        padding: 1.75rem;
+    }
+}

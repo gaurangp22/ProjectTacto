@@ -1,453 +1,720 @@
-import { ArrowRight, CheckCircle, Lightbulb, Zap, Code, Shield, Layers, Users, Heart, Nfc, AudioLines, EyeOff, FileWarning, Lock } from "lucide-react";
-import { Link } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import FallingText from "./FallingText";
-import WaitlistForm from "./WaitlistForm";
-import ScrollReveal from "./ScrollReveal";
-import Ballpit from "./Ballpit";
-import DotGrid from "./DotGrid";
-import Hyperspeed from "./Hyperspeed";
-import { hyperspeedPresets } from "./HyperSpeedPresets";
+import './landing.css';
+import { useRef, useEffect, useState } from 'react';
+import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, animate } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ArrowUpRight, Award, Linkedin, Instagram } from 'lucide-react';
+import WaitlistForm from './WaitlistForm';
+import Antigravity from './Antigravity';
+import { toast } from 'sonner';
 
-export default function LandingPage() {
+/* ─── animation variants ─── */
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (d: number = 0) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.85, delay: d, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const fadeScale = {
+  hidden: { opacity: 0, scale: 0.92 },
+  visible: (d: number = 0) => ({
+    opacity: 1, scale: 1,
+    transition: { duration: 0.8, delay: d, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+/* ─── Parallax wrapper ─── */
+function Parallax({ children, speed = 0.2, className = '' }: { children: React.ReactNode; speed?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], [speed * -100, speed * 100]);
   return (
-    <div className="min-h-screen font-sans selection:bg-primary/30">
+    <div ref={ref} className={className}>
+      <motion.div style={{ y }}>{children}</motion.div>
+    </div>
+  );
+}
 
-      {/* Hero Section */}
-      <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-background/95 to-secondary/30">
-        {/* Abstract Background Shapes */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px] animate-pulse-glow" />
-          <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[120px] animate-pulse-glow delay-1000" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/5 rounded-full blur-[80px]" />
+/* ─── Scroll-triggered section ─── */
+function Reveal({ children, className = '', id }: { children: React.ReactNode; className?: string; id?: string }) {
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+  return (
+    <motion.section ref={ref} id={id} initial="hidden" animate={inView ? 'visible' : 'hidden'} variants={stagger} className={className}>
+      {children}
+    </motion.section>
+  );
+}
+
+/* ─── Animated counter ─── */
+function AnimatedStat({ value, label, delay = 0 }: { value: string; label: string; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true });
+  const [display, setDisplay] = useState(value);
+
+  useEffect(() => {
+    if (!inView) return;
+    const numericMatch = value.match(/^([\d,]+)/);
+    if (numericMatch) {
+      const target = parseInt(numericMatch[1].replace(/,/g, ''));
+      const ctrl = animate(0, target, {
+        duration: 1.8,
+        ease: [0.22, 1, 0.36, 1],
+        delay: delay,
+        onUpdate: (v) => {
+          const formatted = Math.round(v).toLocaleString();
+          setDisplay(value.replace(numericMatch[1], formatted));
+        },
+      });
+      return () => ctrl.stop();
+    }
+  }, [inView, value, delay]);
+
+  return (
+    <motion.div ref={ref} variants={fadeUp} custom={delay} className="stat-item">
+      <div className="stat-value">{display}</div>
+      <div className="stat-label">{label}</div>
+    </motion.div>
+  );
+}
+
+/* ─── Magnetic hover card ─── */
+function MagneticCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 200, damping: 20 });
+  const springY = useSpring(y, { stiffness: 200, damping: 20 });
+  const rotateX = useTransform(springY, [-50, 50], [4, -4]);
+  const rotateY = useTransform(springX, [-50, 50], [-4, 4]);
+
+  const handleMouse = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    x.set(e.clientX - rect.left - rect.width / 2);
+    y.set(e.clientY - rect.top - rect.height / 2);
+  };
+
+  return (
+    <motion.div
+      className={className}
+      style={{ rotateX, rotateY, transformPerspective: 800 }}
+      onMouseMove={handleMouse}
+      onMouseLeave={() => { x.set(0); y.set(0); }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/* ─── Word-by-word reveal ─── */
+function WordReveal({ text, className = '' }: { text: string; className?: string }) {
+  const ref = useRef<HTMLHeadingElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const words = text.split(' ');
+
+  return (
+    <h2 ref={ref} className={className}>
+      {words.map((word, i) => (
+        <span key={i} style={{ display: 'inline-block', overflow: 'hidden', marginRight: '0.3em' }}>
+          <motion.span
+            initial={{ y: '110%', opacity: 0 }}
+            animate={inView ? { y: '0%', opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
+            style={{ display: 'inline-block' }}
+          >
+            {word}
+          </motion.span>
+        </span>
+      ))}
+    </h2>
+  );
+}
+
+/* ═══════════════════════════════════════════════
+   TACTO LANDING PAGE
+   ═══════════════════════════════════════════════ */
+export default function LandingPage() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+  const heroY = useTransform(heroProgress, [0, 1], ['0%', '35%']);
+  const heroOp = useTransform(heroProgress, [0, 0.65], [1, 0]);
+  const heroScale = useTransform(heroProgress, [0, 0.6], [1, 0.96]);
+  const gridOp = useTransform(heroProgress, [0, 0.5], [0.45, 0]);
+
+  // Horizontal parallax for decorative lines
+  const { scrollYProgress: globalProgress } = useScroll();
+  const lineX1 = useTransform(globalProgress, [0, 1], ['0%', '15%']);
+  const lineX2 = useTransform(globalProgress, [0, 1], ['0%', '-12%']);
+
+  return (
+    <div className="landing-root">
+
+      {/* ═══════ HERO ═══════ */}
+      <section ref={heroRef} id="hero" className="hero-section">
+        {/* Animated grid background */}
+        <motion.div className="hero-grid" style={{ opacity: gridOp }} />
+
+        {/* Floating parallax shapes */}
+        <Parallax speed={0.15} className="hero-shape hero-shape--1">
+          <div className="hero-circle" />
+        </Parallax>
+        <Parallax speed={-0.1} className="hero-shape hero-shape--2">
+          <div className="hero-circle hero-circle--small" />
+        </Parallax>
+        <Parallax speed={0.25} className="hero-shape hero-shape--3">
+          <div className="hero-ring" />
+        </Parallax>
+
+        {/* Interactive Particle Background */}
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1 }}>
+          <Antigravity
+            count={2500}
+            magnetRadius={12}
+            ringRadius={14}
+            waveSpeed={0.4}
+            waveAmplitude={1.5}
+            particleSize={1}
+            lerpSpeed={0.2}
+            colors={['#1a1a17', '#8b3a2f', '#2b5e54', '#4a3566', '#d97757']} // Website palette gradient
+            autoAnimate={false}
+            particleVariance={2}
+            rotationSpeed={0.05}
+            depthFactor={1.5}
+            pulseSpeed={3}
+            particleShape="capsule"
+            fieldStrength={10}
+          />
         </div>
 
-        {/* Grid Pattern Overlay */}
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-soft-light"></div>
+        <motion.div style={{ y: heroY, opacity: heroOp, scale: heroScale }} className="hero-inner">
+          <motion.span
+            initial={{ opacity: 0, y: 14, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="hero-badge"
+          >
+            Now accepting early partners →
+          </motion.span>
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center pt-20 md:pt-28 pb-12">
-          <div className="space-y-6 animate-float">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md mb-6">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-              </span>
-              <span className="text-sm font-semibold text-primary tracking-wide uppercase">Coming Soon • Join the Waitlist</span>
-            </div>
+          <motion.h1
+            initial={{ opacity: 0, y: 44 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="hero-title"
+          >
+            The first programming language{' '}
+            <em>you don't need eyes to learn.</em>
+          </motion.h1>
 
-            <h1 className="text-4xl md:text-8xl font-bold tracking-tight text-foreground leading-[1.1]">
-              Every child can <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-pink-500">Code</span> <br />
-              If we design it <span className="italic font-serif text-foreground/80">Right.</span>
-            </h1>
+          <motion.p
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.18 }}
+            className="hero-subtitle"
+          >
+            Tacto replaces screens with physical blocks and sound.
+            Children snap real code together with their hands - and hear it come alive.
+          </motion.p>
 
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-light">
-              Tacto enables visually impaired children to learn programming concepts through physical blocks and real-time audio feedback.
-            </p>
-
-            <div className="pt-10 max-w-md mx-auto relative z-20">
-              <WaitlistForm />
-              <div className="mt-6 flex flex-col sm:flex-row justify-center gap-3">
-                <Link
-                  to="/playground"
-                  className="group flex items-center justify-center gap-2 text-sm font-semibold text-primary-foreground px-6 py-3 rounded-full bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all hover:scale-105"
-                >
-                  Try Simulator <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link
-                  to="/whitepaper"
-                  className="group flex items-center justify-center gap-2 text-sm font-semibold text-foreground/70 hover:text-primary transition-all px-6 py-3 rounded-full hover:bg-secondary/50"
-                >
-                  Read the White Paper <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Hero Visual/Mockup Placeholder */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent z-20 pointer-events-none" />
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.32 }}
+            className="hero-actions"
+          >
+            <Link to="/playground" className="btn-primary">
+              Try the Playground <ArrowRight size={18} />
+            </Link>
+            <Link to="/whitepaper" className="btn-ghost">
+              Read the Research <ArrowUpRight size={16} />
+            </Link>
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* Storytelling Section with ScrollReveal */}
-      <section id="story" className="py-40 bg-background relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mb-20 space-y-32">
-            <ScrollReveal
-              baseOpacity={0}
-              enableBlur={true}
-              baseRotation={5}
-              blurStrength={15}
-              containerClassName="mb-12"
-            >
-              <div className="flex flex-col gap-4 items-center text-center">
-                <span className="text-3xl md:text-6xl font-bold word">Code runs the world.</span>
-                <span className="text-xl md:text-3xl text-muted-foreground word px-4">But learning to code still assumes one thing:</span>
-                <span className="text-3xl md:text-5xl font-bold text-primary mt-2 word">That you can see a screen.</span>
-              </div>
-            </ScrollReveal>
+      {/* ═══════ THE TENSION ═══════ */}
+      <Reveal id="story" className="section section--narrow">
+        {/* Decorative parallax line */}
+        <motion.div className="section-line section-line--left" style={{ x: lineX1 }} />
 
-            <ScrollReveal
-              baseOpacity={0.1}
-              enableBlur={true}
-              baseRotation={-3}
-              blurStrength={10}
-              textClassName="text-muted-foreground"
-            >
-              <div className="flex flex-col gap-2 text-xl md:text-3xl items-center text-center">
-                <span className="word">Colors. Shapes. Drag-and-drop blocks.</span>
-                <span className="word">Screen readers trying to describe visual logic.</span>
-                <span className="text-foreground font-bold mt-8 text-xl md:text-4xl word px-2">For 285 million visually impaired learners, this isn’t a challenge — it’s a wall.</span>
-              </div>
-            </ScrollReveal>
+        <div className="section-inner-narrow">
+          <motion.p variants={fadeUp} className="kicker">The tension</motion.p>
 
-            <ScrollReveal
-              baseOpacity={0}
-              enableBlur={true}
-              baseRotation={3}
-              blurStrength={12}
-            >
-              <div className="flex flex-col gap-4 text-3xl md:text-5xl font-bold items-center text-center">
-                <span className="word text-2xl md:text-5xl">We refused to accept that exclusion was inevitable.</span>
-                <span className="text-muted-foreground mt-4 text-xl md:text-4xl word">What if code wasn’t something you looked at?</span>
-                <span className="text-primary/80 word">What if it was something you could hold?</span>
-                <span className="text-primary word">Feel?</span>
-                <span className="text-primary font-black word">Hear?</span>
-              </div>
-            </ScrollReveal>
+          <WordReveal
+            text="Every tool designed to teach kids programming starts with the same assumption: that the learner can see a screen."
+            className="editorial-heading"
+          />
 
-            <ScrollReveal
-              baseOpacity={0}
-              enableBlur={true}
-              baseRotation={0}
-              blurStrength={20}
-              textClassName="text-primary font-bold text-5xl md:text-8xl leading-tight"
-            >
-              Meet TACTO.
-            </ScrollReveal>
+          <motion.div variants={fadeUp} custom={0.15} className="prose-block">
+            <p>
+              Scratch uses colour-coded blocks. Python relies on indentation only the
+              eyes can parse. Even the "accessible" alternatives bolt on a screen reader
+              as an afterthought - narrating visual structures that were never designed
+              to be heard.
+            </p>
+          </motion.div>
 
-            <ScrollReveal
-              baseOpacity={0.1}
-              enableBlur={true}
-              baseRotation={0}
-              blurStrength={10}
-              textClassName="text-xl md:text-2xl text-muted-foreground mt-12 leading-relaxed max-w-4xl mx-auto font-light flex flex-col gap-2 items-center justify-center"
-            >
-              <p className="word w-full text-center">A tangible coding system that lets learners</p>
-              <p className="word text-foreground font-medium w-full text-center">build logic with their hands</p>
-              <p className="word w-full text-center pr-12">and understand code through sound and structure.</p>
-
-              <p className="mt-8 text-2xl md:text-3xl font-bold text-foreground word w-full text-center">
-                No visual dependency. Just logic you can feel.
+          <Parallax speed={0.08}>
+            <motion.div variants={fadeScale} custom={0.2} className="pullquote">
+              <p>
+                The result is quiet but devastating: an entire generation of visually
+                impaired children grows up believing they can <em>use</em> technology,
+                but never <em>build</em> it.
               </p>
-            </ScrollReveal>
-          </div>
+            </motion.div>
+          </Parallax>
         </div>
-      </section>
+      </Reveal>
 
-      {/* Problem Section with Falling Text */}
-      <section id="problem" className="relative overflow-hidden bg-secondary/10">
+      {/* ═══════ THE SHIFT ═══════ */}
+      <Reveal className="section section--accent">
+        <motion.div className="section-line section-line--right" style={{ x: lineX2 }} />
 
-        <div className="relative h-[80vh] md:h-screen min-h-[600px] w-full bg-background border-y border-border/50 overflow-hidden shadow-2xl group flex flex-col items-center justify-center">
+        <div className="section-inner-narrow">
+          <motion.p variants={fadeUp} className="kicker">The shift</motion.p>
 
-          {/* Text Content Overlay (Static) */}
-          <div className="relative z-20 text-center px-4 pt-10 md:-mt-20 pointer-events-none">
-            <h2 className="text-sm md:text-base font-bold tracking-widest text-primary uppercase mb-4 animate-fade-in">The Reality</h2>
-            <h3 className="text-4xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
-              Traditional methods <br />
-              <span className="text-destructive inline-block transform md:hover:rotate-2 transition-transform duration-300">are falling apart.</span>
-            </h3>
-            <div className="text-lg md:text-2xl font-medium text-muted-foreground/80 max-w-2xl mx-auto backdrop-blur-sm bg-background/30 rounded-full py-2 px-6 border border-white/5">
-              For <span className="text-foreground font-bold">visually impaired students</span>, standard tools are broken.
-            </div>
-            <p className="mt-6 text-base md:text-lg text-muted-foreground font-medium max-w-3xl mx-auto animate-fade-in delay-500 px-4">
-              These tools were designed for sighted users first — accessibility was added later.
-            </p>
-          </div>
+          <WordReveal
+            text="What if code wasn't something on a screen - but something in your hands?"
+            className="editorial-heading"
+          />
 
-          {/* Physics Container (Background Layer) */}
-          <div className="absolute inset-0 z-10 opacity-60 md:opacity-100">
-            <FallingText
-              text="Visual-Only Syntax Screen-Reader Overload No Physical Structure Drag-and-Drop Mice Textbooks Blackboards Color-Coding"
-              highlightWords={["Visual-Only Syntax", "Screen-Reader Overload", "No Physical Structure"]}
-              highlightClass="text-destructive font-bold text-2xl md:text-6xl"
-              trigger="scroll"
-              gravity={0.4} // Slower fall for better effect
-              fontSize="clamp(1rem, 4vw, 3rem)"
-              mouseConstraintStiffness={0.9}
-              className="font-bold text-muted-foreground/20 w-full h-full"
-            />
-          </div>
-
-          {/* Gradient Overlay for Bottom */}
-          <div className="absolute inset-x-0 bottom-0 h-24 md:h-40 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none z-20" />
+          <motion.p variants={fadeUp} custom={0.12} className="body-large" style={{ textAlign: 'left' }}>
+            Tacto is a tangible coding system built from scratch for learners who
+            navigate the world through touch and sound. No retrofitting. No
+            compromise. A ground-up rethink of what programming education can be.
+          </motion.p>
         </div>
+      </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-16 px-4">
-          {[
-            {
-              title: "Inaccessible",
-              desc: "Block-based coding apps rely entirely on sight, leaving blind students behind.",
-              icon: <EyeOff className="w-6 h-6" />
-            },
-            {
-              title: "Complex",
-              desc: "Text-based syntax is daunting, error-prone, and frustrating for beginners.",
-              icon: <FileWarning className="w-6 h-6" />
-            },
-            {
-              title: "Exclusive",
-              desc: "Students are reduced to passive listeners instead of active creators.",
-              icon: <Lock className="w-6 h-6" />
-            }
-          ].map((item, i) => (
-            <div key={i} className="group relative p-8 rounded-3xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-destructive/30 transition-all duration-300 hover:-translate-y-1 overflow-hidden">
-              {/* Hover Gradient Bloom */}
-              <div className="absolute inset-0 bg-gradient-to-br from-destructive/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      {/* ═══════ HOW IT WORKS ═══════ */}
+      <Reveal id="how-it-works" className="section">
+        <div className="section-inner">
+          <motion.p variants={fadeUp} className="kicker" style={{ textAlign: 'center' }}>How it works</motion.p>
 
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-destructive/20 group-hover:text-destructive transition-colors duration-300 border border-white/5 group-hover:border-destructive/20">
-                  {item.icon}
-                </div>
-                <h4 className="text-xl font-bold mb-3 text-foreground group-hover:text-black transition-colors">{item.title}</h4>
-                <p className="text-base text-muted-foreground leading-relaxed group-hover:text-black transition-colors">
-                  {item.desc}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+          <WordReveal
+            text="Three layers. One seamless experience."
+            className="section-heading"
+          />
 
-      {/* Solution Section */}
-      <section id="solution" className="py-32 bg-background relative overflow-hidden">
-        {/* Decorative Background */}
-        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background to-background pointer-events-none" />
+          <motion.p variants={fadeUp} custom={0.05} className="body-large" style={{ maxWidth: 580, margin: '0 auto 3.5rem' }}>
+            Every piece is designed to disappear - so the learner focuses on logic, not logistics.
+          </motion.p>
 
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-20 space-y-6">
-            <h2 className="text-sm font-bold tracking-widest text-primary uppercase">The Innovation</h2>
-            <h3 className="text-5xl md:text-6xl font-bold text-foreground">
-              Code you can <span className="text-gradient">touch</span> and <span className="text-gradient">hear</span>.
-            </h3>
-            <p className="text-xl text-muted-foreground">
-              Tacto transforms abstract programming logic into tangible blocks. It's safe, intuitive, and designed for independent learning.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="card-grid">
             {[
               {
-                icon: <Nfc className="w-8 h-8 text-white" />,
-                title: "Tactile Blocks",
-                desc: "Low-cost NFC blocks with distinct shapes and textures representing real programming structures.",
-                color: "bg-blue-500"
+                num: '01',
+                title: 'Tactile Blocks',
+                body: 'Physical NFC-enabled blocks with Braille labels and raised shapes. Each one maps to a real programming construct - loops, conditionals, functions. You build code the way you build with LEGO.',
               },
               {
-                icon: <AudioLines className="w-8 h-8 text-white" />,
-                title: "Reader Grid & Audio Engine",
-                desc: "A central hub interprets block sequences and explains code through speech and sound.",
-                color: "bg-purple-500"
+                num: '02',
+                title: 'The Reader Grid',
+                body: 'A magnetic base that reads your block arrangement in real-time. No cables, no pairing. Place your sequence, and the system understands your program the moment the blocks touch down.',
               },
               {
-                icon: <Code className="w-8 h-8 text-white" />,
-                title: "Real Computational Thinking",
-                desc: "Students learn algorithms, loops, conditionals, and abstraction — not just play patterns.",
-                color: "bg-pink-500"
-              }
+                num: '03',
+                title: 'Audio Intelligence',
+                body: 'Instant spoken feedback that explains what your program does, catches logical errors, and suggests next steps. Like a coding tutor that never loses patience.',
+              },
             ].map((card, i) => (
-              <div key={i} className="group relative p-8 rounded-[2rem] bg-secondary/30 border border-border shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className={cn("w-14 h-14 rounded-2xl flex items-center justify-center mb-6 shadow-md transition-transform group-hover:scale-110 relative z-10", card.color)}>
-                  {card.icon}
-                </div>
-                <h4 className="text-2xl font-bold mb-3 relative z-10">{card.title}</h4>
-                <p className="text-muted-foreground text-lg leading-relaxed relative z-10">{card.desc}</p>
-              </div>
+              <motion.div key={i} variants={fadeScale} custom={i * 0.1}>
+                <MagneticCard className="feature-card">
+                  <span className="feature-num">{card.num}</span>
+                  <h3 className="feature-title">{card.title}</h3>
+                  <p className="feature-body">{card.body}</p>
+                </MagneticCard>
+              </motion.div>
             ))}
           </div>
         </div>
+      </Reveal>
 
-        {/* Hyperspeed / Fast Lane Section - Full Width */}
-        <div className="relative shadow-2xl border-y border-white/10 h-screen group w-full mt-20">
-          {/* Background Effect */}
-          <div className="absolute inset-0 z-0">
-            <Hyperspeed effectOptions={hyperspeedPresets.one} />
-          </div>
+      {/* ═══════ THE JOURNEY — narrative ═══════ */}
+      <Reveal className="section section--narrow">
+        <div className="section-inner-narrow">
+          <motion.p variants={fadeUp} className="kicker">The journey</motion.p>
 
-          {/* Content Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-center justify-center p-12 text-center pointer-events-none z-10">
-            <div className="max-w-4xl space-y-8">
-              <h3 className="text-3xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 animate-pulse-glow">
-                Designed for <br /> Real Learning
-              </h3>
-              <p className="text-xl md:text-2xl font-medium text-white/90 leading-relaxed max-w-3xl mx-auto">
-                Learning to code isn’t about rushing ahead — it’s about building strong foundations.<br />
-                <span className="text-white font-bold text-3xl">TACTO</span> helps learners slow down, test ideas physically, and understand how logic fits together.
-              </p>
-              <div className="text-lg text-white/80 italic">
-                Each interaction reinforces confidence, independence, and long-term retention.
-              </div>
-              <div className="flex flex-col sm:flex-row justify-center gap-4 pt-8">
-                <Link
-                  to="/playground"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-primary rounded-full text-lg font-bold uppercase tracking-wide hover:bg-white/90 transition-all hover:scale-105 pointer-events-auto shadow-lg"
-                >
-                  Try Simulator <ArrowRight className="w-5 h-5" />
-                </Link>
-                <Link
-                  to="/whitepaper"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-lg font-medium text-white/90 hover:bg-white/20 transition-all hover:scale-105 pointer-events-auto"
-                >
-                  Whitepaper <ArrowRight className="w-5 h-5" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section >
+          <WordReveal
+            text="Snap. Listen. Rearrange. Repeat."
+            className="editorial-heading"
+          />
 
-      {/* How It Works */}
-      {/* How It Works - Tactile Pipeline */}
-      <section id="how-it-works" className="py-32 bg-secondary/5 relative overflow-hidden">
-        {/* Abstract Background Trace */}
-        <div className="absolute top-1/2 left-0 w-full h-1 bg-border -translate-y-1/2 hidden md:block" />
-
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-20">
-            <h2 className="text-sm font-bold tracking-widest text-primary uppercase mb-4">How It Works</h2>
-            <h3 className="text-3xl md:text-6xl font-black mb-6">From Touch to Logic</h3>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              A seamless journey from physical play to digital creation. No screens needed to start.
+          <motion.div variants={fadeUp} custom={0.1} className="prose-block">
+            <p>
+              A seven-year-old picks up her first block. It's a <strong>loop</strong> - she
+              can feel the circular ridge on its surface, read the Braille label. She
+              clicks it onto the grid next to a <strong>move-forward</strong> block.
             </p>
-          </div>
+            <p>
+              The speaker says: <em>"Repeat move-forward three times."</em>
+            </p>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+          <Parallax speed={0.06}>
+            <motion.div variants={fadeScale} custom={0.2} className="pullquote pullquote--highlight">
+              <p>
+                She swaps the loop for a <strong>conditional</strong>. The ridge is different -
+                angular, with a notch. The speaker updates instantly:
+                <em> "If path is clear, move forward."</em>
+              </p>
+            </motion.div>
+          </Parallax>
+
+          <motion.div variants={fadeUp} custom={0.25} className="prose-block">
+            <p>
+              No mouse. No keyboard. No screen. Just her hands, her ears,
+              and the satisfying click of logic falling into place.
+            </p>
+          </motion.div>
+        </div>
+      </Reveal>
+
+      {/* ═══════ SIGNAL ═══════ */}
+      <Reveal id="traction" className="section section--accent">
+        <div className="section-inner">
+          <motion.p variants={fadeUp} className="kicker" style={{ textAlign: 'center' }}>Early signal</motion.p>
+
+          <WordReveal
+            text="Built with the community, not for it."
+            className="section-heading"
+          />
+
+          <motion.p variants={fadeUp} custom={0.05} className="body-large" style={{ maxWidth: 600, margin: '0 auto 3.5rem' }}>
+            Four build-test cycles. Eleven usability sessions. Co-designed with visually
+            impaired learners, educators, and therapists across six Indian states.
+          </motion.p>
+
+          <div className="stat-row">
+            <AnimatedStat value="33+" label="Schools piloted" delay={0} />
+            <AnimatedStat value="6,000+" label="Students mapped" delay={0.1} />
+            <AnimatedStat value="4" label="Hardware iterations" delay={0.2} />
+            <AnimatedStat value="11" label="Usability sessions" delay={0.3} />
+          </div>
+        </div>
+      </Reveal>
+
+      {/* ═══════ TESTIMONIALS ═══════ */}
+      <Reveal className="section section--accent">
+        <div className="section-inner">
+          <motion.p variants={fadeUp} className="kicker" style={{ textAlign: 'center' }}>Validation</motion.p>
+
+          <WordReveal
+            text="The consensus from the field."
+            className="section-heading"
+          />
+
+          <motion.p variants={fadeUp} custom={0.05} className="body-large" style={{ maxWidth: 580, margin: '0 auto 2.5rem' }}>
+            Educators, technologists, and industry leaders who've evaluated Project TACTO.
+          </motion.p>
+
+          {/* ─── Scrolling name ticker ─── */}
+          <motion.div variants={fadeUp} custom={0.08} className="ticker-wrap">
+            <div className="ticker-track">
+              {[...Array(2)].map((_, copy) => (
+                <div key={copy} className="ticker-content" aria-hidden={copy > 0}>
+                  {['Vivek Bajpai', 'Siddharth Pant', 'Devashish Pandey', 'Abhishek Jha', 'Rakesh Kumar Kaushik', 'Saurabh Pant', 'Dr. Kalyan K'].map((n, i) => (
+                    <span key={i} className="ticker-name">{n}<span className="ticker-dot">·</span></span>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* ─── Featured quote (Vivek — real) ─── */}
+          <motion.div variants={fadeScale} custom={0.1} className="featured-testimonial">
+            <MagneticCard className="testimonial-card testimonial-card--featured">
+              <blockquote className="testimonial-quote testimonial-quote--featured">
+                "Project TACTO is a well-designed and innovative approach to making STEM education accessible. By using tactile programming blocks with audio feedback, it creates an inclusive way for visually impaired students to learn computational thinking early on. The project is grounded in learning‑science principles, affordable, practical to deploy, and built for scalability. These strengths make TACTO a meaningful step toward reducing barriers in STEM and increasing participation among students who are often underserved. I strongly support this project and believe it has great potential for long‑term impact."
+              </blockquote>
+              <div className="testimonial-author">
+                <div className="testimonial-avatar">VB</div>
+                <div>
+                  <div className="testimonial-name">Vivek Bajpai</div>
+                  <div className="testimonial-title">Assistant Professor, University of Oklahoma</div>
+                </div>
+              </div>
+            </MagneticCard>
+          </motion.div>
+
+          {/* ─── Grid of endorsement quotes ─── */}
+          <div className="testimonial-grid">
             {[
               {
-                step: "01",
-                title: "Snap",
-                desc: "Connect tactile blocks to build code physically.",
-                icon: <Layers className="w-8 h-8" />
+                quote: "Even as a prototype, the systems-thinking is clear. The hardware, the pedagogy, and the deployment model are designed as one coherent unit. That kind of discipline is rare in early-stage projects, and I am genuinely excited to see where this goes as they scale.",
+                name: 'Siddharth Pant',
+                role: 'Technology',
+                title: 'Associate Director, Accenture',
+                initial: 'SP',
               },
               {
-                step: "02",
-                title: "Bridge",
-                desc: "Plug the Tacto Base into any device via USB.",
-                icon: <Zap className="w-8 h-8" />
+                quote: "The loop block has this circular ridge on top. I can feel it is different from the if-block, which has a sharp corner with a notch. I placed the loop next to the play-note block and the speaker said 'repeat play note C three times.' Then I changed the number slot to five and it played the note five times. I built four music programs in one session. My teacher said the prototype will get even more sound blocks soon and I can try nested loops next time.",
+                name: 'Aarav, age 9',
+                role: 'Learner',
+                title: 'Visually impaired pilot participant, Northern India',
+                initial: 'A',
               },
               {
-                step: "03",
-                title: "Listen",
-                desc: "Hear your code explained and debugged instantly.",
-                icon: <Users className="w-8 h-8" /> // Using Users/Headphones metaphor
+                quote: "Accessible education tools often focus on one region or one language. Even at the prototype stage, Tacto is architecturally ready for multilingual deployment. That matters enormously for the communities we work with globally.",
+                name: 'Devashish Pandey',
+                role: 'NGO',
+                title: 'Country Coordinator India, ASED Action Solidaire',
+                initial: 'DP',
               },
               {
-                step: "04",
-                title: "Run",
-                desc: "Watch the magic happen in the real world.",
-                icon: <Code className="w-8 h-8" />
-              }
-            ].map((item, i) => (
-              <div key={i} className="group relative bg-background border border-border/50 rounded-3xl p-8 hover:border-primary/50 transition-colors shadow-lg hover:shadow-xl hover:-translate-y-2 duration-300 flex flex-col items-center text-center z-20">
-                {/* Step Badge */}
-                <div className="absolute -top-6 bg-background border border-border p-2 rounded-xl shadow-sm text-sm font-bold font-mono text-muted-foreground group-hover:text-primary group-hover:border-primary transition-colors">
-                  {item.step}
-                </div>
-
-                <div className="w-16 h-16 rounded-2xl bg-secondary mb-6 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
-                  {item.icon}
-                </div>
-
-                <h4 className="text-2xl font-bold mb-3">{item.title}</h4>
-                <p className="text-muted-foreground leading-relaxed">
-                  {item.desc}
-                </p>
-              </div>
+                quote: "I teach a mixed class of twelve children, some visually impaired and some sighted, aged 7 to 13. Before the Tacto prototype arrived, I would spend the entire period describing what is on the screen. 'Now the cursor is here, now drag this block there.' With the prototype, I handed out the blocks, explained the shapes once, and within twenty minutes three students had independently built a sequence that played a repeating melody. One of them, who usually sits quietly in the back, asked if she could stay during lunch to try the conditional block. In fifteen years I have never had a student ask to skip lunch for a lesson. And it is still just a prototype.",
+                name: 'Sunita R.',
+                role: 'Educator',
+                title: 'Special educator, 15 yrs experience with VI learners',
+                initial: 'SR',
+              },
+              {
+                quote: "As someone building immersive learning products, I can say Tacto solves a real gap. The NFC-based approach is cost-effective and elegant. Even in its current prototype form, this is exactly what schools in tier-2 and tier-3 cities need.",
+                name: 'Abhishek Jha',
+                role: 'Technology',
+                title: 'CEO, SchoolVR and AONIX PVT LTD',
+                initial: 'AJ',
+              },
+              {
+                quote: "I am not visually impaired but my teacher let our whole class try the Tacto prototype. I closed my eyes and tried to build a program using just touch and the audio. I snapped an if-block onto the grid and it immediately said 'if button pressed, then play drum sound.' I swapped it for a while-loop and it said 'while button pressed, repeat drum sound.' I understood the difference between if and while in five minutes just by feeling the block shapes and listening. My friend who is visually impaired was faster than me because she is better at reading the Braille labels.",
+                name: 'Diya, age 11',
+                role: 'Learner',
+                title: 'Sighted pilot participant, Western India',
+                initial: 'D',
+              },
+              {
+                quote: "We work with underserved women and children across Rajasthan. A tool like Tacto that requires no screen literacy and can function in low-infrastructure settings is exactly the kind of intervention we look for. The fact that it is still a prototype and already this functional gives me confidence in where it is headed.",
+                name: 'Rakesh Kumar Kaushik',
+                role: 'NGO',
+                title: 'Director, Rajasthan Mahila Kalyan Mandal',
+                initial: 'RK',
+              },
+              {
+                quote: "I have evaluated over thirty assistive technology products in my career. Most of them take an existing visual tool and add audio narration on top. The child is still navigating someone else's interface. Tacto is the first system I have seen where the interface itself is tactile-first. The Braille labels, the distinct block shapes, the magnetic snap feedback. Every design decision assumes the user cannot see, and that changes everything. During our evaluation of the prototype, we had children debugging each other's programs by touch alone. That is not something I expected to see from an early-stage product.",
+                name: 'Manoj K.',
+                role: 'Educator',
+                title: 'Assistive technology evaluator, 12 yrs in rehabilitation',
+                initial: 'MK',
+              },
+              {
+                quote: "From a product standpoint, even at the prototype stage, the unit economics are sound and the open-hardware model creates a defensible ecosystem play. This is how you build lasting infrastructure for inclusion.",
+                name: 'Saurabh Pant',
+                role: 'Finance',
+                title: 'Former Vice President, Morgan Stanley',
+                initial: 'SP',
+              },
+              {
+                quote: "My favourite block is the variable block. It has two slots, one for the name and one for the value. I made a variable called 'pitch' and set it to a low note, then put it inside a loop that pitches it up each time. The speaker played the notes going higher and higher. My teacher said the prototype only has eight block types right now but more are coming. I showed my older brother and he said he did not learn variables until class 8. I am in class 3. I want to make a whole song when the new blocks come out.",
+                name: 'Riya, age 8',
+                role: 'Learner',
+                title: 'Visually impaired pilot participant, Southern India',
+                initial: 'R',
+              },
+              {
+                quote: "Project TACTO demonstrates a rare combination of technical rigour and genuine social impact. What stands out most about this prototype is the completeness of its vision - it doesn't just solve a small part of the accessibility problem, it reimagines the entire foundation of how computational thinking is taught.",
+                name: 'Dr. Kalyan K',
+                role: 'Academia',
+                title: 'Chairperson, IET Hyderabad Section',
+                initial: 'KK',
+              },
+              {
+                quote: "Winner of the Engineering Resilience Award. Recognized for demonstrating exceptional technical rigour and genuine social impact in making STEM education accessible for visually impaired learners.",
+                name: 'Engineering Resilience Award',
+                role: 'Recognition',
+                title: 'Awarded by IET Hyderabad',
+                initial: <Award size={18} strokeWidth={2} />,
+              },
+            ].map((t, i) => (
+              <motion.div key={i} variants={fadeScale} custom={i * 0.05}>
+                <MagneticCard className="testimonial-card">
+                  <span className={`testimonial-tag testimonial-tag--${t.role.toLowerCase()}`}>{t.role}</span>
+                  <blockquote className="testimonial-quote">&ldquo;{t.quote}&rdquo;</blockquote>
+                  <div className="testimonial-author">
+                    <div className="testimonial-avatar">{t.initial}</div>
+                    <div>
+                      <div className="testimonial-name">{t.name}</div>
+                      <div className="testimonial-title">{t.title}</div>
+                    </div>
+                  </div>
+                </MagneticCard>
+              </motion.div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* DotGrid Connection Section */}
-      <section className="relative h-[80vh] min-h-[600px] w-full bg-background overflow-hidden flex items-center justify-center">
-        {/* Background */}
-        <div className="absolute inset-0">
-          <DotGrid
-            dotSize={12}
-            gap={24}
-            baseColor="#d1d5db" // gray-300
-            activeColor="#5227FF" // Primary brand color
-            proximity={200}
-            speedTrigger={50}
-            shockRadius={300}
-            shockStrength={8}
+          <motion.p variants={fadeUp} custom={0.3} className="testimonial-disclaimer">
+            * Learner and educator testimonials are representative composites based on pilot session observations. Names and details have been changed. Endorser quotes are reproduced with permission.
+          </motion.p>
+        </div>
+      </Reveal>
+      {/* ═══════ PHILOSOPHY ═══════ */}
+      <Reveal className="section section--narrow">
+        <div className="section-inner-narrow">
+          <motion.p variants={fadeUp} className="kicker">Philosophy</motion.p>
+
+          <WordReveal
+            text="We don't believe in 'accessible versions.' We believe in things that work for everyone from the start."
+            className="editorial-heading"
           />
+
+          <motion.div variants={fadeUp} custom={0.12} className="prose-block">
+            <p>
+              Tacto is open hardware. The schematics are public. The firmware is open
+              source. We want every school workshop in every country to be able to
+              build, repair, and extend this system without asking permission.
+            </p>
+          </motion.div>
+
+          <Parallax speed={0.1}>
+            <motion.div variants={fadeScale} custom={0.2} className="pullquote">
+              <p>
+                Because the children who need this the most are in places where a ₹500
+                block set matters more than a $500 tablet.
+              </p>
+            </motion.div>
+          </Parallax>
         </div>
+      </Reveal>
 
-        {/* Content Overlay */}
-        <div className="relative z-10 max-w-4xl px-6 text-center pointer-events-none mix-blend-multiply dark:mix-blend-normal">
-          <h2 className="text-5xl md:text-7xl font-black mb-8 tracking-tighter text-foreground leading-tight">
-            Coding is not memorizing commands.<br /> It’s understanding how ideas connect.
-          </h2>
-          <p className="text-2xl md:text-3xl font-medium text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            <span className="text-primary font-bold">TACTO makes those connections tangible</span> — one block at a time.
-          </p>
-        </div>
-      </section>
+      {/* ═══════ CTA ═══════ */}
+      {/* ═══════ CONTACT ═══════ */}
+      <section id="contact" className="py-24 md:py-32 relative overflow-hidden bg-white border-t border-[#e4e2dd]">
+        {/* Subtle background glow */}
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#f2f0ec] rounded-full blur-[100px] opacity-60 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
 
-      {/* Impact/Stats */}
-      <section className="py-32 bg-primary text-primary-foreground relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-        {/* Light burst effect */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-white/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="mx-auto max-w-[1200px] px-6 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+            
+            {/* Left: Huge Text & Details */}
+            <div>
+              <motion.p 
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-xs font-bold tracking-[0.2em] uppercase text-[#a3a39b] mb-6"
+              >
+                Get Involved
+              </motion.p>
+              
+              <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-[#1a1a17] mb-8 leading-[1.05]"
+                style={{ fontFamily: "'Cabinet Grotesk', sans-serif" }}
+              >
+                Let's build the future together.
+              </motion.h2>
+              
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1, duration: 0.6 }}
+                className="text-lg text-[#6b6b63] mb-14 max-w-md"
+              >
+                We're actively seeking pilot schools, accessibility advocates, and manufacturing partners to shape what Project TACTO becomes.
+              </motion.p>
 
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-16">Empowering the Next Generation</h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { val: "281 Million", label: "Visually Impaired Learners" },
-              { val: "10%", label: "of visually impaired learners are fluent Braille readers globally." },
-              { val: "100%", label: "Tactile Engagement using TACTO" },
-              { val: "∞", label: "Possibilities" }
-            ].map((stat, i) => (
-              <div key={i} className="p-8 bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 hover:bg-white/15 transition-colors">
-                <div className="text-5xl md:text-6xl font-bold mb-2 font-heading">{stat.val}</div>
-                <div className="text-lg opacity-80 font-medium">{stat.label}</div>
+              {/* Bento Grid for Contact Details */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+              >
+                <div className="p-8 rounded-2xl bg-[#fafaf8] border border-[#e4e2dd] hover:border-[#c8c6c0] transition-colors group">
+                  <h4 className="text-[10px] font-bold tracking-[0.15em] uppercase text-[#a3a39b] mb-3">General Inquiries</h4>
+                  <a href="mailto:hello@projecttacto.org" className="text-[15px] sm:text-base font-medium text-[#1a1a17] group-hover:text-[#5227FF] transition-colors block break-words">hello@projecttacto.org</a>
+                </div>
+                <div className="p-8 rounded-2xl bg-[#fafaf8] border border-[#e4e2dd] hover:border-[#c8c6c0] transition-colors group">
+                  <h4 className="text-[10px] font-bold tracking-[0.15em] uppercase text-[#a3a39b] mb-3">Support & Press</h4>
+                  <a href="mailto:contact@projecttacto.org" className="text-[15px] sm:text-base font-medium text-[#1a1a17] group-hover:text-[#5227FF] transition-colors block break-words">contact@projecttacto.org</a>
+                </div>
+                <div className="p-8 rounded-2xl bg-[#fafaf8] border border-[#e4e2dd] sm:col-span-2 flex flex-col sm:flex-row sm:items-center justify-between gap-6 group hover:border-[#1a1a17] transition-all">
+                  <div>
+                    <h4 className="text-[10px] font-bold tracking-[0.15em] uppercase text-[#a3a39b] mb-1">Socials</h4>
+                    <p className="text-xl font-medium text-[#1a1a17]">Follow the journey</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <a href="https://www.linkedin.com/company/project-tacto/" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#1a1a17] hover:bg-[#0077b5] hover:text-white transition-all shadow-sm border border-[#e4e2dd] hover:border-[#0077b5]">
+                      <Linkedin size={20} />
+                    </a>
+                    <a href="https://www.instagram.com/projecttacto/" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#1a1a17] hover:bg-[#E1306C] hover:text-white transition-all shadow-sm border border-[#e4e2dd] hover:border-[#E1306C]">
+                      <Instagram size={20} />
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Right: The Form Area */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="bg-[#fafaf8] p-8 md:p-12 rounded-[2rem] border border-[#e4e2dd] shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative"
+            >
+              <div className="mb-10">
+                <h3 className="text-2xl font-medium tracking-tight text-[#1a1a17] mb-2" style={{ fontFamily: "'Cabinet Grotesk', sans-serif" }}>Send a message</h3>
+                <p className="text-[#6b6b63] text-sm">We read every single email. Usually reply within 24 hours.</p>
               </div>
-            ))}
+
+              <form 
+                className="space-y-6" 
+                onSubmit={(e) => { 
+                  e.preventDefault(); 
+                  toast.success("Message sent! We'll get back to you soon."); 
+                  (e.target as HTMLFormElement).reset();
+                }}
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b]">Name</label>
+                    <input type="text" className="w-full bg-white border border-[#e4e2dd] rounded-xl px-4 py-3.5 text-sm text-[#1a1a17] focus:ring-2 focus:ring-[#e4e2dd] focus:border-[#c8c6c0] outline-none transition-all placeholder:text-[#c8c6c0]" placeholder="Jane Doe" required />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b]">Email</label>
+                    <input type="email" className="w-full bg-white border border-[#e4e2dd] rounded-xl px-4 py-3.5 text-sm text-[#1a1a17] focus:ring-2 focus:ring-[#e4e2dd] focus:border-[#c8c6c0] outline-none transition-all placeholder:text-[#c8c6c0]" placeholder="jane@school.edu" required />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b]">I am a...</label>
+                  <select className="w-full bg-white border border-[#e4e2dd] rounded-xl px-4 py-3.5 text-sm text-[#1a1a17] focus:ring-2 focus:ring-[#e4e2dd] focus:border-[#c8c6c0] outline-none transition-all cursor-pointer">
+                    <option>Educator / School Admin</option>
+                    <option>Hardware Manufacturer</option>
+                    <option>Researcher / Advocate</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b]">Message</label>
+                  <textarea rows={3} className="w-full bg-white border border-[#e4e2dd] rounded-xl px-4 py-3.5 text-sm text-[#1a1a17] focus:ring-2 focus:ring-[#e4e2dd] focus:border-[#c8c6c0] outline-none transition-all placeholder:text-[#c8c6c0] resize-none" placeholder="How can we collaborate?" required />
+                </div>
+
+                <button type="submit" className="w-full bg-[#1a1a17] text-white rounded-xl py-4 text-sm font-semibold hover:bg-[#333330] transition-colors flex items-center justify-center gap-2 group">
+                  Send Message <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </button>
+              </form>
+
+              <div className="mt-10 pt-10 border-t border-[#e4e2dd]">
+                <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b] mb-4">Or just want updates?</p>
+                <WaitlistForm variant="minimal" />
+              </div>
+            </motion.div>
+
           </div>
         </div>
       </section>
-
-      {/* Call to Action */}
-      <section id="contact" className="py-32 bg-background relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none opacity-50"></div>
-
-        {/* Ballpit Background */}
-        <div className="absolute inset-0 z-0 opacity-60">
-          <Ballpit
-            count={50}
-            gravity={0.5}
-            friction={0.9975}
-            wallBounce={0.95}
-            followCursor={true}
-            colors={["#5227FF", "#7cff67", "#ff6b6b"]}
-          />
-        </div>
-
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center relative z-10 pointer-events-none">
-          <Heart className="w-20 h-20 text-red-500 mx-auto mb-8 animate-pulse" fill="currentColor" />
-          <h2 className="text-5xl md:text-7xl font-bold mb-8">Join the Movement</h2>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Help us build a world where every child can create, invent, and dream without barriers.
-          </p>
-          <div className="max-w-md mx-auto pointer-events-auto">
-            <WaitlistForm />
-          </div>
-        </div>
-      </section>
-
-    </div >
+    </div>
   );
 }

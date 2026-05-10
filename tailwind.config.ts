@@ -64,8 +64,8 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
-        heading: ["Outfit", "system-ui", "sans-serif"],
+        sans: ["Satoshi", "system-ui", "-apple-system", "sans-serif"],
+        heading: ["Cabinet Grotesk", "system-ui", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {

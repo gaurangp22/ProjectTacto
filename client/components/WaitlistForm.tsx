@@ -48,35 +48,38 @@ export default function WaitlistForm({ variant = "default", className }: Waitlis
 
     if (isSuccess) {
         return (
-            <div className={cn("flex items-center gap-2 text-primary font-medium p-4 bg-primary/10 rounded-xl animate-in fade-in zoom-in duration-300", className)}>
-                <CheckCircle className="w-5 h-5" />
-                <span>You're on the list! We'll be in touch.</span>
+            <div className={cn(
+                "flex items-center gap-3 font-medium p-5 bg-[#f2f0ec] border border-[#e4e2dd] rounded-2xl text-[#1a1a17]",
+                className
+            )}>
+                <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                <span>You're on the list. We'll be in touch soon.</span>
             </div>
         );
     }
 
     return (
-        <form onSubmit={handleSubmit} className={cn("relative group", className)}>
+        <form onSubmit={handleSubmit} className={cn("relative", className)}>
             <div className="relative flex items-center">
                 <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
+                    placeholder="Your email address"
                     required
                     className={cn(
-                        "w-full bg-background border border-input rounded-full py-3 pl-5 pr-28 text-sm outline-none transition-all placeholder:text-muted-foreground/60 md:text-base md:py-4 md:pl-6 md:pr-48",
-                        "focus:border-primary/50 focus:ring-4 focus:ring-primary/10",
-                        variant === "minimal" && "bg-secondary/50 border-transparent focus:bg-background"
+                        "w-full bg-white border border-[#e4e2dd] rounded-full py-3.5 pl-5 pr-28 text-sm text-[#1a1a17] outline-none transition-all placeholder:text-[#a3a39b] md:text-[0.9375rem] md:py-4 md:pl-6 md:pr-48",
+                        "focus:border-[#c8c6c0] focus:ring-2 focus:ring-[#e4e2dd]",
+                        variant === "minimal" && "bg-[#f2f0ec] border-transparent"
                     )}
                 />
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="absolute right-1.5 top-1.5 bottom-1.5 rounded-full px-4 md:right-2 md:top-2 md:bottom-2 md:px-6 bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2 text-sm md:text-base"
+                    className="absolute right-1.5 top-1.5 bottom-1.5 rounded-full px-4 md:right-2 md:top-2 md:bottom-2 md:px-6 bg-[#1a1a17] text-white font-semibold hover:bg-[#333330] transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2 text-sm"
                 >
                     {isLoading ? (
-                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <Loader2 className="w-4 h-4 animate-spin" />
                     ) : (
                         <>
                             <span className="hidden md:inline">Join Waitlist</span>
@@ -86,9 +89,6 @@ export default function WaitlistForm({ variant = "default", className }: Waitlis
                     )}
                 </button>
             </div>
-            <p className="mt-3 text-sm text-muted-foreground pl-4">
-                <span className="text-primary font-medium">370+</span> people joined this week.
-            </p>
         </form>
     );
 }

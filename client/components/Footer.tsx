@@ -1,77 +1,164 @@
 import { Link } from "react-router-dom";
-import { Facebook, Twitter, Instagram, Linkedin, Heart, ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 export default function Footer() {
-    return (
-        <footer className="bg-background border-t border-border/40 pt-20 pb-10">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="grid md:grid-cols-4 gap-12 mb-16">
-                    <div className="col-span-1 md:col-span-1">
-                        <Link to="/" className="flex items-center gap-2 mb-6 group">
-                            <h3 className="text-2xl font-bold tracking-tighter">Project TACTO</h3>
-                        </Link>
-                        <p className="text-muted-foreground leading-relaxed mb-6">
-                            Exploring tactile and auditory approaches to computational thinking for visually impaired learners.
-                        </p>
-                    </div>
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-10%" });
 
-                    <div>
-                        <h4 className="font-bold text-foreground mb-6">Project</h4>
-                        <ul className="space-y-4">
-                            <li>
-                                <Link to="/whitepaper" className="text-muted-foreground hover:text-primary transition-colors">Research</Link>
-                            </li>
-                            <li>
-                                <Link to="/whitepaper" className="text-muted-foreground hover:text-primary transition-colors">White Paper</Link>
-                            </li>
-                        </ul>
-                    </div>
+  // Stagger children for the big text
+  const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.04,
+        delayChildren: 0.1
+      }
+    }
+  };
 
-                    <div>
-                        <h4 className="font-bold text-foreground mb-6">Resources</h4>
-                        <ul className="space-y-4">
-                            <li>
-                                <Link to="/whitepaper#pedagogical-framework" className="text-muted-foreground hover:text-primary transition-colors">For Educators</Link>
-                            </li>
-                            <li>
-                                <Link to="/whitepaper#introduction" className="text-muted-foreground hover:text-primary transition-colors">Accessibility by Design</Link>
-                            </li>
-                            <li>
-                                <Link to="/whitepaper#feasibility" className="text-muted-foreground hover:text-primary transition-colors">Open-Source Vision</Link>
-                            </li>
-                            <li>
-                                <Link to="/whitepaper#future-work" className="text-muted-foreground hover:text-primary transition-colors">Community</Link>
-                            </li>
-                        </ul>
-                    </div>
+  const letterAnim = {
+    hidden: { y: "100%", opacity: 0, rotate: 5 },
+    visible: {
+      y: "0%",
+      opacity: 1,
+      rotate: 0,
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+    }
+  };
 
-                    <div>
-                        <h4 className="font-bold text-foreground mb-6">Stay Updated</h4>
-                        <p className="text-muted-foreground mb-4">Follow Project TACTO as it develops.</p>
-                        <button
-                            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-all hover:scale-105 shadow-md hover:shadow-lg"
-                        >
-                            Get Project Updates <ArrowRight size={16} />
-                        </button>
-                    </div>
-                </div>
+  const text = "PROJECT TACTO";
 
-                <div className="border-t border-border/40 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div className="flex flex-col md:flex-row gap-2 md:gap-8 items-center">
-                        <p className="text-muted-foreground text-sm">
-                            © {new Date().getFullYear()} Project TACTO
-                        </p>
-                        <p className="text-muted-foreground text-sm flex items-center gap-1">
-                            A student-led research and design initiative focused on inclusive education.
-                        </p>
-                    </div>
-                    <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                        <a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a>
-                        <a href="#" className="hover:text-foreground transition-colors">Terms of Service</a>
-                    </div>
-                </div>
+  return (
+    <footer ref={ref} className="bg-[#fafaf8] border-t border-[#e4e2dd] pt-24 pb-8 overflow-hidden relative">
+      <div className="mx-auto max-w-[1400px] px-6">
+        
+        {/* ─── Top Section ─── */}
+        <div className="flex flex-col md:flex-row justify-between items-start gap-16 md:gap-8 mb-24">
+          
+          {/* Left: Call to action / Vision */}
+          <div className="max-w-md">
+            <motion.h3 
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6 }}
+              className="text-3xl font-medium tracking-tight text-[#1a1a17] mb-6" 
+              style={{ fontFamily: "'Cabinet Grotesk', sans-serif" }}
+            >
+              Experience inclusion.
+            </motion.h3>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-[#6b6b63] leading-relaxed text-sm"
+            >
+              A tangible coding system for visually impaired learners. 
+              Open hardware. Built for everyone.
+            </motion.p>
+          </div>
+
+          {/* Right: Links Grid */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex gap-16 md:gap-24"
+          >
+            <div>
+              <h4 className="text-xs font-bold tracking-[0.15em] uppercase text-[#1a1a17] mb-6">
+                Platform
+              </h4>
+              <ul className="space-y-4">
+                <li>
+                  <Link to="/playground" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1 inline-flex items-center gap-1">
+                    Playground <ArrowUpRight size={12} />
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/whitepaper" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
+                    Research Paper
+                  </Link>
+                </li>
+              </ul>
             </div>
-        </footer>
-    );
+
+            <div>
+              <h4 className="text-xs font-bold tracking-[0.15em] uppercase text-[#1a1a17] mb-6">
+                Resources
+              </h4>
+              <ul className="space-y-4">
+                <li>
+                  <Link to="/whitepaper#pedagogical-framework" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
+                    For Educators
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/whitepaper#feasibility" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
+                    Open Source
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* ─── Huge PROJECT TACTO text ─── */}
+        <div className="w-full flex justify-center mb-12 overflow-hidden py-4">
+          <motion.h1 
+            variants={container}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            className="text-[clamp(3rem,11.5vw,20rem)] leading-[0.8] tracking-tighter font-bold text-[#1a1a17] cursor-default whitespace-nowrap flex"
+            style={{ fontFamily: "'Cabinet Grotesk', sans-serif" }}
+          >
+            {text.split("").map((char, i) => (
+              <motion.span 
+                key={i} 
+                variants={letterAnim} 
+                whileHover={{ 
+                  y: -15, 
+                  color: ['#1a1a17', '#8b3a2f', '#2b5e54', '#4a3566', '#d97757'][i % 5],
+                  rotate: Math.random() * 8 - 4,
+                  scale: 1.05
+                }}
+                className="inline-block transition-colors duration-200"
+                style={{ width: char === " " ? "0.3em" : "auto" }}
+              >
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
+          </motion.h1>
+        </div>
+
+        {/* ─── Bottom Section ─── */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 1, delay: 0.8 }}
+          className="border-t border-[#e4e2dd] pt-8 flex flex-col md:flex-row justify-between items-center gap-6"
+        >
+          <div className="flex items-center gap-3 group">
+            <img 
+              src="/tacto-website-logo.png" 
+              alt="Project TACTO Logo" 
+              className="h-6 w-auto object-contain opacity-60 group-hover:opacity-100 transition-opacity" 
+            />
+            <span className="text-sm font-semibold tracking-wide text-[#1a1a17]">
+              Project TACTO
+            </span>
+          </div>
+          
+          <div className="flex items-center gap-8 text-xs text-[#6b6b63]">
+            <Link to="/privacy" className="hover:text-[#1a1a17] transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#1a1a17] hover:after:w-full after:transition-all">Privacy</Link>
+            <Link to="/terms" className="hover:text-[#1a1a17] transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#1a1a17] hover:after:w-full after:transition-all">Terms</Link>
+            <span className="opacity-50">© {new Date().getFullYear()}</span>
+          </div>
+        </motion.div>
+
+      </div>
+    </footer>
+  );
 }
