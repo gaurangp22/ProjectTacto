@@ -65,7 +65,7 @@ export default function Footer() {
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex gap-16 md:gap-24"
+            className="flex flex-wrap gap-10 md:gap-24"
           >
             <div>
               <h4 className="text-xs font-bold tracking-[0.15em] uppercase text-[#1a1a17] mb-6">
@@ -111,7 +111,7 @@ export default function Footer() {
             variants={container}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="text-[clamp(3rem,11.5vw,20rem)] leading-[0.8] tracking-tighter font-bold text-[#1a1a17] cursor-default whitespace-nowrap flex"
+            className="text-[clamp(2.5rem,11.5vw,20rem)] leading-[0.85] tracking-tighter font-bold text-[#1a1a17] cursor-default flex flex-wrap justify-center"
             style={{ fontFamily: "'Cabinet Grotesk', sans-serif" }}
           >
             {text.split("").map((char, i) => (
