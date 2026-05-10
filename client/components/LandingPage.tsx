@@ -1,11 +1,12 @@
 import './landing.css';
 import { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, animate } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring, animate, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight, Award, Linkedin, Instagram } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Award, Linkedin, Instagram, Loader2, Check, AlertCircle } from 'lucide-react';
 import WaitlistForm from './WaitlistForm';
 import Antigravity from './Antigravity';
 import { toast } from 'sonner';
+import { supabase } from '@/lib/supabaseClient';
 
 /* ─── animation variants ─── */
 const fadeUp = {
@@ -139,6 +140,8 @@ function WordReveal({ text, className = '' }: { text: string; className?: string
    TACTO LANDING PAGE
    ═══════════════════════════════════════════════ */
 export default function LandingPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isContactSuccess, setIsContactSuccess] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
   const heroY = useTransform(heroProgress, [0, 1], ['0%', '35%']);
@@ -662,49 +665,131 @@ export default function LandingPage() {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="bg-[#fafaf8] p-8 md:p-12 rounded-[2rem] border border-[#e4e2dd] shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative"
             >
-              <div className="mb-10">
-                <h3 className="text-2xl font-medium tracking-tight text-[#1a1a17] mb-2" style={{ fontFamily: "'Cabinet Grotesk', sans-serif" }}>Send a message</h3>
-                <p className="text-[#6b6b63] text-sm">We read every single email. Usually reply within 24 hours.</p>
-              </div>
+              <AnimatePresence mode="wait">
+                {isContactSuccess ? (
+                  <motion.div
+                    key="contact-success"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex flex-col items-center justify-center text-center py-16"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.15, type: "spring", stiffness: 260, damping: 12 }}
+                      className="w-16 h-16 rounded-full bg-[#2b5e54] flex items-center justify-center mb-8"
+                    >
+                      <Check className="w-8 h-8 text-white" strokeWidth={3} />
+                    </motion.div>
+                    <motion.h3
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3, duration: 0.5 }}
+                      className="text-2xl font-medium text-[#1a1a17] mb-3"
+                      style={{ fontFamily: "'Cabinet Grotesk', sans-serif" }}
+                    >
+                      Message received.
+                    </motion.h3>
+                    <motion.p
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.45, duration: 0.5 }}
+                      className="text-[#6b6b63] text-sm max-w-xs"
+                    >
+                      We read every email personally. Expect a reply within 24 hours.
+                    </motion.p>
+                    <motion.button
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.7 }}
+                      onClick={() => setIsContactSuccess(false)}
+                      className="mt-8 text-xs font-semibold text-[#a3a39b] hover:text-[#1a1a17] transition-colors uppercase tracking-widest"
+                    >
+                      Send another message
+                    </motion.button>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="contact-form"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <div className="mb-10">
+                      <h3 className="text-2xl font-medium tracking-tight text-[#1a1a17] mb-2" style={{ fontFamily: "'Cabinet Grotesk', sans-serif" }}>Send a message</h3>
+                      <p className="text-[#6b6b63] text-sm">We read every single email. Usually reply within 24 hours.</p>
+                    </div>
 
-              <form 
-                className="space-y-6" 
-                onSubmit={(e) => { 
-                  e.preventDefault(); 
-                  toast.success("Message sent! We'll get back to you soon."); 
-                  (e.target as HTMLFormElement).reset();
-                }}
-              >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b]">Name</label>
-                    <input type="text" className="w-full bg-white border border-[#e4e2dd] rounded-xl px-4 py-3.5 text-sm text-[#1a1a17] focus:ring-2 focus:ring-[#e4e2dd] focus:border-[#c8c6c0] outline-none transition-all placeholder:text-[#c8c6c0]" placeholder="Jane Doe" required />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b]">Email</label>
-                    <input type="email" className="w-full bg-white border border-[#e4e2dd] rounded-xl px-4 py-3.5 text-sm text-[#1a1a17] focus:ring-2 focus:ring-[#e4e2dd] focus:border-[#c8c6c0] outline-none transition-all placeholder:text-[#c8c6c0]" placeholder="jane@school.edu" required />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b]">I am a...</label>
-                  <select className="w-full bg-white border border-[#e4e2dd] rounded-xl px-4 py-3.5 text-sm text-[#1a1a17] focus:ring-2 focus:ring-[#e4e2dd] focus:border-[#c8c6c0] outline-none transition-all cursor-pointer">
-                    <option>Educator / School Admin</option>
-                    <option>Hardware Manufacturer</option>
-                    <option>Researcher / Advocate</option>
-                    <option>Other</option>
-                  </select>
-                </div>
+                    <form 
+                      className="space-y-6" 
+                      onSubmit={async (e) => { 
+                        e.preventDefault(); 
+                        const form = e.target as HTMLFormElement;
+                        const formData = new FormData(form);
+                        
+                        setIsSubmitting(true);
+                        
+                        const name = formData.get('name') as string;
+                        const email = formData.get('email') as string;
+                        const role = formData.get('role') as string;
+                        const message = formData.get('message') as string;
+                        
+                        try {
+                          const { error } = await supabase
+                            .from('contacts')
+                            .insert([{ name, email, role, message }]);
+                            
+                          if (error) throw error;
+                          
+                          setIsContactSuccess(true);
+                          form.reset();
+                        } catch (err) {
+                          console.error("Error submitting contact form:", err);
+                          toast.error("Failed to send message. Please try again.");
+                        } finally {
+                          setIsSubmitting(false);
+                        }
+                      }}
+                    >
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b]">Name</label>
+                          <input name="name" type="text" className="w-full bg-white border border-[#e4e2dd] rounded-xl px-4 py-3.5 text-sm text-[#1a1a17] focus:ring-2 focus:ring-[#e4e2dd] focus:border-[#c8c6c0] outline-none transition-all placeholder:text-[#c8c6c0]" placeholder="Jane Doe" required disabled={isSubmitting} />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b]">Email</label>
+                          <input name="email" type="email" className="w-full bg-white border border-[#e4e2dd] rounded-xl px-4 py-3.5 text-sm text-[#1a1a17] focus:ring-2 focus:ring-[#e4e2dd] focus:border-[#c8c6c0] outline-none transition-all placeholder:text-[#c8c6c0]" placeholder="jane@school.edu" required disabled={isSubmitting} />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b]">I am a...</label>
+                        <select name="role" className="w-full bg-white border border-[#e4e2dd] rounded-xl px-4 py-3.5 text-sm text-[#1a1a17] focus:ring-2 focus:ring-[#e4e2dd] focus:border-[#c8c6c0] outline-none transition-all cursor-pointer" disabled={isSubmitting}>
+                          <option>Educator / School Admin</option>
+                          <option>Hardware Manufacturer</option>
+                          <option>Researcher / Advocate</option>
+                          <option>Other</option>
+                        </select>
+                      </div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b]">Message</label>
-                  <textarea rows={3} className="w-full bg-white border border-[#e4e2dd] rounded-xl px-4 py-3.5 text-sm text-[#1a1a17] focus:ring-2 focus:ring-[#e4e2dd] focus:border-[#c8c6c0] outline-none transition-all placeholder:text-[#c8c6c0] resize-none" placeholder="How can we collaborate?" required />
-                </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b]">Message</label>
+                        <textarea name="message" rows={3} className="w-full bg-white border border-[#e4e2dd] rounded-xl px-4 py-3.5 text-sm text-[#1a1a17] focus:ring-2 focus:ring-[#e4e2dd] focus:border-[#c8c6c0] outline-none transition-all placeholder:text-[#c8c6c0] resize-none" placeholder="How can we collaborate?" required disabled={isSubmitting} />
+                      </div>
 
-                <button type="submit" className="w-full bg-[#1a1a17] text-white rounded-xl py-4 text-sm font-semibold hover:bg-[#333330] transition-colors flex items-center justify-center gap-2 group">
-                  Send Message <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </button>
-              </form>
+                      <button type="submit" disabled={isSubmitting} className="w-full bg-[#1a1a17] text-white rounded-xl py-4 text-sm font-semibold hover:bg-[#333330] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 group">
+                        {isSubmitting ? (
+                          <>Sending... <Loader2 size={16} className="animate-spin" /></>
+                        ) : (
+                          <>Send Message <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /></>
+                        )}
+                      </button>
+                    </form>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               <div className="mt-10 pt-10 border-t border-[#e4e2dd]">
                 <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#a3a39b] mb-4">Or just want updates?</p>

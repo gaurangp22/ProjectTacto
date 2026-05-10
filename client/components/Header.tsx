@@ -34,11 +34,10 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
-        scrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${scrolled
           ? "bg-[#fafaf8]/90 backdrop-blur-xl border-b border-[#e4e2dd] shadow-[0_1px_6px_rgba(0,0,0,0.04)]"
           : "bg-transparent"
-      }`}
+        }`}
     >
       <nav className="mx-auto max-w-7xl px-6 flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-2 group">

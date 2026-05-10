@@ -29,6 +29,36 @@ const Layout = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    let title = "Project TACTO | Code you can feel";
+    switch (location.pathname) {
+      case "/":
+        title = "Project TACTO | Code you can feel";
+        break;
+      case "/whitepaper":
+        title = "Research | Project TACTO";
+        break;
+      case "/hardware":
+        title = "The System | Project TACTO";
+        break;
+      case "/curriculum":
+        title = "Curriculum | Project TACTO";
+        break;
+      case "/mission":
+        title = "Our Mission | Project TACTO";
+        break;
+      case "/playground":
+        title = "Simulator | Project TACTO";
+        break;
+      case "/privacy":
+        title = "Privacy | Project TACTO";
+        break;
+      case "/terms":
+        title = "Terms | Project TACTO";
+        break;
+    }
+    document.title = title;
+
   }, [location.pathname]);
 
   return (
