@@ -112,7 +112,7 @@ const WhitepaperPage = () => {
 
             {/* Hero Header - Hidden in print (replaced by cover page) */}
             <div className="bg-secondary/5 border-b border-border/40 py-16 mb-12 print:hidden">
-                <div className="container max-w-5xl mx-auto px-6 print:px-0">
+                <div className="container max-w-5xl mx-auto px-6 print:px-12">
                     <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary mb-8 transition-colors group print:hidden">
                         <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                         Back to Project
@@ -141,7 +141,7 @@ const WhitepaperPage = () => {
                 </div>
             </div>
 
-            <div className="container max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 print:block print:px-0">
+            <div className="container max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 print:block print:px-12 print:py-12">
                 {/* Sidebar / TOC */}
                 <aside className="lg:col-span-3 hidden lg:block print:hidden">
                     <div className="sticky top-32 space-y-2 text-sm border-l-2 border-border/50 pl-4">

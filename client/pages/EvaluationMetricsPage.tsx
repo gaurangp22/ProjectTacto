@@ -142,7 +142,7 @@ const EvaluationMetricsPage = () => {
             </div>
 
             {/* ═══ BODY ═══ */}
-            <div className="container max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 print:block print:px-0">
+            <div className="container max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 print:block print:px-12 print:py-12">
 
                 {/* TOC sidebar */}
                 <aside className="lg:col-span-3 hidden lg:block print:hidden">
@@ -173,16 +173,16 @@ const EvaluationMetricsPage = () => {
                         </p>
 
                         <h3 className="text-2xl font-semibold text-foreground mt-8 mb-4">Session Sequence</h3>
-                        <div className="overflow-x-auto rounded-xl border border-border/50 bg-secondary/5 my-8 not-prose">
+                        <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white my-8 not-prose">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-secondary/20 text-foreground font-bold">
+                                <thead className="bg-slate-50 text-slate-900 font-bold border-b border-slate-200">
                                     <tr>
                                         <th className="p-4">Phase</th>
                                         <th className="p-4 text-right">Duration</th>
                                         <th className="p-4">Evidence Collected</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-border/20">
+                                <tbody className="divide-y divide-slate-100">
                                     <tr><td className="p-4 font-medium">Consent and orientation</td><td className="p-4 text-right">5 min</td><td className="p-4">Consent status and accessibility requirements</td></tr>
                                     <tr><td className="p-4 font-medium">Baseline assessment</td><td className="p-4 text-right">5 min</td><td className="p-4">Coding knowledge and confidence</td></tr>
                                     <tr><td className="p-4 font-medium">Familiarisation</td><td className="p-4 text-right">5 min</td><td className="p-4">Initial block and grid interaction</td></tr>
@@ -200,9 +200,9 @@ const EvaluationMetricsPage = () => {
                     ────────────────────────────────────── */}
                     <section id="evaluation-tasks" className="mb-16">
                         <h2 className="text-3xl font-bold text-foreground mb-6">1. Standardised Evaluation Tasks</h2>
-                        <div className="overflow-x-auto rounded-xl border border-border/50 bg-secondary/5 my-8 not-prose">
+                        <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white my-8 not-prose">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-secondary/20 text-foreground font-bold">
+                                <thead className="bg-slate-50 text-slate-900 font-bold border-b border-slate-200">
                                     <tr>
                                         <th className="p-4">ID</th>
                                         <th className="p-4">Task</th>
@@ -210,7 +210,7 @@ const EvaluationMetricsPage = () => {
                                         <th className="p-4 text-right">Time Limit</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-border/20">
+                                <tbody className="divide-y divide-slate-100">
                                     <tr><td className="p-4 font-mono font-bold">T1</td><td className="p-4">Orient the TACTO grid correctly</td><td className="p-4">Identifies start position and direction independently</td><td className="p-4 text-right">120 sec</td></tr>
                                     <tr><td className="p-4 font-mono font-bold">T2</td><td className="p-4">Identify eight tactile command blocks</td><td className="p-4">At least seven blocks identified correctly</td><td className="p-4 text-right">240 sec</td></tr>
                                     <tr><td className="p-4 font-mono font-bold">T3</td><td className="p-4">Construct a four-command sequence</td><td className="p-4">Valid sequence assembled in the required order</td><td className="p-4 text-right">300 sec</td></tr>
@@ -233,16 +233,16 @@ const EvaluationMetricsPage = () => {
                     ────────────────────────────────────── */}
                     <section id="assistance-scale" className="mb-16">
                         <h2 className="text-3xl font-bold text-foreground mb-6">2. Assistance Scale</h2>
-                        <div className="overflow-x-auto rounded-xl border border-border/50 bg-secondary/5 my-8 not-prose">
+                        <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white my-8 not-prose">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-secondary/20 text-foreground font-bold">
+                                <thead className="bg-slate-50 text-slate-900 font-bold border-b border-slate-200">
                                     <tr>
                                         <th className="p-4 text-right">Score</th>
                                         <th className="p-4">Assistance Level</th>
                                         <th className="p-4">Definition</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-border/20">
+                                <tbody className="divide-y divide-slate-100">
                                     <tr><td className="p-4 text-right font-mono font-bold">0</td><td className="p-4 font-medium">Independent</td><td className="p-4">No facilitator intervention</td></tr>
                                     <tr><td className="p-4 text-right font-mono font-bold">1</td><td className="p-4 font-medium">General prompt</td><td className="p-4">Non-specific encouragement or task repetition</td></tr>
                                     <tr><td className="p-4 text-right font-mono font-bold">2</td><td className="p-4 font-medium">Directed prompt</td><td className="p-4">Attention directed towards a command or grid region</td></tr>
@@ -319,23 +319,23 @@ const EvaluationMetricsPage = () => {
                     ────────────────────────────────────── */}
                     <section id="ai-metrics" className="mb-16">
                         <h2 className="text-3xl font-bold text-foreground mb-6">4. AI Voice Assistant Metrics</h2>
-                        <div className="overflow-x-auto rounded-xl border border-border/50 bg-secondary/5 my-8 not-prose">
+                        <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm bg-white my-8 not-prose">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-secondary/20 text-foreground font-bold">
+                                <thead className="bg-slate-50 text-slate-900 font-bold border-b border-slate-200">
                                     <tr>
-                                        <th className="p-4">Metric</th>
-                                        <th className="p-4">Definition</th>
+                                        <th className="p-3 w-1/3">Metric</th>
+                                        <th className="p-3">Definition</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-border/20">
-                                    <tr><td className="p-4 font-medium">Intent-recognition accuracy</td><td className="p-4">Percentage of participant requests interpreted correctly</td></tr>
-                                    <tr><td className="p-4 font-medium">Guidance relevance</td><td className="p-4">Percentage of hints relevant to the current program and task</td></tr>
-                                    <tr><td className="p-4 font-medium">Grounding accuracy</td><td className="p-4">Percentage of responses consistent with the assembled program</td></tr>
-                                    <tr><td className="p-4 font-medium">Hint resolution rate</td><td className="p-4">Percentage of blocked tasks completed after AI guidance without human assistance</td></tr>
-                                    <tr><td className="p-4 font-medium">Escalation rate</td><td className="p-4">Percentage of AI interactions still requiring facilitator intervention</td></tr>
-                                    <tr><td className="p-4 font-medium">Repetition rate</td><td className="p-4">Percentage of responses participants requested to hear again</td></tr>
-                                    <tr><td className="p-4 font-medium">Response latency</td><td className="p-4">Time between completion of the spoken request and beginning of the response</td></tr>
-                                    <tr><td className="p-4 font-medium">Over-assistance rate</td><td className="p-4">Percentage of hints that reveal the complete solution rather than scaffolding reasoning</td></tr>
+                                <tbody className="divide-y divide-slate-100">
+                                    <tr><td className="p-3 font-medium">Intent-recognition accuracy</td><td className="p-3">Percentage of participant requests interpreted correctly</td></tr>
+                                    <tr><td className="p-3 font-medium">Guidance relevance</td><td className="p-3">Percentage of hints relevant to the current program and task</td></tr>
+                                    <tr><td className="p-3 font-medium">Grounding accuracy</td><td className="p-3">Percentage of responses consistent with the assembled program</td></tr>
+                                    <tr><td className="p-3 font-medium">Hint resolution rate</td><td className="p-3">Percentage of blocked tasks completed after AI guidance without human assistance</td></tr>
+                                    <tr><td className="p-3 font-medium">Escalation rate</td><td className="p-3">Percentage of AI interactions still requiring facilitator intervention</td></tr>
+                                    <tr><td className="p-3 font-medium">Repetition rate</td><td className="p-3">Percentage of responses participants requested to hear again</td></tr>
+                                    <tr><td className="p-3 font-medium">Response latency</td><td className="p-3">Time between completion of the spoken request and beginning of the response</td></tr>
+                                    <tr><td className="p-3 font-medium">Over-assistance rate</td><td className="p-3">Percentage of hints that reveal the complete solution rather than scaffolding reasoning</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -350,16 +350,6 @@ const EvaluationMetricsPage = () => {
                     ────────────────────────────────────── */}
                     <section id="technical-metrics" className="mb-16">
                         <h2 className="text-3xl font-bold text-foreground mb-6">5. Technical Performance Metrics</h2>
-                        <div className="overflow-x-auto rounded-xl border border-border/50 bg-secondary/5 my-8 not-prose">
-                            <table className="w-full text-sm text-left">
-                                <thead className="bg-secondary/20 text-foreground font-bold">
-                                    <tr>
-                                        <th className="p-4">Metric</th>
-                                        <th className="p-4">Calculation</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-border/20">
-                                    <tr><td className="p-4 font-medium">NFC recognition accuracy</td><td className="p-4">Correct block reads ÷ total placements</td></tr>
                                     <tr><td className="p-4 font-medium">Position-detection accuracy</td><td className="p-4">Correctly identified grid positions ÷ total placements</td></tr>
                                     <tr><td className="p-4 font-medium">False-read rate</td><td className="p-4">Incorrect or duplicate reads ÷ total placements</td></tr>
                                     <tr><td className="p-4 font-medium">Recognition latency</td><td className="p-4">Time from placement to block confirmation</td></tr>
@@ -422,16 +412,16 @@ const EvaluationMetricsPage = () => {
                     ────────────────────────────────────── */}
                     <section id="error-classification" className="mb-16">
                         <h2 className="text-3xl font-bold text-foreground mb-6">7. Error Classification</h2>
-                        <div className="overflow-x-auto rounded-xl border border-border/50 bg-secondary/5 my-8 not-prose">
+                        <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white my-8 not-prose">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-secondary/20 text-foreground font-bold">
+                                <thead className="bg-slate-50 text-slate-900 font-bold border-b border-slate-200">
                                     <tr>
                                         <th className="p-4">Code</th>
                                         <th className="p-4">Error Category</th>
                                         <th className="p-4">Example</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-border/20">
+                                <tbody className="divide-y divide-slate-100">
                                     <tr><td className="p-4 font-mono font-bold">E1</td><td className="p-4">Tactile identification</td><td className="p-4">Incorrect command block selected</td></tr>
                                     <tr><td className="p-4 font-mono font-bold">E2</td><td className="p-4">Grid orientation</td><td className="p-4">Program started from the wrong position</td></tr>
                                     <tr><td className="p-4 font-mono font-bold">E3</td><td className="p-4">Sequence construction</td><td className="p-4">Commands arranged in the wrong order</td></tr>
@@ -455,15 +445,15 @@ const EvaluationMetricsPage = () => {
                     ────────────────────────────────────── */}
                     <section id="severity-scale" className="mb-16">
                         <h2 className="text-3xl font-bold text-foreground mb-6">8. Issue-Severity Scale</h2>
-                        <div className="overflow-x-auto rounded-xl border border-border/50 bg-secondary/5 my-8 not-prose">
+                        <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white my-8 not-prose">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-secondary/20 text-foreground font-bold">
+                                <thead className="bg-slate-50 text-slate-900 font-bold border-b border-slate-200">
                                     <tr>
                                         <th className="p-4 text-right">Severity</th>
                                         <th className="p-4">Definition</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-border/20">
+                                <tbody className="divide-y divide-slate-100">
                                     <tr><td className="p-4 text-right font-mono font-bold">0</td><td className="p-4">No usability impact</td></tr>
                                     <tr><td className="p-4 text-right font-mono font-bold">1</td><td className="p-4">Minor friction; task completed independently</td></tr>
                                     <tr><td className="p-4 text-right font-mono font-bold">2</td><td className="p-4">Noticeable difficulty or repeated attempt</td></tr>
@@ -483,15 +473,15 @@ const EvaluationMetricsPage = () => {
                     <section id="acceptance-criteria" className="mb-16">
                         <h2 className="text-3xl font-bold text-foreground mb-6">9. Predefined Acceptance Criteria</h2>
                         <p className="mb-6">These are evaluation targets, not results, and must be fixed before analysis. Failure to meet a target should generate a design action, not be removed from the report.</p>
-                        <div className="overflow-x-auto rounded-xl border border-border/50 bg-secondary/5 my-8 not-prose">
+                        <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white my-8 not-prose">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-secondary/20 text-foreground font-bold">
+                                <thead className="bg-slate-50 text-slate-900 font-bold border-b border-slate-200">
                                     <tr>
                                         <th className="p-4">Metric</th>
                                         <th className="p-4 text-right">Preliminary Target</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-border/20">
+                                <tbody className="divide-y divide-slate-100">
                                     {[
                                         ["Tactile identification accuracy", "≥90%"],
                                         ["Overall task completion", "≥80%"],
@@ -524,15 +514,15 @@ const EvaluationMetricsPage = () => {
                     ────────────────────────────────────── */}
                     <section id="data-record" className="mb-16">
                         <h2 className="text-3xl font-bold text-foreground mb-6">10. Participant-Level Data Record</h2>
-                        <div className="overflow-x-auto rounded-xl border border-border/50 bg-secondary/5 my-8 not-prose">
+                        <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white my-8 not-prose">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-secondary/20 text-foreground font-bold">
+                                <thead className="bg-slate-50 text-slate-900 font-bold border-b border-slate-200">
                                     <tr>
                                         <th className="p-4">Field</th>
                                         <th className="p-4">Entry</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-border/20">
+                                <tbody className="divide-y divide-slate-100">
                                     {[
                                         "Session ID", "Participant ID", "Age band", "Vision-access category",
                                         "Braille familiarity", "Previous coding experience", "Task attempted",
@@ -669,9 +659,9 @@ const EvaluationMetricsPage = () => {
 
                         {/* Raw data table */}
                         <h3 className="text-2xl font-semibold text-foreground mt-8 mb-4">Individual Task Results</h3>
-                        <div className="overflow-x-auto rounded-xl border border-border/50 bg-secondary/5 my-8 not-prose">
+                        <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white my-8 not-prose">
                             <table className="w-full text-sm text-left">
-                                <thead className="bg-secondary/20 text-foreground font-bold">
+                                <thead className="bg-slate-50 text-slate-900 font-bold border-b border-slate-200">
                                     <tr>
                                         <th className="p-3">Task</th>
                                         <th className="p-3 text-center">U01</th>
@@ -679,7 +669,7 @@ const EvaluationMetricsPage = () => {
                                         <th className="p-3 text-center">U03</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-border/20">
+                                <tbody className="divide-y divide-slate-100">
                                     {exampleTaskData.map((t) => (
                                         <tr key={t.task}>
                                             <td className="p-3 font-mono font-bold">{t.task} <span className="font-normal text-muted-foreground ml-1">{t.name}</span></td>
