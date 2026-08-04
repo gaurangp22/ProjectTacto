@@ -350,7 +350,17 @@ const EvaluationMetricsPage = () => {
                     ────────────────────────────────────── */}
                     <section id="technical-metrics" className="mb-16">
                         <h2 className="text-3xl font-bold text-foreground mb-6">5. Technical Performance Metrics</h2>
-                                    <tr><td className="p-4 font-medium">Position-detection accuracy</td><td className="p-4">Correctly identified grid positions ÷ total placements</td></tr>
+                        <div className="overflow-hidden rounded-xl border border-slate-200 shadow-sm bg-white my-8 not-prose">
+                            <table className="w-full text-sm text-left">
+                                <thead className="bg-slate-50 text-slate-900 font-bold border-b border-slate-200">
+                                    <tr>
+                                        <th className="p-3 w-1/3">Metric</th>
+                                        <th className="p-3">Calculation</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100">
+                                    <tr><td className="p-3 font-medium">NFC recognition accuracy</td><td className="p-3">Correct block reads ÷ total placements</td></tr>
+                                    <tr><td className="p-3 font-medium">Position-detection accuracy</td><td className="p-3">Correctly identified grid positions ÷ total placements</td></tr>
                                     <tr><td className="p-4 font-medium">False-read rate</td><td className="p-4">Incorrect or duplicate reads ÷ total placements</td></tr>
                                     <tr><td className="p-4 font-medium">Recognition latency</td><td className="p-4">Time from placement to block confirmation</td></tr>
                                     <tr><td className="p-4 font-medium">Execution reliability</td><td className="p-4">Successful executions ÷ valid programs submitted</td></tr>

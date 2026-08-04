@@ -24,7 +24,7 @@ const puppeteer = require('puppeteer');
 
     console.log("Generating Whitepaper PDF...");
     await page.pdf({
-        path: 'C:\\Users\\Acer\\Desktop\\TACTO_Whitepaper.pdf',
+        path: 'C:\\Users\\Acer\\Desktop\\ProjectTACTO\\TACTO_Whitepaper.pdf',
         format: 'A4',
         printBackground: true,
         margin: { top: 0, right: 0, bottom: 0, left: 0 }
@@ -35,7 +35,7 @@ const puppeteer = require('puppeteer');
     await new Promise(r => setTimeout(r, 2000));
     
     await page.pdf({
-        path: 'C:\\Users\\Acer\\Desktop\\TACTO_Evaluation_Metrics.pdf',
+        path: 'C:\\Users\\Acer\\Desktop\\ProjectTACTO\\TACTO_Evaluation_Metrics.pdf',
         format: 'A4',
         printBackground: true,
         margin: { top: 0, right: 0, bottom: 0, left: 0 }
