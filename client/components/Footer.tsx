@@ -96,6 +96,16 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link to="/evaluation-metrics" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
+                    Evaluation Metrics
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/scalability" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
+                    Scale & Sustainability
+                  </Link>
+                </li>
+                <li>
                   <Link to="/whitepaper#feasibility" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
                     Open Source
                   </Link>
@@ -111,7 +121,7 @@ export default function Footer() {
             variants={container}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            className="text-[clamp(2.5rem,11.5vw,20rem)] leading-[0.85] tracking-tighter font-bold text-[#1a1a17] cursor-default flex flex-wrap justify-center"
+            className="text-[clamp(2.5rem,11.5vw,20rem)] leading-[0.85] tracking-tighter font-bold text-[#1a1a17] cursor-default flex flex-nowrap justify-center whitespace-nowrap"
             style={{ fontFamily: "'Cabinet Grotesk', sans-serif" }}
           >
             {text.split("").map((char, i) => (

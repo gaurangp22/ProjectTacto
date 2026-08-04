@@ -65,6 +65,18 @@ export default function Header() {
           >
             Research
           </Link>
+          <Link
+            to="/evaluation-metrics"
+            className="text-[0.8125rem] font-medium text-[#6b6b63] hover:text-[#1a1a17] transition-colors duration-200"
+          >
+            Evaluation Metrics
+          </Link>
+          <Link
+            to="/scalability"
+            className="text-[0.8125rem] font-medium text-[#6b6b63] hover:text-[#1a1a17] transition-colors duration-200"
+          >
+            Scale & Sustainability
+          </Link>
         </div>
 
         <div className="hidden md:flex items-center">
@@ -111,6 +123,13 @@ export default function Header() {
                 className="block w-full text-left px-4 py-3 text-sm font-medium text-[#6b6b63] hover:text-[#1a1a17] hover:bg-[#f2f0ec] rounded-xl transition-colors"
               >
                 Research
+              </Link>
+              <Link
+                to="/evaluation-metrics"
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full text-left px-4 py-3 text-sm font-medium text-[#6b6b63] hover:text-[#1a1a17] hover:bg-[#f2f0ec] rounded-xl transition-colors"
+              >
+                Evaluation Metrics
               </Link>
               <div className="pt-3">
                 <Link

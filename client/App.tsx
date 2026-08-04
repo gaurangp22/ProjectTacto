@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import WhitepaperPage from "./pages/WhitepaperPage";
+import EvaluationMetricsPage from "./pages/EvaluationMetricsPage";
+import ScalabilityPage from "./pages/ScalabilityPage";
 import Playground from "./pages/Playground";
 import PremiumLanding from "./components/landing-v2/PremiumLanding";
 import Header from "./components/Header";
@@ -38,6 +40,9 @@ const Layout = () => {
       case "/whitepaper":
         title = "Research | Project TACTO";
         break;
+      case "/evaluation-metrics":
+        title = "Evaluation Metrics | Project TACTO";
+        break;
       case "/hardware":
         title = "The System | Project TACTO";
         break;
@@ -69,6 +74,8 @@ const Layout = () => {
           <Route path="/" element={<Index />} />
           <Route path="/v2" element={<PremiumLanding />} />
           <Route path="/whitepaper" element={<WhitepaperPage />} />
+          <Route path="/evaluation-metrics" element={<EvaluationMetricsPage />} />
+          <Route path="/scalability" element={<ScalabilityPage />} />
           {/* Custom Routes */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="/playground" element={<Playground />} />

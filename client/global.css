@@ -99,15 +99,14 @@
      ============================================ */
   @media print {
 
-    /* Page setup - clean margins */
+    /* Page setup - clean margins (margin: 0 removes browser headers/footers with timestamps) */
     @page {
-      margin: 20mm 15mm;
-      size: A4 portrait;
+      margin: 0;
     }
 
     /* First page gets no header margin space */
     @page :first {
-      margin-top: 0;
+      margin: 0;
     }
 
     /* CRITICAL: Force hide ALL web navigation */
@@ -139,6 +138,10 @@
     *::after {
       box-shadow: none !important;
       text-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      filter: none !important;
+      mix-blend-mode: normal !important;
     }
 
     html {
@@ -176,6 +179,8 @@
     [class*="background"] {
       background: white !important;
       background-color: white !important;
+      min-height: auto !important;
+      height: auto !important;
     }
 
     /* ============================================
@@ -184,12 +189,11 @@
     .pdf-cover {
       display: block !important;
       width: 100% !important;
-      height: 100vh !important;
+      height: 297mm !important; /* Fixed A4 height instead of 100vh to prevent PDF corruption */
       background: white !important;
       padding: 0 !important;
       margin: 0 !important;
       position: relative !important;
-      overflow: hidden !important;
     }
 
     .pdf-cover-inner {
@@ -471,23 +475,5 @@
       font-style: italic !important;
     }
 
-    /* Layout resets */
-    .container,
-    article,
-    .prose {
-      width: 100% !important;
-      max-width: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-
-    .grid {
-      display: block !important;
-    }
-
-    /* Prevent overflow */
-    * {
-      overflow: visible !important;
-    }
   }
 }

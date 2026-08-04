@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { ArrowLeft, Download, FileText, Share2 } from "lucide-react";
+import { ArrowLeft, Download, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -83,7 +83,7 @@ const WhitepaperPage = () => {
                 <div className="pdf-cover-inner">
                     {/* Logo */}
                     <img
-                        src="/favicon.png"
+                        src="/tacto-logo.png"
                         alt="TACTO"
                         className="pdf-cover-logo"
                     />
