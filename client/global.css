@@ -160,27 +160,20 @@
       margin: 0 !important;
     }
 
-    /* Force white background on all containers */
-    div,
-    section,
-    article,
-    main,
-    aside,
-    header,
-    footer,
-    nav {
-      background: transparent !important;
-      background-color: transparent !important;
-    }
-
-    /* Specifically target any wrapper containers */
-    .min-h-screen,
-    [class*="bg-"],
-    [class*="background"] {
+    /* Reset the page-level site background only. Do NOT blanket-override every
+       [class*="bg-"] element - that used to nuke intentional dark/colored
+       backgrounds (highlight rows, badges, timeline markers) and left their
+       white text invisible on white paper. */
+    .min-h-screen {
       background: white !important;
-      background-color: white !important;
       min-height: auto !important;
       height: auto !important;
+    }
+
+    /* Keep report cards/boxes from being split awkwardly across a page break */
+    .pdf-avoid-break {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
     }
 
     /* ============================================
@@ -346,6 +339,11 @@
       text-align: justify !important;
       orphans: 3 !important;
       widows: 3 !important;
+    }
+
+    .pdf-dark-callout h3,
+    .pdf-dark-callout p {
+      color: #ffffff !important;
     }
 
     strong,
