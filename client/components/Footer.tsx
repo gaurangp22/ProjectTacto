@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import BrailleName from "./BrailleName";
+import { toBraille } from "@/lib/utils";
 
 export default function Footer() {
   const ref = useRef(null);
@@ -25,7 +27,7 @@ export default function Footer() {
       y: "0%",
       opacity: 1,
       rotate: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] }
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }
     }
   };
 
@@ -73,14 +75,14 @@ export default function Footer() {
               </h4>
               <ul className="space-y-4">
                 <li>
-                  <Link to="/playground" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1 inline-flex items-center gap-1">
-                    Playground <ArrowUpRight size={12} />
+                  <Link to="/simulator" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1 inline-flex items-center gap-1">
+                    Simulator <ArrowUpRight size={12} />
                   </Link>
                 </li>
                 <li>
-                  <Link to="/whitepaper" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
-                    Research Paper
-                  </Link>
+                  <a href="/#how-it-works" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
+                    How It Works
+                  </a>
                 </li>
               </ul>
             </div>
@@ -91,32 +93,32 @@ export default function Footer() {
               </h4>
               <ul className="space-y-4">
                 <li>
-                  <Link to="/whitepaper#pedagogical-framework" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
+                  <a href="/#contact" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
                     For Educators
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link to="/evaluation-metrics" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
-                    Evaluation Metrics
-                  </Link>
+                  <a href="/#voices" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
+                    Voices from the Field
+                  </a>
                 </li>
                 <li>
-                  <Link to="/scalability" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
-                    Scale & Sustainability
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/whitepaper#feasibility" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
-                    Open Source
-                  </Link>
+                  <a href="/#kit" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
+                    The Kit
+                  </a>
                 </li>
               </ul>
             </div>
           </motion.div>
         </div>
 
+        {/* ─── Name in Braille ─── */}
+        <div className="mb-20">
+          <BrailleName />
+        </div>
+
         {/* ─── Huge PROJECT TACTO text ─── */}
-        <div className="w-full flex justify-center mb-12 overflow-hidden py-4">
+        <div className="w-full flex justify-center mb-12 overflow-hidden pb-4 pt-[4vw]">
           <motion.h1
             variants={container}
             initial="hidden"
@@ -134,9 +136,14 @@ export default function Footer() {
                   rotate: Math.random() * 8 - 4,
                   scale: 1.05
                 }}
-                className="inline-block transition-colors duration-200"
+                className="group relative inline-block transition-colors duration-200"
                 style={{ width: char === " " ? "0.3em" : "auto" }}
               >
+                {char !== " " && (
+                  <span aria-hidden className="pointer-events-none absolute -top-[0.3em] left-1/2 -translate-x-1/2 text-[0.22em] tracking-normal text-[#a3a39b] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    {toBraille(char)}
+                  </span>
+                )}
                 {char === " " ? "\u00A0" : char}
               </motion.span>
             ))}

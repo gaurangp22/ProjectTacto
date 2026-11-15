@@ -1,102 +1,50 @@
 import type { Config } from "tailwindcss";
 
+const v = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
+
 export default {
-  darkMode: ["class"],
-  content: ["./client/**/*.{ts,tsx}"],
-  prefix: "",
+  content: ["./index.html", "./client/**/*.{ts,tsx}"],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
-        },
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        paper: v("paper"),
+        "paper-2": v("paper-2"),
+        card: v("card"),
+        ink: v("ink"),
+        "ink-2": v("ink-2"),
+        "ink-3": v("ink-3"),
+        line: v("line"),
+        coral: v("coral"),
+        teal: v("teal"),
+        plum: v("plum"),
+        ochre: v("ochre"),
+        sky: v("sky"),
+        rose: v("rose"),
+        leaf: v("leaf"),
+        oat: v("oat"),
       },
       fontFamily: {
+        display: ['"Cabinet Grotesk"', "system-ui", "sans-serif"],
         sans: ["Satoshi", "system-ui", "-apple-system", "sans-serif"],
-        heading: ["Cabinet Grotesk", "system-ui", "sans-serif"],
+        mono: ['"JetBrains Mono"', "ui-monospace", "monospace"],
+      },
+      borderRadius: { "4xl": "2rem", "5xl": "2.5rem" },
+      boxShadow: {
+        tile: "0 1px 0 rgb(255 255 255 / .35) inset, 0 -3px 0 rgb(0 0 0 / .18) inset, 0 6px 14px -6px rgb(22 21 15 / .35)",
+        lift: "0 30px 60px -30px rgb(22 21 15 / .35), 0 12px 24px -12px rgb(22 21 15 / .18)",
+        soft: "0 1px 2px rgb(22 21 15 / .06), 0 8px 24px -12px rgb(22 21 15 / .18)",
       },
       keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-10px)" },
-        },
-        "pulse-glow": {
-          "0%, 100%": { opacity: "1", transform: "scale(1)" },
-          "50%": { opacity: "0.8", transform: "scale(0.95)" },
-        },
-        "infinite-scroll": {
-          from: { transform: "translateX(0)" },
-          to: { transform: "translateX(-50%)" },
-        },
+        marquee: { to: { transform: "translateX(-50%)" } },
+        floaty: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-10px)" } },
+        ping2: { "0%": { transform: "scale(.6)", opacity: ".7" }, "100%": { transform: "scale(2.4)", opacity: "0" } },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        float: "float 6s ease-in-out infinite",
-        "pulse-glow": "pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "infinite-scroll": "infinite-scroll 25s linear infinite",
+        marquee: "marquee 40s linear infinite",
+        floaty: "floaty 6s ease-in-out infinite",
+        ping2: "ping2 2.4s cubic-bezier(.2,.6,.3,1) infinite",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [],
 } satisfies Config;

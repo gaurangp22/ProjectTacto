@@ -29,7 +29,9 @@ export default function Header() {
   const navLinks = [
     { label: "Story", id: "story" },
     { label: "How It Works", id: "how-it-works" },
-    { label: "Traction", id: "traction" },
+    { label: "The Kit", id: "kit" },
+    { label: "Voices", id: "voices" },
+    { label: "Contact", id: "contact" },
   ];
 
   return (
@@ -59,32 +61,14 @@ export default function Header() {
               {link.label}
             </button>
           ))}
-          <Link
-            to="/whitepaper"
-            className="text-[0.8125rem] font-medium text-[#6b6b63] hover:text-[#1a1a17] transition-colors duration-200"
-          >
-            Research
-          </Link>
-          <Link
-            to="/evaluation-metrics"
-            className="text-[0.8125rem] font-medium text-[#6b6b63] hover:text-[#1a1a17] transition-colors duration-200"
-          >
-            Evaluation Metrics
-          </Link>
-          <Link
-            to="/scalability"
-            className="text-[0.8125rem] font-medium text-[#6b6b63] hover:text-[#1a1a17] transition-colors duration-200"
-          >
-            Scale & Sustainability
-          </Link>
         </div>
 
         <div className="hidden md:flex items-center">
           <Link
-            to="/playground"
+            to="/simulator"
             className="text-[0.8125rem] font-semibold text-white bg-[#1a1a17] px-5 py-2 rounded-full hover:bg-[#333330] transition-all duration-200"
           >
-            Try Playground
+            Try the Simulator
           </Link>
         </div>
 
@@ -117,27 +101,13 @@ export default function Header() {
                   {link.label}
                 </button>
               ))}
-              <Link
-                to="/whitepaper"
-                onClick={() => setIsMenuOpen(false)}
-                className="block w-full text-left px-4 py-3 text-sm font-medium text-[#6b6b63] hover:text-[#1a1a17] hover:bg-[#f2f0ec] rounded-xl transition-colors"
-              >
-                Research
-              </Link>
-              <Link
-                to="/evaluation-metrics"
-                onClick={() => setIsMenuOpen(false)}
-                className="block w-full text-left px-4 py-3 text-sm font-medium text-[#6b6b63] hover:text-[#1a1a17] hover:bg-[#f2f0ec] rounded-xl transition-colors"
-              >
-                Evaluation Metrics
-              </Link>
               <div className="pt-3">
                 <Link
-                  to="/playground"
+                  to="/simulator"
                   onClick={() => setIsMenuOpen(false)}
                   className="block text-center px-4 py-3 text-sm font-semibold bg-[#1a1a17] text-white rounded-xl"
                 >
-                  Try Playground
+                  Try the Simulator
                 </Link>
               </div>
             </div>

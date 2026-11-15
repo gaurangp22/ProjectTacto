@@ -1,105 +1,57 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import WhitepaperPage from "./pages/WhitepaperPage";
-import EvaluationMetricsPage from "./pages/EvaluationMetricsPage";
-import ScalabilityPage from "./pages/ScalabilityPage";
-import Playground from "./pages/Playground";
-import PremiumLanding from "./components/landing-v2/PremiumLanding";
+import { lazy, Suspense, useEffect } from "react";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Toaster } from "sonner";
 import Header from "./components/Header";
-import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms";
-
 import Footer from "./components/Footer";
+import Home from "./pages/Home";
 
-interface AppProps {
-  queryClient: QueryClient;
-}
+const Simulator = lazy(() => import("./pages/Simulator"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
-
-const Layout = () => {
-  const location = useLocation();
-  const isPlayground = location.pathname === '/playground';
-  const isV2 = location.pathname === '/v2';
-  const hideChrome = isPlayground || isV2;
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-
-    let title = "Project TACTO | Code you can feel";
-    switch (location.pathname) {
-      case "/":
-        title = "Project TACTO | Code you can feel";
-        break;
-      case "/whitepaper":
-        title = "Research | Project TACTO";
-        break;
-      case "/evaluation-metrics":
-        title = "Evaluation Metrics | Project TACTO";
-        break;
-      case "/hardware":
-        title = "The System | Project TACTO";
-        break;
-      case "/curriculum":
-        title = "Curriculum | Project TACTO";
-        break;
-      case "/mission":
-        title = "Our Mission | Project TACTO";
-        break;
-      case "/playground":
-        title = "Simulator | Project TACTO";
-        break;
-      case "/privacy":
-        title = "Privacy | Project TACTO";
-        break;
-      case "/terms":
-        title = "Terms | Project TACTO";
-        break;
-    }
-    document.title = title;
-
-  }, [location.pathname]);
-
-  return (
-    <div className="flex flex-col min-h-screen">
-      {!hideChrome && <Header />}
-      <main className="flex-grow">
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/v2" element={<PremiumLanding />} />
-          <Route path="/whitepaper" element={<WhitepaperPage />} />
-          <Route path="/evaluation-metrics" element={<EvaluationMetricsPage />} />
-          <Route path="/scalability" element={<ScalabilityPage />} />
-          {/* Custom Routes */}
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="/playground" element={<Playground />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-      {!hideChrome && <Footer />}
-    </div>
-  );
+const TITLES: Record<string, string> = {
+  "/": "Project TACTO | Code you can feel",
+  "/privacy": "Privacy | Project TACTO",
+  "/terms": "Terms | Project TACTO",
 };
 
+function Shell() {
+  const { pathname, hash } = useLocation();
+  const app = pathname.startsWith("/simulator");
 
-const App = ({ queryClient }: AppProps) => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Layout />
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+  useEffect(() => {
+    document.title = TITLES[pathname] ?? (app ? "Simulator | Project TACTO" : "Project TACTO");
+    if (hash) setTimeout(() => document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" }), 50);
+    else window.scrollTo(0, 0);
+  }, [pathname, hash, app]);
 
-export default App;
+  return (
+    <div className="flex min-h-screen flex-col">
+      {!app && <Header />}
+      <main id="main" className="flex-grow">
+        <Suspense fallback={<div className="grid min-h-[60vh] place-items-center text-[#a3a39b]">Loading…</div>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/simulator" element={<Simulator />} />
+            <Route path="/simulator/:lessonId" element={<Simulator />} />
+            <Route path="/playground" element={<Navigate to="/simulator" replace />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </main>
+      {!app && <Footer />}
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Shell />
+      <Toaster position="bottom-center" />
+    </BrowserRouter>
+  );
+}

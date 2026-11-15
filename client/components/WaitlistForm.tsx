@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ArrowRight, Check, Loader2, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { supabase } from "@/lib/supabaseClient";
+import { postJSON } from "@/lib/utils";
 
 interface WaitlistFormProps {
     variant?: "default" | "minimal";
@@ -23,18 +23,15 @@ export default function WaitlistForm({ variant = "default", className }: Waitlis
         setStatus("idle");
 
         try {
-            const { error } = await supabase
-                .from('waitlist')
-                .insert([{ email }]);
+            const res = await postJSON<{ alreadyJoined: boolean }>("/api/waitlist", { email });
 
-            if (error) {
-                if (error.code === '23505') {
+            if (!res.ok || res.data?.alreadyJoined) {
+                if (res.data?.alreadyJoined) {
                     setStatus("duplicate");
                     setErrorMessage("You're already on the list!");
                 } else {
-                    console.error('Supabase error:', error);
                     setStatus("error");
-                    setErrorMessage("Something went wrong. Please try again.");
+                    setErrorMessage(res.error ?? "Something went wrong. Please try again.");
                 }
                 return;
             }

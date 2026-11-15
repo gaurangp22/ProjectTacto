@@ -1,35 +1,26 @@
 <!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet">
-  <title>Project TACTO | Code you can feel</title>
-  <meta name="description" content="Project TACTO replaces screens with physical, highly tactile blocks. The open-source hardware system making computational thinking accessible for visually impaired learners." />
-  <meta name="keywords" content="Project TACTO, visually impaired, blind coding, accessible education, open source hardware, tangible programming, computer science, STEM" />
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://projecttacto.org/" />
-  <meta property="og:title" content="Project TACTO | Code you can feel" />
-  <meta property="og:description" content="Project TACTO replaces screens with physical, highly tactile blocks. The open-source hardware system making computational thinking accessible for visually impaired learners." />
-  <meta property="og:image" content="https://projecttacto.org/og-image.jpg" />
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://projecttacto.org/" />
-  <meta property="twitter:title" content="Project TACTO | Code you can feel" />
-  <meta property="twitter:description" content="Project TACTO replaces screens with physical, highly tactile blocks. The open-source hardware system making computational thinking accessible for visually impaired learners." />
-  <meta property="twitter:image" content="https://projecttacto.org/og-image.jpg" />
-</head>
-
-<body>
-  <div id="root"></div>
-
-  <script type="module" src="/client/main.tsx"></script>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#FAFAF8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+    <title>Project TACTO | Code you can feel</title>
+    <meta name="description" content="TACTO is a tactile coding platform: physical blocks with Braille and raised shapes, a reader board, and an audio tutor that let blind and low-vision children learn to program by touch and sound." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="TACTO, Code you can feel" />
+    <meta property="og:description" content="A tactile coding platform for blind and low-vision learners. Snap real code together by hand and hear it come alive." />
+    <meta property="og:image" content="/tacto-logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-paper">Skip to content</a>
+    <div id="root"></div>
+    <script type="module" src="/client/main.tsx"></script>
+  </body>
 </html>
