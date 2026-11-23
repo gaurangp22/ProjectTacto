@@ -32,4 +32,21 @@ export const SCHEMA: string[] = [
     PRIMARY KEY (learner_id, lesson_id)
   )`,
   `CREATE INDEX IF NOT EXISTS idx_progress_lesson ON lesson_progress(lesson_id)`,
+  `CREATE TABLE IF NOT EXISTS job_applications (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    job_slug    TEXT NOT NULL,
+    name        TEXT NOT NULL,
+    email       TEXT NOT NULL,
+    phone       TEXT,
+    location    TEXT,
+    linkedin    TEXT,
+    portfolio   TEXT,
+    cover_letter TEXT NOT NULL,
+    cv_name     TEXT,
+    cv_type     TEXT,
+    cv_data     BLOB,
+    status      TEXT NOT NULL DEFAULT 'new',
+    created_at  TEXT NOT NULL DEFAULT (datetime('now'))
+  )`,
+  `CREATE INDEX IF NOT EXISTS idx_applications_job ON job_applications(job_slug)`,
 ];

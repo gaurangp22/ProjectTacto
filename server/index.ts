@@ -1,8 +1,9 @@
 import "dotenv/config";
 import express, { type RequestHandler } from "express";
 import cors from "cors";
-import { db } from "./db/client";
-import { ContactInput, ProgressInput, WaitlistInput, type ProgressRow } from "../shared/api";
+import { db } from "./db/client.js";
+import { ApplicationInput, ContactInput, ProgressInput, WaitlistInput, type ProgressRow } from "../shared/api.js";
+import { MAX_CV_BYTES, jobBySlug } from "../shared/careers.js";
 
 /** Tiny fixed-window rate limiter (per IP, per route). Good enough for form spam. */
 function rateLimit(max: number, windowMs: number): RequestHandler {
@@ -33,6 +34,46 @@ export function createServer() {
   const app = express();
   app.set("trust proxy", true);
   app.use(cors({ origin: process.env.CORS_ORIGIN?.split(",") ?? true }));
+  // Job applications carry an optional CV (base64), so this route gets a larger body limit than the rest.
+  app.post("/api/careers/apply", express.json({ limit: "3mb" }), rateLimit(4, 10 * 60_000), wrap(async (req, res) => {
+    const p = ApplicationInput.safeParse(req.body);
+    if (!p.success) {
+      const field = String(p.error.issues[0]?.path[0] ?? "");
+      const msg: Record<string, string> = {
+        name: "Please tell us your name.",
+        email: "Please enter a valid email.",
+        coverLetter: "Please write at least a couple of sentences about why you're applying.",
+        linkedin: "Your LinkedIn link doesn't look like a valid URL.",
+        portfolio: "Your portfolio link doesn't look like a valid URL.",
+        consent: "Please agree to us storing your application.",
+        cv: "Your CV must be a PDF or Word document under 2 MB.",
+      };
+      return void res.status(400).json({ ok: false, error: msg[field] ?? "Please check the form and try again." });
+    }
+    const d = p.data;
+    if (d.website) return void res.json({ ok: true }); // bot
+    if (d.jobSlug !== "general" && !jobBySlug(d.jobSlug)) {
+      return void res.status(400).json({ ok: false, error: "This role is no longer open." });
+    }
+    let cv: Uint8Array | null = null;
+    if (d.cv) {
+      cv = Buffer.from(d.cv.data, "base64");
+      if (cv.byteLength === 0 || cv.byteLength > MAX_CV_BYTES) {
+        return void res.status(400).json({ ok: false, error: "Your CV must be a PDF or Word document under 2 MB." });
+      }
+    }
+    const c = await db();
+    await c.execute({
+      sql: `INSERT INTO job_applications (job_slug, name, email, phone, location, linkedin, portfolio, cover_letter, cv_name, cv_type, cv_data)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      args: [
+        d.jobSlug, d.name, d.email.toLowerCase(), d.phone || null, d.location || null, d.linkedin || null,
+        d.portfolio || null, d.coverLetter, d.cv?.name ?? null, d.cv?.type ?? null, cv,
+      ],
+    });
+    res.json({ ok: true });
+  }));
+
   app.use(express.json({ limit: "32kb" }));
 
   app.get("/api/health", wrap(async (_req, res) => {

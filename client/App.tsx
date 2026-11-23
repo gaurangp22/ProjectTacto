@@ -9,11 +9,14 @@ const Simulator = lazy(() => import("./pages/Simulator"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const Careers = lazy(() => import("./pages/Careers"));
+const CareerRole = lazy(() => import("./pages/CareerRole"));
 
 const TITLES: Record<string, string> = {
   "/": "Project TACTO | Code you can feel",
   "/privacy": "Privacy | Project TACTO",
   "/terms": "Terms | Project TACTO",
+  "/careers": "Careers | Project TACTO",
 };
 
 function Shell() {
@@ -21,7 +24,7 @@ function Shell() {
   const app = pathname.startsWith("/simulator");
 
   useEffect(() => {
-    document.title = TITLES[pathname] ?? (app ? "Simulator | Project TACTO" : "Project TACTO");
+    if (!pathname.startsWith("/careers/")) document.title = TITLES[pathname] ?? (app ? "Simulator | Project TACTO" : "Project TACTO");
     if (hash) setTimeout(() => document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" }), 50);
     else window.scrollTo(0, 0);
   }, [pathname, hash, app]);
@@ -38,6 +41,8 @@ function Shell() {
             <Route path="/playground" element={<Navigate to="/simulator" replace />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/careers/:slug" element={<CareerRole />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

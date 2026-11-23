@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { CV_TYPES, MAX_CV_BYTES } from "./careers.js";
 
 export const ROLES = ["educator", "parent", "school", "learner", "researcher", "other"] as const;
 
@@ -44,3 +45,24 @@ export interface ApiErr {
   ok: false;
   error: string;
 }
+
+export const ApplicationInput = z.object({
+  jobSlug: z.string().regex(/^[a-z0-9-]{1,80}$/), // "general" for open applications
+  name: z.string().trim().min(1).max(120),
+  email: z.string().trim().email().max(254),
+  phone: z.string().trim().max(40).optional().or(z.literal("")),
+  location: z.string().trim().max(120).optional().or(z.literal("")),
+  linkedin: z.string().trim().url().max(300).optional().or(z.literal("")),
+  portfolio: z.string().trim().url().max(300).optional().or(z.literal("")),
+  coverLetter: z.string().trim().min(20).max(6000),
+  cv: z
+    .object({
+      name: z.string().max(200),
+      type: z.enum(CV_TYPES),
+      data: z.string().max(Math.ceil((MAX_CV_BYTES * 4) / 3) + 8), // base64
+    })
+    .optional(),
+  consent: z.literal(true),
+  website: z.string().max(0).optional(), // honeypot
+});
+export type ApplicationInput = z.infer<typeof ApplicationInput>;

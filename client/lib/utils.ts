@@ -6,7 +6,7 @@ export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 export async function postJSON<T = unknown>(url: string, body: unknown): Promise<{ ok: boolean; data?: T; error?: string }> {
   try {
     const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    const j = await r.json().catch(() => ({ ok: false, error: "Unexpected response" }));
+    const j = await r.json().catch(() => ({ ok: false, error: "Our server sent an unexpected response. Please try again in a moment." }));
     return r.ok ? j : { ok: false, error: j.error ?? `Request failed (${r.status})` };
   } catch {
     return { ok: false, error: "You seem to be offline. Please try again." };

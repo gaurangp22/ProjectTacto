@@ -1,7 +1,7 @@
 import { createClient, type Client } from "@libsql/client";
 import fs from "node:fs";
 import path from "node:path";
-import { SCHEMA } from "./schema";
+import { SCHEMA } from "./schema.js";
 
 /**
  * Turso (libSQL) connection.

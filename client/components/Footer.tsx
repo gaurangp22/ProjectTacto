@@ -109,6 +109,24 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
+
+            <div>
+              <h4 className="text-xs font-bold tracking-[0.15em] uppercase text-[#1a1a17] mb-6">
+                Company
+              </h4>
+              <ul className="space-y-4">
+                <li>
+                  <Link to="/careers" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1 inline-flex items-center gap-2">
+                    Careers <span className="rounded-full bg-[#2b5e54]/10 px-2 py-0.5 text-[10px] font-semibold text-[#2b5e54]">Hiring</span>
+                  </Link>
+                </li>
+                <li>
+                  <a href="/#contact" className="text-sm text-[#6b6b63] hover:text-[#1a1a17] transition-all hover:translate-x-1">
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </div>
           </motion.div>
         </div>
 
