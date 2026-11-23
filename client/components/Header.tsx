@@ -61,6 +61,12 @@ export default function Header() {
               {link.label}
             </button>
           ))}
+          <Link
+            to="/careers"
+            className={`text-[0.8125rem] font-medium transition-colors duration-200 hover:text-[#1a1a17] ${location.pathname.startsWith("/careers") ? "text-[#1a1a17]" : "text-[#6b6b63]"}`}
+          >
+            Careers
+          </Link>
         </div>
 
         <div className="hidden md:flex items-center">
@@ -101,6 +107,13 @@ export default function Header() {
                   {link.label}
                 </button>
               ))}
+              <Link
+                to="/careers"
+                onClick={() => setIsMenuOpen(false)}
+                className="block w-full text-left px-4 py-3 text-sm font-medium text-[#6b6b63] hover:text-[#1a1a17] hover:bg-[#f2f0ec] rounded-xl transition-colors"
+              >
+                Careers
+              </Link>
               <div className="pt-3">
                 <Link
                   to="/simulator"

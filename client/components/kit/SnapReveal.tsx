@@ -17,7 +17,7 @@ const SPRING = { type: "spring" as const, bounce: 0, duration: 0.45 };
 
 /* ───────────── tile + board renders ───────────── */
 
-const HEX: Record<string, string> = {
+export const HEX: Record<string, string> = {
   motion: "#2b5e54",
   control: "#c9973a",
   logic: "#4a3566",
@@ -29,7 +29,7 @@ const HEX: Record<string, string> = {
 };
 const hexOf = (t: BlockId) => (t === "end" ? HEX.end : HEX[BLOCKS[t].category]);
 
-function BrailleDots({ text, size }: { text: string; size: number }) {
+export function BrailleDots({ text, size }: { text: string; size: number }) {
   const cells = [...toBraille(text)].slice(0, 7);
   return (
     <span className="flex gap-[0.45em]" aria-hidden>

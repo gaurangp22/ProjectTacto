@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { db } from "./client";
+import { db } from "./client.js";
 
 const c = await db();
 const r = await c.execute("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
